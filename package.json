@@ -2,10 +2,10 @@
   "name": "movie-finder",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server/index.js",
   "scripts": {
-    "start": "node server.js",
-    "watch": "npx nodemon server.js",
+    "start": "node server/index.js",
+    "watch": "npx nodemon server/index.js",
     "client": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
