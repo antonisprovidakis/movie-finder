@@ -1,0 +1,12 @@
+.PosterMovieCard {
+}
+
+.PosterMovieCard__title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.PosterMovieCard__date {
+    color: #919191;
+}
