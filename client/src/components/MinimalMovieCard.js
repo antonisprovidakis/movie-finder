@@ -1,18 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import '../styles/MinimalMovieCard.css';
 
-function MinimalMovieCard({ title, year, image }) {
+function MinimalMovieCard({ id, title, year, image }) {
     return (
         <Card
+            as={Link}
+            to={`/movies/${id}`}
             className="MinimalMovieCard"
             fluid
-            link
         >
             <Image
                 className='MinimalMovieCard__image'
                 src={image}
-                // fluid
             />
             <Card.Content>
                 <Card.Header>

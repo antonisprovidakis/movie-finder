@@ -1,14 +1,17 @@
 import React from 'react';
-import { Card, Image, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom'
+import { Card, Image } from 'semantic-ui-react';
+import Rating from './Rating';
 import '../styles/BackdropMovieCard.css';
 import { fullOverviewToCardView } from '../utilities/cards/textUtils';
 
-function BackdropMovieCard({ title, date, rating, image, overview, showOverview = true }) {
+function BackdropMovieCard({ id, title, date, rating, image, overview, showOverview = true }) {
     return (
         <Card
+            as={Link}
+            to={`/movies/${id}`}
             className="BackdropMovieCard"
             fluid
-            link
         >
             <Image
                 className='BackdropMovieCard__image'
@@ -21,7 +24,7 @@ function BackdropMovieCard({ title, date, rating, image, overview, showOverview 
                 <Card.Meta>
                     <div className='BackdropMovieCard__date'>{date}</div>
                     <div className='BackdropMovieCard__rating'>
-                        <Icon name='star' color='yellow' /> {rating.toFixed(1)}
+                        <Rating value={rating.toFixed(1)} />
                     </div>
                 </Card.Meta>
                 {showOverview && <Card.Description>

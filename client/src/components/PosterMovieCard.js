@@ -1,14 +1,16 @@
 import React from 'react';
-import { Card, Image, Icon } from 'semantic-ui-react';
-
+import { Link } from 'react-router-dom'
+import { Card, Image } from 'semantic-ui-react';
+import Rating from './Rating';
 import '../styles/PosterMovieCard.css';
 
-function PosterMovieCard({ title, date, rating, image }) {
+function PosterMovieCard({ id, title, date, rating, image }) {
     return (
         <Card
+            as={Link}
+            to={`/movies/${id}`}
             className="PosterMovieCard"
             fluid
-            link
         >
             <Image
                 className='PosterMovieCard__image'
@@ -21,7 +23,7 @@ function PosterMovieCard({ title, date, rating, image }) {
                 <Card.Meta>
                     <div className='PosterMovieCard__date'>{date}</div>
                     <div className='PosterMovieCard__rating'>
-                        <Icon name='star' color='yellow' /> {rating.toFixed(1)}
+                        <Rating value={rating.toFixed(1)} />
                     </div>
                 </Card.Meta>
             </Card.Content>

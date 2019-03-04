@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import escapeRegExp from 'lodash/escapeRegExp';
 import useDebounce from '../utilities/hooks/useDebounce';
 import { Search, Input } from 'semantic-ui-react';
@@ -11,8 +12,6 @@ function QuickSearch(props) {
         fluidInput = false,
         ...rest
     } = props;
-
-    const movies = moviesAPI.all();
 
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -27,16 +26,33 @@ function QuickSearch(props) {
     const debouncedSearchTerm = useDebounce(searchTerm, delay);
     useEffect(() => {
         if (debouncedSearchTerm.length > 0) {
-            setLoading(true);
-            // TODO: make API call to fetch movies
-
-            const re = new RegExp(escapeRegExp(searchTerm), 'i')
-            const isMatch = result => re.test(result.title)
-
-            setLoading(false);
-            setResults(movies.filter(isMatch));
+            fetchResults(debouncedSearchTerm);
         }
     }, [debouncedSearchTerm]);
+
+    async function fetchResults(searchTerm) {
+        // TODO: make API call to fetch movies
+        setLoading(true);
+
+        const movies = await moviesAPI.all();
+
+        const re = new RegExp(escapeRegExp(searchTerm), 'i')
+
+        const filteredResults = movies.filter(movie => re.test(movie.title));
+        const filteredResultsWithAs = filteredResults.map(
+            result => {
+                return {
+                    ...result,
+                    // render as react router Link
+                    as: Link,
+                    to: `/movies/${result.id}`
+                };
+            }
+        );
+
+        setLoading(false);
+        setResults(filteredResultsWithAs);
+    }
 
     function resetComponent() {
         setLoading(false);
@@ -44,8 +60,8 @@ function QuickSearch(props) {
         setSearchTerm('');
     }
 
-    function handleResultSelect(e, { result }) {
-        setSearchTerm(result.title);
+    function handleResultSelect(e, data) {
+        setSearchTerm('');
     }
 
     function handleSearchChange(e, { value }) {
@@ -68,7 +84,5 @@ function QuickSearch(props) {
         />
     );
 }
-
-
 
 export default QuickSearch;

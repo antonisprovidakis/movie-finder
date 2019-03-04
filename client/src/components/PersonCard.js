@@ -1,13 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import '../styles/PersonCard.css';
 
-function PersonCard({ name, image }) {
+function PersonCard({ id, name, image }) {
     return (
         <Card
+            as={Link}
+            to={`/people/${id}`}
             className="PersonCard"
             fluid
-            link
         >
             <Image
                 className='PersonCard__image'
