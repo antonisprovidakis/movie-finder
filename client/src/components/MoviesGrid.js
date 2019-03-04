@@ -1,9 +1,8 @@
 import React from 'react';
-import { Grid, Header, Card } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
 import '../styles/MoviesGrid.css';
-import BackdropMovieCard from './BackdropMovieCard';
+// import BackdropMovieCard from './BackdropMovieCard';
 import PosterMovieCard from './PosterMovieCard';
-
 
 function MoviesGrid({
     movies,
@@ -19,17 +18,14 @@ function MoviesGrid({
         <div className='MoviesGrid'>
             {title.length > 0 &&
                 <Header
+                    as='h2'
                     className="MoviesGrid__title"
-                    size='medium'
                 >
                     {title}
                 </Header>
             }
 
-            <Grid
-                className='MoviesGrid__movies'
-            >
-
+            <Grid className='MoviesGrid__movies'>
                 {movies.map(movie => (
                     <Grid.Column
                         key={movie.id}
@@ -40,15 +36,9 @@ function MoviesGrid({
                         largeScreen={largeScreenColumnWidthPerRow}
                         widescreen={wideScreenColumnWidthPerRow}
                     >
-                        {/* <MinimalMovieCard
-                            key={movie.id}
-                            title={movie.title}
-                            year={movie.year}
-                            image={movie.image}
-                        /> */}
-
                         <PosterMovieCard
                             key={movie.id}
+                            id={movie.id}
                             title={movie.title}
                             date={movie.year}
                             image={movie.image}

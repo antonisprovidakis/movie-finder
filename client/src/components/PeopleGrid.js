@@ -16,18 +16,13 @@ function PeopleGrid({
         <div className='PeopleGrid'>
             {title.length > 0 &&
                 <Header
+                    as='h2'
                     className="PeopleGrid__header"
-                    size='medium'
                 >
                     {title}
                 </Header>
             }
-            <Grid
-                className='PeopleGrid__people'
-            // columns={itemsPerRow}
-            // doubling
-            // stackable
-            >
+            <Grid className='PeopleGrid__people'>
                 {people.map(person => (
                     <Grid.Column
                         key={person.id}
@@ -39,6 +34,7 @@ function PeopleGrid({
                     >
                         <PersonCard
                             key={person.id}
+                            id={person.id}
                             name={person.name}
                             image={person.image}
                         />
