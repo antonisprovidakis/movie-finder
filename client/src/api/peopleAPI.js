@@ -1,9 +1,9 @@
 import { people } from './data/people';
 
-export function all() {
+export async function all() {
     return people;
 }
 
-export function get(id) {
+export async function get(id) {
     return people.find(person => person.id === id);
 }

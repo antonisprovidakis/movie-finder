@@ -1,9 +1,9 @@
 import { movies } from './data/movies';
 
-export function all() {
+export async function all() {
     return movies;
 }
 
-export function get(id) {
+export async function get(id) {
     return movies.find(movie => movie.id === id);
 }
