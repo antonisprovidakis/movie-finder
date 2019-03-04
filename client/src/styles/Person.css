@@ -1,0 +1,33 @@
+.Person {
+}
+
+.Person__info {
+}
+
+.Person__info__picture-container {
+}
+
+.Person__info__picture {
+}
+
+@media only screen and (max-width: 767px) {
+    .Person__info__picture {
+        margin: 0 auto;
+    }
+}
+
+.Person__title {
+    margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .Person__title {
+        text-align: center;
+    }
+}
+
+.Person__biography {
+}
+
+.Person__info__personal {
+}
