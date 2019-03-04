@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from 'semantic-ui-react';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/Home.css';
 import * as moviesAPI from '../api/moviesAPI';
 
 function Home(props) {
-    const movies = moviesAPI.all();
+    const [movies, setMovies] = useState([]);
+    // TODO: different state for each movie type?
+
+    useEffect(() => {
+        fetchMovies();
+    }, []);
+
+    async function fetchMovies() {
+        const movies = await moviesAPI.all();
+        setMovies(movies);
+    }
 
     return (
         <div className="Home">
