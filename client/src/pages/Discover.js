@@ -12,7 +12,7 @@ function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 190
 
     const step = fromYear < toYear ? 1 : -1;
     const padding = step; // use it to include toYear value
-    
+
     let i = fromYear;
     const yearOptions = [];
     while (i !== (toYear + padding)) {
@@ -62,7 +62,7 @@ const genreOptions = [
 function Discover(props) {
     const [movies, setMovies] = useState([]);
     const [year, setYear] = useState(2018);
-    const [sortByFilter, setSortByFilter] = useState('popdesc');
+    const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
     const [genres, setGenres] = useState([]);
 
     useEffect(() => {
