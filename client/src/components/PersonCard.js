@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import '../styles/PersonCard.css';
 
-function PersonCard({ id, name, image }) {
+function PersonCard({ id, name, image, sub = '' }) {
     return (
         <Card
             as={Link}
@@ -19,6 +19,9 @@ function PersonCard({ id, name, image }) {
                 <Card.Header>
                     <div className='PersonCard__name' title={name}>{name}</div>
                 </Card.Header>
+                {sub.length > 0 &&
+                    <Card.Meta className='PersonCard__sub' title={sub}>{sub}</Card.Meta>
+                }
             </Card.Content>
         </Card>
     );
