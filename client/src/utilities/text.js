@@ -1,4 +1,4 @@
-export function fullOverviewToCardView(overview) {
+export function trimOverview(overview) {
     // TODO: better export a const? and make function receive limit as param?
     const CHARS_TO_BE_REMOVED = ['.', ',', ':', '-', '/'];
     const OVERVIEW_CHAR_LIMIT_FOR_CARD = 220;
