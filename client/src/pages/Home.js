@@ -4,6 +4,7 @@ import MoviesGrid from '../components/MoviesGrid';
 import '../styles/Home.css';
 import { movieAPI } from '../api';
 import axios from 'axios';
+import PosterMovieCard from '../components/PosterMovieCard';
 
 const initialState = {
     inTheatersMovies: [],
@@ -61,39 +62,83 @@ function Home(props) {
 
             {loading
                 // TODO: place a Loader here
-                ? 'Loading...'
+                ? <div>loading...</div>
                 :
                 <>
                     <div className="Home__in-theaters">
                         <MoviesGrid
-                            movies={movies.inTheatersMovies}
                             title='Movies In Theaters'
-                            tabletColumnWidthPerRow={4}
-                        />
+                            columns={4}
+                            doubling
+                        >
+                            {movies.inTheatersMovies.map(movie =>
+                                <PosterMovieCard
+                                    key={movie.id}
+                                    id={movie.id}
+                                    title={movie.title}
+                                    date={movie.release_date}
+                                    image={movie.poster_path}
+                                    rating={movie.vote_average}
+                                />
+                            )}
+                        </MoviesGrid>
                     </div>
 
                     <div className="Home__upcoming">
                         <MoviesGrid
-                            movies={movies.upcomingMovies}
                             title='Upcoming Movies'
-                            tabletColumnWidthPerRow={4}
-                        />
+                            columns={4}
+                            doubling
+                        >
+                            {movies.upcomingMovies.map(movie =>
+                                <PosterMovieCard
+                                    key={movie.id}
+                                    id={movie.id}
+                                    title={movie.title}
+                                    date={movie.release_date}
+                                    image={movie.poster_path}
+                                    rating={movie.vote_average}
+                                />
+                            )}
+                        </MoviesGrid>
                     </div>
 
                     <div className="Home__popular">
                         <MoviesGrid
-                            movies={movies.popularMovies}
                             title='Popular Movies'
-                            tabletColumnWidthPerRow={4}
-                        />
+                            columns={4}
+                            doubling
+                        >
+                            {movies.popularMovies.map(movie =>
+                                <PosterMovieCard
+                                    key={movie.id}
+                                    id={movie.id}
+                                    title={movie.title}
+                                    date={movie.release_date}
+                                    image={movie.poster_path}
+                                    rating={movie.vote_average}
+                                />
+                            )}
+                        </MoviesGrid>
                     </div>
 
                     <div className="Home__top-rated">
                         <MoviesGrid
-                            movies={movies.topRatedMovies}
                             title='Top Rated Movies'
-                            tabletColumnWidthPerRow={4}
-                        />
+                            columns={4}
+                            doubling
+                        >
+                            {movies.topRatedMovies.map(movie =>
+                                <PosterMovieCard
+                                    key={movie.id}
+                                    id={movie.id}
+                                    title={movie.title}
+                                    date={movie.release_date}
+                                    image={movie.poster_path}
+                                    rating={movie.vote_average}
+                                />
+                            )}
+                        </MoviesGrid>
                     </div>
                 </>
             }

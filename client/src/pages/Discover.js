@@ -3,6 +3,7 @@ import { Form } from 'semantic-ui-react';
 import '../styles/Discover.css';
 import MoviesGrid from '../components/MoviesGrid';
 import { movieAPI } from '../api';
+import PosterMovieCard from '../components/PosterMovieCard';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -64,15 +65,18 @@ function Discover(props) {
     const [year, setYear] = useState(2018);
     const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
     const [genres, setGenres] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchMovies(year, sortByFilter, genres);
     }, [year, sortByFilter, genres]);
 
     async function fetchMovies(year, sortByFilter, genres) {
+        setLoading(true);
         const res = await movieAPI.discoverMovies(year, sortByFilter, genres);
         const movies = res.data.results;
         setMovies(movies);
+        setLoading(false);
     }
 
     function handleYearChange(e, data) {
@@ -85,11 +89,6 @@ function Discover(props) {
 
     function handleGenresChange(e, data) {
         setGenres(data.value);
-    }
-
-    if (movies.length === 0) {
-        // TODO: place a Loader here
-        return <div>loading...</div>;
     }
 
     return (
@@ -129,10 +128,26 @@ function Discover(props) {
                 </Form>
             </div>
             <div className="Discover__movies">
-                <MoviesGrid
-                    movies={movies}
-                    tabletColumnWidthPerRow={4}
-                />
+
+                {loading
+                    ? <div>loading...</div>
+                    :
+                    <MoviesGrid
+                        columns={4}
+                        doubling
+                    >
+                        {movies.map(movie =>
+                            <PosterMovieCard
+                                key={movie.id}
+                                id={movie.id}
+                                title={movie.title}
+                                date={movie.release_date}
+                                image={movie.poster_path}
+                                rating={movie.vote_average}
+                            />
+                        )}
+                    </MoviesGrid>
+                }
             </div>
         </div>
     );

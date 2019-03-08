@@ -7,6 +7,7 @@ import { movieAPI } from '../api';
 import { findLanguageFromISO } from '../api/config/language';
 import { buildImageUrl } from '../api/config/image';
 import { formatDate } from '../utilities/date';
+import PersonCard from '../components/PersonCard';
 
 
 function Movie(props) {
@@ -70,11 +71,19 @@ function Movie(props) {
                     <Grid.Column>
                         <div className='Movie__cast'>
                             <PeopleGrid
-                                people={top4Cast}
                                 title='Top Billed Cast'
-                                mobileColumnWidthPerRow={8}
-                                tabletColumnWidthPerRow={4}
-                            />
+                                columns={4}
+                                doubling
+                            >
+                                {top4Cast.map(person =>
+                                    <PersonCard
+                                        key={person.id}
+                                        id={person.id}
+                                        name={person.name}
+                                        image={person.profile_path}
+                                    />
+                                )}
+                            </PeopleGrid>
                         </div>
                     </Grid.Column>
                 </Grid.Row>
