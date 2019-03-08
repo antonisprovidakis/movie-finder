@@ -1,17 +1,11 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import '../styles/MoviesGrid.css';
-// import BackdropMovieCard from './BackdropMovieCard';
-import PosterMovieCard from './PosterMovieCard';
 
 function MoviesGrid({
-    movies,
     title = '',
-    mobileColumnWidthPerRow = 16,
-    tabletColumnWidthPerRow = mobileColumnWidthPerRow,
-    computerColumnWidthPerRow = tabletColumnWidthPerRow,
-    largeScreenColumnWidthPerRow = computerColumnWidthPerRow,
-    wideScreenColumnWidthPerRow = largeScreenColumnWidthPerRow,
+    children, // of type PosterMovieCard || BackdropMovieCard
+    ...rest
 }) {
 
     return (
@@ -25,37 +19,15 @@ function MoviesGrid({
                 </Header>
             }
 
-            <Grid className='MoviesGrid__movies'>
-                {movies.map(movie => (
-                    <Grid.Column
-                        key={movie.id}
-                        className='MoviesGrid__column'
-                        mobile={mobileColumnWidthPerRow}
-                        tablet={tabletColumnWidthPerRow}
-                        computer={computerColumnWidthPerRow}
-                        largeScreen={largeScreenColumnWidthPerRow}
-                        widescreen={wideScreenColumnWidthPerRow}
-                    >
-                        {/* <BackdropMovieCard
-                            key={movie.id}
-                            id={movie.id}
-                            title={movie.title}
-                            date={movie.release_date}
-                            rating={movie.vote_average}
-                            image={movie.backdrop_path}
-                            overview={movie.overview}
-                        /> */}
-
-                        <PosterMovieCard
-                            key={movie.id}
-                            id={movie.id}
-                            title={movie.title}
-                            date={movie.release_date}
-                            image={movie.poster_path}
-                            rating={movie.vote_average}
-                        />
+            <Grid
+                className='MoviesGrid__movies'
+                {...rest}
+            >
+                {React.Children.map(children, child =>
+                    <Grid.Column className='MoviesGrid__column'>
+                        {child}
                     </Grid.Column>
-                ))}
+                )}
             </Grid>
         </div>
     );
