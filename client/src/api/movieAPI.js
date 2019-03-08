@@ -38,7 +38,6 @@ async function getMoviesByCategory(category, params = {}) {
 }
 
 async function getMovieInfo(movieId, params = {}) {
-    console.log(params);
     const movie = await axios.get(`/api/movie/${movieId}`, { params });
     return movie;
 }
