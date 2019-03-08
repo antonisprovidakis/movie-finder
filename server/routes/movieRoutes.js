@@ -83,7 +83,11 @@ router.get(
             id
         };
 
-        const movie = await tmdb.movieInfo(params, { append_to_response: 'credits' });
+        const {
+            append_to_response
+        } = req.query;
+
+        const movie = await tmdb.movieInfo(params, { append_to_response });
         res.json(movie);
     })
 );
