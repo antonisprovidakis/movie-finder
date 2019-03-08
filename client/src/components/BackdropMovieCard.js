@@ -11,7 +11,7 @@ function BackdropMovieCard({ id, title, date, rating, image, overview, showOverv
     return (
         <Card
             as={Link}
-            to={`/movies/${id}`}
+            to={`/movie/${id}`}
             className="BackdropMovieCard"
             fluid
         >

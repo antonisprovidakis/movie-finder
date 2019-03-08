@@ -28,10 +28,10 @@ function renderNonMobileView() {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/discover' component={Discover} />
-            <Route exact path='/movies/:category(popular|upcoming|in-theaters|top-rated)' component={Movies} />
-            <Route exact path='/movies/:id' component={Movie} />
-            <Route exact path='/people' component={People} />
-            <Route exact path='/people/:id' component={Person} />
+            <Route exact path='/movie/:category(popular|upcoming|in-theaters|top-rated)' component={Movies} />
+            <Route exact path='/movie/:id' component={Movie} />
+            <Route exact path='/person' component={People} />
+            <Route exact path='/person/:id' component={Person} />
             <Route component={NotFound} />
           </Switch>
         </Container>

@@ -8,7 +8,7 @@ function PersonCard({ id, name, image, sub = '' }) {
     return (
         <Card
             as={Link}
-            to={`/people/${id}`}
+            to={`/person/${id}`}
             className="PersonCard"
             fluid
         >

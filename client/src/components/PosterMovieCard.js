@@ -10,7 +10,7 @@ function PosterMovieCard({ id, title, date, rating, image }) {
     return (
         <Card
             as={Link}
-            to={`/movies/${id}`}
+            to={`/movie/${id}`}
             className="PosterMovieCard"
             fluid
         >
