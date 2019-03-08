@@ -12,6 +12,8 @@ export const tabletMediaQuery = `(min-width: ${tabletMinDeviceWidth}px) and (max
 export const smallMonitorMediaQuery = `(min-width: ${smallMonitorMinDeviceWidth}px) and (max-width: ${smallMonitorMaxDeviceWidth}px)`;
 export const largeMonitorMediaQuery = `(min-width: ${largeMonitorMinDeviceWidth}px)`;
 
+// TODO: maybe use some sort of debounce in order to save CPU cycles?
+
 function useMedia(query) {
     const [matches, setMatches] = useState(window.matchMedia(query).matches);
 
