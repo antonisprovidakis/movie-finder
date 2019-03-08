@@ -1,0 +1,13 @@
+.Pagination {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.Pagination.Pagination--top-padded {
+    padding-top: 1rem;
+}
+
+.Pagination.Pagination--bottom-padded {
+    padding-bottom: 1rem;
+}
