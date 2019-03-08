@@ -1,55 +1,53 @@
 import axios from 'axios';
 
-async function getPopularMovies() {
-    const movies = await axios.get('/api/movie/popular');
+async function getPopularMovies(params = {}) {
+    const movies = await axios.get('/api/movie/popular', { params });
     return movies;
 }
 
-async function getUpcomingMovies() {
-    const movies = await axios.get('/api/movie/upcoming');
+async function getUpcomingMovies(params = {}) {
+    const movies = await axios.get('/api/movie/upcoming', { params });
     return movies;
 }
 
-async function getTopRatedMovies() {
-    const movies = await axios.get('/api/movie/top-rated');
+async function getTopRatedMovies(params = {}) {
+    const movies = await axios.get('/api/movie/top-rated', { params });
     return movies;
 }
 
-async function getInTheatersMovies() {
-    const movies = await axios.get('/api/movie/in-theaters');
+async function getInTheatersMovies(params = {}) {
+    const movies = await axios.get('/api/movie/in-theaters', { params });
     return movies;
 }
 
 // wrapper function for getPopularMovies, getUpcomingMovies
 // getTopRatedMovies, getInTheatersMovies functions
-async function getMoviesByCategory(category) {
+async function getMoviesByCategory(category, params = {}) {
     switch (category) {
         case 'popular':
-            return await getPopularMovies();
+            return await getPopularMovies(params);
         case 'upcoming':
-            return await getUpcomingMovies();
+            return await getUpcomingMovies(params);
         case 'top-rated':
-            return await getTopRatedMovies();
+            return await getTopRatedMovies(params);
         case 'in-theaters':
-            return await getInTheatersMovies();
+            return await getInTheatersMovies(params);
         default:
             throw new Error(`${category} category does not exist. Use one of popular, upcoming, top-rated, in-theaters`);
     }
 }
 
-async function getMovieInfo(movieId) {
-    const movie = await axios.get(`/api/movie/${movieId}`);
+async function getMovieInfo(movieId, params = {}) {
+    console.log(params);
+    const movie = await axios.get(`/api/movie/${movieId}`, { params });
     return movie;
 }
 
-async function discoverMovies(year, sortBy, genres) {
-    const movies = await axios.get('/api/discover/movie', {
-        params: {
-            primary_release_year: year,
-            sort_by: sortBy,
-            with_genres: genres,
-        }
-    });
+async function discoverMovies(params = {}) {
+    const movies = await axios.get(
+        '/api/discover/movie',
+        { params }
+    );
     return movies;
 }
 
