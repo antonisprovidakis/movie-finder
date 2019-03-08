@@ -125,8 +125,14 @@ function Movie(props) {
                                 <List.Item>
                                     <List.Header>Genres</List.Header>
                                     <Label.Group tag color='blue'>
-                                        {movie.genres.map((genre) =>
-                                            <Label key={genre.name}>{genre.name}</Label>)
+                                        {movie.genres
+                                            // TMDb API returns duplicate genre objects, so remove them
+                                            .filter((genre, index, arr) =>
+                                                arr.map(mapObj => mapObj.id).indexOf(genre.id) === index
+                                            )
+                                            .map(genre =>
+                                                <Label key={genre.id}>{genre.name}</Label>
+                                            )
                                         }
                                     </Label.Group>
                                 </List.Item>
