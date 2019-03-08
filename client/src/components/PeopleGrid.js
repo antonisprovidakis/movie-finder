@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
+import '../styles/PeopleGrid.css';
 
 function PeopleGrid({
     title = '',

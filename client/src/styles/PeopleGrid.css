@@ -1,0 +1,6 @@
+.PeopleGrid {
+}
+
+.PeopleGrid__column .PersonCard {
+    height: 100%;
+}
