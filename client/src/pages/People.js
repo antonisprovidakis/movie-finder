@@ -6,13 +6,14 @@ import PersonCard from '../components/PersonCard';
 
 function People() {
     const [people, setPeople] = useState([]);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         fetchPeople();
-    }, []);
+    }, [page]);
 
     async function fetchPeople() {
-        const res = await personAPI.getPopularPeople();
+        const res = await personAPI.getPopularPeople({ page });
         const people = res.data.results;
         setPeople(people);
     }

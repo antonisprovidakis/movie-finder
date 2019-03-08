@@ -10,14 +10,15 @@ function Movies(props) {
     const title = routeNameToTitle(category);
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         fetchMovies(category);
-    }, [category]);
+    }, [category, page]);
 
     async function fetchMovies(category) {
         setLoading(true);
-        const res = await movieAPI.getMoviesByCategory(category);
+        const res = await movieAPI.getMoviesByCategory(category, { page });
         const movies = res.data.results;
         setMovies(movies);
         setLoading(false);

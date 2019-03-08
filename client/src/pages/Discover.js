@@ -66,14 +66,20 @@ function Discover(props) {
     const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         fetchMovies(year, sortByFilter, genres);
-    }, [year, sortByFilter, genres]);
+    }, [year, sortByFilter, genres, page]);
 
     async function fetchMovies(year, sortByFilter, genres) {
         setLoading(true);
-        const res = await movieAPI.discoverMovies(year, sortByFilter, genres);
+        const res = await movieAPI.discoverMovies({
+            primary_release_year: year,
+            sort_by: sortByFilter,
+            with_genres: genres,
+            page
+        });
         const movies = res.data.results;
         setMovies(movies);
         setLoading(false);
