@@ -28,7 +28,7 @@ function renderNonMobileView() {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/discover' component={Discover} />
-            <Route exact path='/movies/:type(popular|upcoming|in-theaters|top-rated)' component={Movies} />
+            <Route exact path='/movies/:category(popular|upcoming|in-theaters|top-rated)' component={Movies} />
             <Route exact path='/movies/:id' component={Movie} />
             <Route exact path='/people' component={People} />
             <Route exact path='/people/:id' component={Person} />
