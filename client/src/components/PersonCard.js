@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import '../styles/PersonCard.css';
-import { buildImageUrl } from '../api/config/image';
+import { buildImageUrl, defaultImageBase64Data } from '../api/config/image';
 
 function PersonCard({ id, name, image, sub = '' }) {
     return (
@@ -14,7 +14,7 @@ function PersonCard({ id, name, image, sub = '' }) {
         >
             <Image
                 className='PersonCard__image'
-                src={buildImageUrl({ path: image, type: 'profile', size: 'h632' })}
+                src={(image && buildImageUrl({ path: image, type: 'profile', size: 'h632' })) || defaultImageBase64Data}
             />
             <Card.Content>
                 <Card.Header>
