@@ -11,7 +11,15 @@ router.get(
         //     `GET /api/v1/inbox-emails offset=${offset} limit=${limit} userId=${req.session.userId}`
         // );
 
-        const popularMovies = await tmdb.miscPopularMovies();
+        const {
+            page
+        } = req.query;
+
+        const params = {
+            page
+        };
+
+        const popularMovies = await tmdb.miscPopularMovies(params);
         res.json(popularMovies);
     })
 );
@@ -19,7 +27,15 @@ router.get(
 router.get(
     "/api/movie/upcoming",
     catchError(async (req, res) => {
-        const upcomingMovies = await tmdb.miscUpcomingMovies();
+        const {
+            page
+        } = req.query;
+
+        const params = {
+            page
+        };
+
+        const upcomingMovies = await tmdb.miscUpcomingMovies(params);
         res.json(upcomingMovies);
     })
 );
@@ -27,7 +43,15 @@ router.get(
 router.get(
     "/api/movie/in-theaters",
     catchError(async (req, res) => {
-        const inTheatersMovies = await tmdb.miscNowPlayingMovies();
+        const {
+            page
+        } = req.query;
+
+        const params = {
+            page
+        };
+
+        const inTheatersMovies = await tmdb.miscNowPlayingMovies(params);
         res.json(inTheatersMovies);
     })
 );
@@ -35,7 +59,15 @@ router.get(
 router.get(
     "/api/movie/top-rated",
     catchError(async (req, res) => {
-        const topRatedMovies = await tmdb.miscTopRatedMovies();
+        const {
+            page
+        } = req.query;
+
+        const params = {
+            page
+        };
+
+        const topRatedMovies = await tmdb.miscTopRatedMovies(params);
         res.json(topRatedMovies);
     })
 );
@@ -43,7 +75,14 @@ router.get(
 router.get(
     "/api/movie/:id",
     catchError(async (req, res) => {
-        const params = { id } = req.params;
+        const {
+            id
+        } = req.params;
+
+        const params = {
+            id
+        };
+
         const movie = await tmdb.movieInfo(params, { append_to_response: 'credits' });
         res.json(movie);
     })
@@ -52,11 +91,19 @@ router.get(
 router.get(
     "/api/discover/movie",
     catchError(async (req, res) => {
-        const params = {
+        const {
+            page,
             primary_release_year,
             sort_by,
             with_genres
         } = req.query;
+
+        const params = {
+            page,
+            primary_release_year,
+            sort_by,
+            with_genres
+        };
 
         const movies = await tmdb.discoverMovie(params);
         res.json(movies);
@@ -66,9 +113,15 @@ router.get(
 router.get(
     "/api/search/multi",
     catchError(async (req, res) => {
-        const params = {
-            query
+        const {
+            query,
+            page
         } = req.query;
+
+        const params = {
+            query,
+            page
+        };
 
         const results = await tmdb.searchMulti(params);
         res.json(results);
