@@ -3,8 +3,7 @@ export function routeNameToTitle(routeName, charToSplit = '-') {
 
     const capitalizedWords = lowercasedWords.reduce(
         (acc, word) => {
-            acc.push(word.charAt(0).toUpperCase() + word.substr(1))
-            return acc;
+            return [...acc, word.charAt(0).toUpperCase() + word.substr(1)]
         },
         []
     );
