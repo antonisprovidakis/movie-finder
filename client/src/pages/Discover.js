@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form } from 'semantic-ui-react';
 import '../styles/Discover.css';
 import MoviesGrid from '../components/MoviesGrid';
-import * as moviesAPI from '../api/moviesAPI';
+import { movieAPI } from '../api';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -70,8 +70,8 @@ function Discover(props) {
     }, [year, sortByFilter, genres]);
 
     async function fetchMovies(year, sortByFilter, genres) {
-        // TODO: fetch movies (discover) based on params
-        const movies = await moviesAPI.all();
+        const res = await movieAPI.discoverMovies(year, sortByFilter, genres);
+        const movies = res.data.results;
         setMovies(movies);
     }
 

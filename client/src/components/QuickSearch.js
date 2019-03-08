@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import escapeRegExp from 'lodash/escapeRegExp';
 import useDebounce from '../utilities/hooks/useDebounce';
 import { Search, Input } from 'semantic-ui-react';
-import * as moviesAPI from '../api/moviesAPI';
+import { searchAPI } from '../api';
+import { buildImageUrl, defaultImageBase64Data } from '../api/config/image';
 
 function QuickSearch(props) {
     const {
@@ -31,27 +31,38 @@ function QuickSearch(props) {
     }, [debouncedSearchTerm]);
 
     async function fetchResults(searchTerm) {
-        // TODO: make API call to fetch movies
         setLoading(true);
 
-        const movies = await moviesAPI.all();
+        const res = await searchAPI.searchMulti(searchTerm);
+        const results = res.data.results;
+        const resultsMoviesAndPeople = results.filter(result => result.media_type !== 'tv');
+        const first5Results = resultsMoviesAndPeople.slice(0, 5);
 
-        const re = new RegExp(escapeRegExp(searchTerm), 'i')
-
-        const filteredResults = movies.filter(movie => re.test(movie.title));
-        const filteredResultsWithAs = filteredResults.map(
+        const first5ResultsWithAs = first5Results.map(
             result => {
-                return {
-                    ...result,
-                    // render as react router Link
+                const data = {
+                    key: result.id,
                     as: Link,
-                    to: `/movies/${result.id}`
                 };
+
+                if (result.media_type === 'movie') {
+                    data.title = result.title;
+                    data.description = result.release_date.split('-')[0];
+                    data.image = (result.poster_path && buildImageUrl({ path: result.poster_path, type: 'poster', size: 'w92' })) || defaultImageBase64Data;
+                    data.to = `/movies/${result.id}`
+                }
+                else {
+                    data.title = result.name;
+                    data.image = (result.profile_path && buildImageUrl({ path: result.profile_path, type: 'profile', size: 'w45' })) || defaultImageBase64Data;
+                    data.to = `/people/${result.id}`
+                }
+
+                return data;
             }
         );
 
         setLoading(false);
-        setResults(filteredResultsWithAs);
+        setResults(first5ResultsWithAs);
     }
 
     function resetComponent() {

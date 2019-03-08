@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Grid, Header, List } from 'semantic-ui-react';
 import '../styles/Person.css';
-import * as peopleAPI from '../api/peopleAPI';
+import { personAPI } from '../api';
+import { getGenderNameFromId } from '../api/config/gender';
+import { buildImageUrl } from '../api/config/image';
 
 function Person(props) {
     const id = parseInt(props.match.params.id);
@@ -12,7 +14,8 @@ function Person(props) {
     }, [id]);
 
     async function fetchPerson(id) {
-        const person = await peopleAPI.get(id);
+        const res = await personAPI.getPersonInfo(id);
+        const person = res.data;
         setPerson(person);
     }
 
@@ -29,7 +32,7 @@ function Person(props) {
                         <div className='Person__info__picture-container'>
                             <Image
                                 className='Person__info__picture'
-                                src={person.image}
+                                src={buildImageUrl({ path: person.profile_path, type: 'profile', size: 'h632' })}
                             />
                         </div>
                     </Grid.Column>
@@ -47,7 +50,7 @@ function Person(props) {
                                 Biography
                             </Header>
                             <div className='Person__biography__content'>
-                                {person.biography || 'biography goes here...'}
+                                {person.biography}
                             </div>
                         </div>
                     </Grid.Column>
@@ -65,7 +68,7 @@ function Person(props) {
                             <List relaxed='very'>
                                 <List.Item>
                                     <List.Header>Known For</List.Header>
-                                    Acting
+                                    {person.known_for_department}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Full Name</List.Header>
@@ -73,15 +76,15 @@ function Person(props) {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Gender</List.Header>
-                                    Male
+                                    {getGenderNameFromId(person.gender)}
                                 </List.Item>
                                 <List.Item>
-                                    <List.Header>San Francisco</List.Header>
-                                    1967-07-26
+                                    <List.Header>Birthday</List.Header>
+                                    {person.birthday}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Place of Birth</List.Header>
-                                    Shirebrook, Derbyshire, England, UK
+                                    {person.place_of_birth}
                                 </List.Item>
                             </List>
                         </div>

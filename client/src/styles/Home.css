@@ -1,6 +1,6 @@
 .Home {
 }
 
-.Home__in-theaters, .Home__upcoming, .Home__popular {
+.Home__in-theaters, .Home__upcoming, .Home__popular, .Home__top-rated {
     padding: 1em 0;
 }

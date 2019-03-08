@@ -36,14 +36,23 @@ function MoviesGrid({
                         largeScreen={largeScreenColumnWidthPerRow}
                         widescreen={wideScreenColumnWidthPerRow}
                     >
+                        {/* <BackdropMovieCard
+                            key={movie.id}
+                            id={movie.id}
+                            title={movie.title}
+                            date={movie.release_date}
+                            rating={movie.vote_average}
+                            image={movie.backdrop_path}
+                            overview={movie.overview}
+                        /> */}
+
                         <PosterMovieCard
                             key={movie.id}
                             id={movie.id}
                             title={movie.title}
-                            date={movie.year}
-                            image={movie.image}
-                            rating={movie.rating}
-                        // overview={movie.overview}
+                            date={movie.release_date}
+                            image={movie.poster_path}
+                            rating={movie.vote_average}
                         />
                     </Grid.Column>
                 ))}

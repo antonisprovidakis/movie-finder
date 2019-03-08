@@ -1,31 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/Movies.css';
-import * as moviesAPI from '../api/moviesAPI';
-import { routeNameToTitle } from '../utilities/routing/textUtils';
+import { movieAPI } from '../api';
+import { routeNameToTitle } from '../utilities/routing';
 
 function Movies(props) {
-    const type = props.match.params.type;
-    const title = routeNameToTitle(type);
+    const category = props.match.params.category;
+    const title = routeNameToTitle(category);
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetchMovies();
-    }, [type]);
+        fetchMovies(category);
+    }, [category]);
 
-    async function fetchMovies() {
-        const movies = await moviesAPI.all();
+    async function fetchMovies(category) {
+        setLoading(true);
+        const res = await movieAPI.getMoviesByCategory(category);
+        const movies = res.data.results;
         setMovies(movies);
+        setLoading(false);
     }
 
     return (
         <div className="Movies">
             <div className="Movies__container">
-                <MoviesGrid
-                    movies={movies}
-                    title={title}
-                    tabletColumnWidthPerRow={4}
-                />
+                {loading
+                    ? 'Loading...'
+                    :
+                    <MoviesGrid
+                        movies={movies}
+                        title={title}
+                        mobileColumnWidthPerRow={8}
+                        tabletColumnWidthPerRow={4}
+                    />
+                }
             </div>
         </div>
     );

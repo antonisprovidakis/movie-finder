@@ -36,7 +36,7 @@ function PeopleGrid({
                             key={person.id}
                             id={person.id}
                             name={person.name}
-                            image={person.image}
+                            image={person.profile_path}
                         />
                     </Grid.Column>
                 ))}

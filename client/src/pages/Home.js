@@ -2,19 +2,47 @@ import React, { useState, useEffect } from 'react';
 import { Header } from 'semantic-ui-react';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/Home.css';
-import * as moviesAPI from '../api/moviesAPI';
+import { movieAPI } from '../api';
+import axios from 'axios';
+
+const initialState = {
+    inTheatersMovies: [],
+    upcomingMovies: [],
+    popularMovies: [],
+    topRatedMovies: [],
+}
 
 function Home(props) {
-    const [movies, setMovies] = useState([]);
-    // TODO: different state for each movie type?
+    const [movies, setMovies] = useState(initialState);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchMovies();
     }, []);
 
     async function fetchMovies() {
-        const movies = await moviesAPI.all();
-        setMovies(movies);
+        setLoading(true);
+
+        const [
+            inTheatersMovies,
+            upcomingMovies,
+            popularMovies,
+            topRatedMovies,
+        ] = await axios.all([
+            movieAPI.getInTheatersMovies(),
+            movieAPI.getUpcomingMovies(),
+            movieAPI.getPopularMovies(),
+            movieAPI.getTopRatedMovies(),
+        ]);
+
+        setMovies({
+            inTheatersMovies: inTheatersMovies.data.results.slice(0, 4),
+            upcomingMovies: upcomingMovies.data.results.slice(0, 4),
+            popularMovies: popularMovies.data.results.slice(0, 4),
+            topRatedMovies: topRatedMovies.data.results.slice(0, 4),
+        });
+
+        setLoading(false);
     }
 
     return (
@@ -31,29 +59,44 @@ function Home(props) {
                 </Header.Subheader>
             </Header>
 
-            <div className="Home__in-theaters">
-                <MoviesGrid
-                    movies={movies}
-                    title='Movies In Theaters'
-                    tabletColumnWidthPerRow={4}
-                />
-            </div>
+            {loading
+                // TODO: place a Loader here
+                ? 'Loading...'
+                :
+                <>
+                    <div className="Home__in-theaters">
+                        <MoviesGrid
+                            movies={movies.inTheatersMovies}
+                            title='Movies In Theaters'
+                            tabletColumnWidthPerRow={4}
+                        />
+                    </div>
 
-            <div className="Home__upcoming">
-                <MoviesGrid
-                    movies={movies}
-                    title='Upcoming Movies'
-                    tabletColumnWidthPerRow={4}
-                />
-            </div>
+                    <div className="Home__upcoming">
+                        <MoviesGrid
+                            movies={movies.upcomingMovies}
+                            title='Upcoming Movies'
+                            tabletColumnWidthPerRow={4}
+                        />
+                    </div>
 
-            <div className="Home__popular">
-                <MoviesGrid
-                    movies={movies}
-                    title='Popular Movies'
-                    tabletColumnWidthPerRow={4}
-                />
-            </div>
+                    <div className="Home__popular">
+                        <MoviesGrid
+                            movies={movies.popularMovies}
+                            title='Popular Movies'
+                            tabletColumnWidthPerRow={4}
+                        />
+                    </div>
+
+                    <div className="Home__top-rated">
+                        <MoviesGrid
+                            movies={movies.topRatedMovies}
+                            title='Top Rated Movies'
+                            tabletColumnWidthPerRow={4}
+                        />
+                    </div>
+                </>
+            }
         </div>
     );
 }

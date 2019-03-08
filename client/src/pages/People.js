@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PeopleGrid from '../components/PeopleGrid';
 import '../styles/People.css';
-import * as peopleApi from '../api/peopleAPI';
+import { personAPI } from '../api';
 
 function People() {
     const [people, setPeople] = useState([]);
@@ -11,7 +11,8 @@ function People() {
     }, []);
 
     async function fetchPeople() {
-        const people = await peopleApi.all();
+        const res = await personAPI.getPopularPeople();
+        const people = res.data.results;
         setPeople(people);
     }
 
