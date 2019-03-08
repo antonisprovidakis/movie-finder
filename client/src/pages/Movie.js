@@ -20,7 +20,7 @@ function Movie(props) {
     }, [id]);
 
     async function fetchMovie(id) {
-        const res = await movieAPI.getMovieInfo(id);
+        const res = await movieAPI.getMovieInfo(id, { append_to_response: 'credits' });
         const movie = res.data;
         // TODO: take first 4. Maybe this has to be done on the server?
         const top4Cast = movie.credits.cast.slice(0, 4);
