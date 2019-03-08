@@ -4,6 +4,8 @@ import '../styles/Discover.css';
 import MoviesGrid from '../components/MoviesGrid';
 import { movieAPI } from '../api';
 import PosterMovieCard from '../components/PosterMovieCard';
+import Pagination from '../components/Pagination';
+import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -66,22 +68,31 @@ function Discover(props) {
     const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(1);
+    const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
+    const isMobile = useMedia(mobileMediaQuery);
 
     useEffect(() => {
         fetchMovies(year, sortByFilter, genres);
-    }, [year, sortByFilter, genres, page]);
+    }, [year, sortByFilter, genres, pagination.page, pagination.totalPages]);
 
     async function fetchMovies(year, sortByFilter, genres) {
         setLoading(true);
+
         const res = await movieAPI.discoverMovies({
             primary_release_year: year,
             sort_by: sortByFilter,
             with_genres: genres,
-            page
+            page: pagination.page
         });
+
+        setPagination({
+            page: res.data.page,
+            totalPages: res.data.total_pages
+        })
+
         const movies = res.data.results;
         setMovies(movies);
+
         setLoading(false);
     }
 
@@ -95,6 +106,10 @@ function Discover(props) {
 
     function handleGenresChange(e, data) {
         setGenres(data.value);
+    }
+
+    function handlePageChange(e, data) {
+        setPagination(prevState => ({ ...prevState, page: data.activePage }));
     }
 
     return (
@@ -133,28 +148,40 @@ function Discover(props) {
                     </Form.Group>
                 </Form>
             </div>
-            <div className="Discover__movies">
 
-                {loading
-                    ? <div>loading...</div>
-                    :
-                    <MoviesGrid
-                        columns={4}
-                        doubling
-                    >
-                        {movies.map(movie =>
-                            <PosterMovieCard
-                                key={movie.id}
-                                id={movie.id}
-                                title={movie.title}
-                                date={movie.release_date}
-                                image={movie.poster_path}
-                                rating={movie.vote_average}
-                            />
-                        )}
-                    </MoviesGrid>
-                }
-            </div>
+            {loading
+                ? <div>loading...</div>
+                :
+                <>
+                    <div className="Discover__movies-container">
+                        <MoviesGrid
+                            columns={4}
+                            doubling
+                        >
+                            {movies.map(movie =>
+                                <PosterMovieCard
+                                    key={movie.id}
+                                    id={movie.id}
+                                    title={movie.title}
+                                    date={movie.release_date}
+                                    image={movie.poster_path}
+                                    rating={movie.vote_average}
+                                />
+                            )}
+                        </MoviesGrid>
+                    </div>
+                    <Pagination
+                        topPadded
+                        activePage={pagination.page}
+                        totalPages={pagination.totalPages}
+                        siblingRange={isMobile ? 0 : 2}
+                        boundaryRange={isMobile ? 1 : 2}
+                        firstItem={null}
+                        lastItem={null}
+                        onPageChange={handlePageChange}
+                    />
+                </>
+            }
         </div>
     );
 }
