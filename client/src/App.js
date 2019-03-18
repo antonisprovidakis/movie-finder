@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Nav from './components/Nav';
@@ -8,14 +8,13 @@ import {
   Responsive,
 } from 'semantic-ui-react'
 
-import Home from './pages/Home';
-import Discover from './pages/Discover';
-import Movies from './pages/Movies';
-import Movie from './pages/Movie';
-import People from './pages/People';
-import Person from './pages/Person';
-import NotFound from './pages/NotFound';
-
+const Home = lazy(() => import('./pages/Home'));
+const Discover = lazy(() => import('./pages/Discover'));
+const Movies = lazy(() => import('./pages/Movies'));
+const Movie = lazy(() => import('./pages/Movie'));
+const People = lazy(() => import('./pages/People'));
+const Person = lazy(() => import('./pages/Person'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function renderNonMobileView() {
   return (
@@ -25,15 +24,17 @@ function renderNonMobileView() {
       <MainContent>
         {/* TODO: router goes in here */}
         <Container>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/discover' component={Discover} />
-            <Route exact path='/movie/:category(popular|upcoming|in-theaters|top-rated)' component={Movies} />
-            <Route exact path='/movie/:id' component={Movie} />
-            <Route exact path='/person' component={People} />
-            <Route exact path='/person/:id' component={Person} />
-            <Route component={NotFound} />
-          </Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              <Route exact path='/' render={(props) => <Home {...props} />} />
+              <Route exact path='/discover' render={(props) => <Discover {...props} />} />
+              <Route exact path='/movie/:category(popular|upcoming|in-theaters|top-rated)' render={(props) => <Movies {...props} />} />
+              <Route exact path='/movie/:id' render={(props) => <Movie {...props} />} />
+              <Route exact path='/person' render={(props) => <People {...props} />} />
+              <Route exact path='/person/:id' render={(props) => <Person {...props} />} />
+              <Route render={(props) => <NotFound {...props} />} />
+            </Switch>
+          </Suspense>
         </Container>
       </MainContent>
     </>
