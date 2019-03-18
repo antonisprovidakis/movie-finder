@@ -50,7 +50,7 @@ function Person(props) {
                                 Biography
                             </Header>
                             <div className='Person__biography__content'>
-                                {person.biography}
+                                {person.biography || `We don't have a biography for ${person.name}.`}
                             </div>
                         </div>
                     </Grid.Column>
