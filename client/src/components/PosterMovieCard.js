@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
 import '../styles/PosterMovieCard.css';
-import { buildImageUrl, defaultImageBase64Data } from '../api/config/image';
+import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
 
 function PosterMovieCard({ id, title, date, rating, image }) {
@@ -16,7 +16,7 @@ function PosterMovieCard({ id, title, date, rating, image }) {
         >
             <Image
                 className='PosterMovieCard__image'
-                src={(image && buildImageUrl({ path: image, type: 'poster', size: 'w500' })) || defaultImageBase64Data}
+                src={createImageSrc({ path: image, type: 'poster', size: 'w500' })}
             />
             <Card.Content>
                 <Card.Header>

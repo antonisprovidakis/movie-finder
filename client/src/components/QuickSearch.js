@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useDebounce from '../utilities/hooks/useDebounce';
 import { Search, Input } from 'semantic-ui-react';
 import { searchAPI } from '../api';
-import { buildImageUrl, defaultImageBase64Data } from '../api/config/image';
+import { createImageSrc } from '../api/config/image';
 
 function QuickSearch(props) {
     const {
@@ -48,12 +48,12 @@ function QuickSearch(props) {
                 if (result.media_type === 'movie') {
                     data.title = result.title;
                     data.description = result.release_date.split('-')[0];
-                    data.image = (result.poster_path && buildImageUrl({ path: result.poster_path, type: 'poster', size: 'w92' })) || defaultImageBase64Data;
+                    data.image = createImageSrc({ path: result.poster_path, type: 'poster', size: 'w92' });
                     data.to = `/movie/${result.id}`
                 }
                 else {
                     data.title = result.name;
-                    data.image = (result.profile_path && buildImageUrl({ path: result.profile_path, type: 'profile', size: 'w45' })) || defaultImageBase64Data;
+                    data.image = createImageSrc({ path: result.profile_path, type: 'profile', size: 'w45' });
                     data.to = `/person/${result.id}`
                 }
 

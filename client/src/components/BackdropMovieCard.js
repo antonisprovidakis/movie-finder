@@ -5,7 +5,7 @@ import Rating from './Rating';
 import '../styles/BackdropMovieCard.css';
 import { trimOverview } from '../utilities/text';
 import { formatDate } from '../utilities/date';
-import { buildImageUrl, defaultImageBase64Data } from '../api/config/image';
+import { createImageSrc } from '../api/config/image';
 
 function BackdropMovieCard({ id, title, date, rating, image, overview, showOverview = true }) {
     return (
@@ -17,7 +17,7 @@ function BackdropMovieCard({ id, title, date, rating, image, overview, showOverv
         >
             <Image
                 className='BackdropMovieCard__image'
-                src={(image && buildImageUrl({ path: image, type: 'backdrop', size: 'w780' })) || defaultImageBase64Data}
+                src={createImageSrc({ path: image, type: 'backdrop', size: 'w780' })}
             />
             <Card.Content>
                 <Card.Header>

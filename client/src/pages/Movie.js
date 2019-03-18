@@ -5,7 +5,7 @@ import Rating from '../components/Rating';
 import PeopleGrid from '../components/PeopleGrid';
 import { movieAPI } from '../api';
 import { findLanguageFromISO } from '../api/config/language';
-import { buildImageUrl } from '../api/config/image';
+import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
 import PersonCard from '../components/PersonCard';
 
@@ -41,7 +41,7 @@ function Movie(props) {
                         <div className='Movie__info__picture-container'>
                             <Image
                                 className='Movie__info__picture'
-                                src={buildImageUrl({ path: movie.poster_path, type: 'poster', size: 'w500' })}
+                                src={createImageSrc({ path: movie.poster_path, type: 'poster', size: 'w500' })}
                             />
                         </div>
                     </Grid.Column>

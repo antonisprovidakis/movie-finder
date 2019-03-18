@@ -1,4 +1,17 @@
-export function buildImageUrl({ path, type, size = 'original' }) {
+export function createImageSrc({ path, type, size = 'original' }) {
+    let imageSrc;
+
+    try {
+        imageSrc = buildImageUrl({ path, type, size });
+    } catch (error) {
+        console.error('An error occured while trying to create image src. Used the default base64 image src, instead.', error);
+        imageSrc = defaultImageBase64Data;
+    }
+
+    return imageSrc;
+}
+
+function buildImageUrl({ path, type, size }) {
     if (path === null || path === undefined) {
         throw new Error('"path" cannot be null or undefined');
     }
@@ -74,7 +87,7 @@ const imageConfig = Object.freeze({
 });
 
 // this image is used if image path is not found for a resource
-export const defaultImageBase64Data =
+const defaultImageBase64Data =
     `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAA
     LuCAQAAADyeixhAAAGSElEQVR42u3TAQ0AAAjDMO5fImKOD9JKWLJ
     sB3guRgejA0YHjA4YHTA6YHTA6IDRweiA0QGjA0YHjA4YHTA6YHQw

@@ -3,7 +3,7 @@ import { Image, Grid, Header, List } from 'semantic-ui-react';
 import '../styles/Person.css';
 import { personAPI } from '../api';
 import { getGenderNameFromId } from '../api/config/gender';
-import { buildImageUrl } from '../api/config/image';
+import { createImageSrc } from '../api/config/image';
 
 function Person(props) {
     const id = parseInt(props.match.params.id);
@@ -32,7 +32,7 @@ function Person(props) {
                         <div className='Person__info__picture-container'>
                             <Image
                                 className='Person__info__picture'
-                                src={buildImageUrl({ path: person.profile_path, type: 'profile', size: 'h632' })}
+                                src={createImageSrc({ path: person.profile_path, type: 'profile', size: 'h632' })}
                             />
                         </div>
                     </Grid.Column>
