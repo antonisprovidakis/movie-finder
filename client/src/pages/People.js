@@ -14,7 +14,7 @@ function People() {
 
     useEffect(() => {
         fetchPeople();
-    }, [pagination.page, pagination.totalPages]);
+    }, [pagination.page]);
 
     async function fetchPeople() {
         setLoading(true);
