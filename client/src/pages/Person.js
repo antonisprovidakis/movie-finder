@@ -80,11 +80,11 @@ function Person(props) {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Birthday</List.Header>
-                                    {person.birthday}
+                                    {person.birthday || '-'}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Place of Birth</List.Header>
-                                    {person.place_of_birth}
+                                    {person.place_of_birth || '-'}
                                 </List.Item>
                             </List>
                         </div>
