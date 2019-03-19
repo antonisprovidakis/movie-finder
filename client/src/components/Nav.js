@@ -19,7 +19,7 @@ function Nav(props) {
                     </Menu.Item>
                 </Responsive>
 
-                <Menu.Item header as={Link} to='/' >
+                <Menu.Item header fitted as={Link} to='/' >
                     <img src='https://react.semantic-ui.com/logo.png' alt="logo" />
                 </Menu.Item>
 
