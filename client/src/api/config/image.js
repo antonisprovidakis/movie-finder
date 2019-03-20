@@ -4,8 +4,17 @@ export function createImageSrc({ path, type, size = 'original' }) {
     try {
         imageSrc = buildImageUrl({ path, type, size });
     } catch (error) {
-        console.error('An error occured while trying to create image src. Used the default base64 image src, instead.', error);
-        imageSrc = defaultImageBase64Data;
+        console.log('An error occured while trying to create image src. Used the default base64 image src, instead.', error);
+
+        switch (type) {
+            case 'backdrop':
+                imageSrc = defaultBackdropImageBase64Data;
+                break;
+            case 'poster':
+            default:
+                imageSrc = defaultPosterImageBase64Data;
+                break;
+        }
     }
 
     return imageSrc;
@@ -87,7 +96,8 @@ const imageConfig = Object.freeze({
 });
 
 // this image is used if image path is not found for a resource
-const defaultImageBase64Data =
+// poster dimensions
+const defaultPosterImageBase64Data =
     `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAA
     LuCAQAAADyeixhAAAGSElEQVR42u3TAQ0AAAjDMO5fImKOD9JKWLJ
     sB3guRgejA0YHjA4YHTA6YHTA6IDRweiA0QGjA0YHjA4YHTA6YHQw
@@ -131,3 +141,39 @@ const defaultImageBase64Data =
     HQwOmB0wOiA0QGjA0YHjA4YHTA6GB0wOmB0wOiA0QGjA0YHjA5GB4
     wOGB0wOmB0wOiA0QGjg9EBowNGB4wOGB0wOmB0wOjAAeZ/b+ZQlT5
     wAAAAAElFTkSuQmCC`;
+
+const defaultBackdropImageBase64Data =
+    `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwwAAA
+    G3CAQAAACz5BpvAAAE30lEQVR42u3VMQEAAAjDMOZfImLg48FCIqF
+    P01MAcGIMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAM
+    ABgDAMYAgDEAYAwAGAMAxgCAMQCAMQBgDAAYAwDGAIAxAGAMABgDA
+    MYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAAMYAgD
+    EAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAM
+    AxgCAMQBgDAAYAwAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCA
+    MQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAYAwAGAMAxgCAMQBgD
+    AAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAI
+    AxAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGA
+    MABgDAMYAgDEAYAwAGAMAxmAMABgDAMYAgDEAYAwAGAMAxgCAMQBg
+    DAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQCAMQBgDAAYA
+    wDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAG
+    AMABgDAMYAAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABg
+    DAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwAYAwDGAIAxAGAMABgDAMYA
+    gDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAY
+    AwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxg
+    CAMQBgDAAYAwDGAIAxAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQB
+    gDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxiACAMYAgDEAYAwA
+    GAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAM
+    QBgDAAYgzEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgD
+    EAYAwAGAMAxgCAMQBgDAAYAwDGAADGAIAxAGAMABgDAMYAgDEAYAw
+    AGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAGAMA
+    xgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQBgD
+    AAYAwDGAIAxAGAMAGAMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAw
+    DGAIAxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQCAMQBgDAAYAwDGAIA
+    xAGAMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgD
+    AMYAAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAg
+    DEAYAwAGAMAxgCAMQBgDAAYgzEAYAwAGAMAxgCAMQBgDAAYAwDGAI
+    AxAGAMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAADGAIAxAGA
+    MABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYA
+    gDEAYAwAGAMAGAMAxgCAMQBgDAAYAwDGAIAxAGAMABgDAMYAgDEAY
+    AwAGAMAxgCAMQBgDAAYAwDGAIAxAGAMAGAMADwL4Mouu+8XZacAAA
+    AASUVORK5CYII=`;
