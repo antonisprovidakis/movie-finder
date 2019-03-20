@@ -6,7 +6,15 @@ import '../styles/PosterMovieCard.css';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
 
-function PosterMovieCard({ id, title, date, rating, image }) {
+function PosterMovieCard({ movie }) {
+    const {
+        id,
+        title,
+        release_date: date,
+        poster_path: image,
+        vote_average: rating
+    } = movie;
+
     return (
         <Card
             as={Link}

@@ -7,7 +7,16 @@ import { trimOverview } from '../utilities/text';
 import { formatDate } from '../utilities/date';
 import { createImageSrc } from '../api/config/image';
 
-function BackdropMovieCard({ id, title, date, rating, image, overview, showOverview = true }) {
+function BackdropMovieCard({ movie, showOverview = true }) {
+    const {
+        id,
+        title,
+        release_date: date,
+        backdrop_path: image,
+        vote_average: rating,
+        overview
+    } = movie;
+
     return (
         <Card
             as={Link}
