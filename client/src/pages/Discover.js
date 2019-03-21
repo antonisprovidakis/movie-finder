@@ -3,7 +3,6 @@ import { Form } from 'semantic-ui-react';
 import '../styles/Discover.css';
 import MoviesGrid from '../components/MoviesGrid';
 import { movieAPI } from '../api';
-import PosterMovieCard from '../components/PosterMovieCard';
 import Pagination from '../components/Pagination';
 import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
 
@@ -157,18 +156,9 @@ function Discover(props) {
                         <MoviesGrid
                             columns={4}
                             doubling
-                        >
-                            {movies.map(movie =>
-                                <PosterMovieCard
-                                    key={movie.id}
-                                    id={movie.id}
-                                    title={movie.title}
-                                    date={movie.release_date}
-                                    image={movie.poster_path}
-                                    rating={movie.vote_average}
-                                />
-                            )}
-                        </MoviesGrid>
+                            movies={movies}
+                            cardViewStyle='poster'
+                        />
                     </div>
                     <Pagination
                         topPadded

@@ -4,7 +4,6 @@ import MoviesGrid from '../components/MoviesGrid';
 import '../styles/Home.css';
 import { movieAPI } from '../api';
 import axios from 'axios';
-import PosterMovieCard from '../components/PosterMovieCard';
 
 const initialState = {
     inTheatersMovies: [],
@@ -70,18 +69,8 @@ function Home(props) {
                             title='Movies In Theaters'
                             columns={4}
                             doubling
-                        >
-                            {movies.inTheatersMovies.map(movie =>
-                                <PosterMovieCard
-                                    key={movie.id}
-                                    id={movie.id}
-                                    title={movie.title}
-                                    date={movie.release_date}
-                                    image={movie.poster_path}
-                                    rating={movie.vote_average}
-                                />
-                            )}
-                        </MoviesGrid>
+                            movies={movies.inTheatersMovies}
+                        />
                     </div>
 
                     <div className="Home__upcoming">
@@ -89,18 +78,8 @@ function Home(props) {
                             title='Upcoming Movies'
                             columns={4}
                             doubling
-                        >
-                            {movies.upcomingMovies.map(movie =>
-                                <PosterMovieCard
-                                    key={movie.id}
-                                    id={movie.id}
-                                    title={movie.title}
-                                    date={movie.release_date}
-                                    image={movie.poster_path}
-                                    rating={movie.vote_average}
-                                />
-                            )}
-                        </MoviesGrid>
+                            movies={movies.upcomingMovies}
+                        />
                     </div>
 
                     <div className="Home__popular">
@@ -108,18 +87,8 @@ function Home(props) {
                             title='Popular Movies'
                             columns={4}
                             doubling
-                        >
-                            {movies.popularMovies.map(movie =>
-                                <PosterMovieCard
-                                    key={movie.id}
-                                    id={movie.id}
-                                    title={movie.title}
-                                    date={movie.release_date}
-                                    image={movie.poster_path}
-                                    rating={movie.vote_average}
-                                />
-                            )}
-                        </MoviesGrid>
+                            movies={movies.popularMovies}
+                        />
                     </div>
 
                     <div className="Home__top-rated">
@@ -127,18 +96,8 @@ function Home(props) {
                             title='Top Rated Movies'
                             columns={4}
                             doubling
-                        >
-                            {movies.topRatedMovies.map(movie =>
-                                <PosterMovieCard
-                                    key={movie.id}
-                                    id={movie.id}
-                                    title={movie.title}
-                                    date={movie.release_date}
-                                    image={movie.poster_path}
-                                    rating={movie.vote_average}
-                                />
-                            )}
-                        </MoviesGrid>
+                            movies={movies.topRatedMovies}
+                        />
                     </div>
                 </>
             }

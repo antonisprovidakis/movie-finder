@@ -3,7 +3,6 @@ import MoviesGrid from '../components/MoviesGrid';
 import '../styles/Movies.css';
 import { movieAPI } from '../api';
 import { routeNameToTitle } from '../utilities/routing';
-import PosterMovieCard from '../components/PosterMovieCard';
 import Pagination from '../components/Pagination';
 import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
 
@@ -14,10 +13,18 @@ function Movies(props) {
     const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
     const isMobile = useMedia(mobileMediaQuery);
+    const [cardViewStyle, setCardViewStyle] = useState('poster');
+    const [gridColumns, setGridColumns] = useState(4);
 
     useEffect(() => {
         fetchMovies(category);
-    }, [category, pagination.page, pagination.totalPages]);
+    }, [category, pagination.page]);
+
+    useEffect(() => {
+        cardViewStyle === 'poster'
+            ? setGridColumns(4)
+            : setGridColumns(2);
+    }, [cardViewStyle]);
 
     async function fetchMovies(category) {
         setLoading(true);
@@ -42,6 +49,10 @@ function Movies(props) {
         setPagination(prevState => ({ ...prevState, page: data.activePage }));
     }
 
+    function handleCardViewStyleOptionClick(e, cardViewStyle) {
+        setCardViewStyle(cardViewStyle);
+    }
+
     return (
         <div className="Movies">
             {loading
@@ -51,32 +62,13 @@ function Movies(props) {
                     <div className="Movies__movies-container">
                         <MoviesGrid
                             title={title}
-                            columns={4}
+                            columns={gridColumns}
                             doubling
-                        >
-                            {movies.map(movie =>
-                                <PosterMovieCard
-                                    key={movie.id}
-                                    id={movie.id}
-                                    title={movie.title}
-                                    date={movie.release_date}
-                                    image={movie.poster_path}
-                                    rating={movie.vote_average}
-                                />
-
-                                // OR
-                                //
-                                // <BackdropMovieCard
-                                //     key={movie.id}
-                                //     id={movie.id}
-                                //     title={movie.title}
-                                //     date={movie.release_date}
-                                //     rating={movie.vote_average}
-                                //     image={movie.backdrop_path}
-                                //     overview={movie.overview}
-                                // />
-                            )}
-                        </MoviesGrid>
+                            menuVisible
+                            movies={movies}
+                            cardViewStyle={cardViewStyle}
+                            onCardViewStyleOptionClick={handleCardViewStyleOptionClick}
+                        />
                     </div>
                     <Pagination
                         topPadded
