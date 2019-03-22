@@ -7,6 +7,7 @@ import {
   Container,
   Responsive,
 } from 'semantic-ui-react'
+import Footer from './components/Footer';
 
 const Home = lazy(() => import('./pages/Home'));
 const Discover = lazy(() => import('./pages/Discover'));
@@ -62,6 +63,7 @@ function App() {
           {renderNonMobileView()}
         </Responsive>
 
+        <Footer />
       </div >
     </Router>
   );
