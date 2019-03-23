@@ -3,19 +3,17 @@ import PeopleGrid from '../components/PeopleGrid';
 import '../styles/People.css';
 import { personAPI } from '../api';
 import Pagination from '../components/Pagination';
+import PeopleGridPlaceholder from '../components/PeopleGridPlaceholder';
 
 function People() {
     const [people, setPeople] = useState([]);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchPeople();
     }, [pagination.page]);
 
     async function fetchPeople() {
-        setLoading(true);
-
         const res = await personAPI.getPopularPeople({ page: pagination.page });
 
         setPagination({
@@ -25,8 +23,6 @@ function People() {
 
         const people = res.data.results;
         setPeople(people);
-
-        setLoading(false);
     }
 
     function handlePageChange(e, data) {
@@ -35,25 +31,32 @@ function People() {
 
     return (
         <div className="People">
-            {loading
-                ? <div>Loading...</div>
-                :
-                <>
-                    <div className="People__people-container">
-                        <PeopleGrid
-                            title='Popular People'
-                            columns={4}
-                            doubling
-                            people={people}
-                        />
-                    </div>
-                    <Pagination
-                        activePage={pagination.page}
-                        totalPages={pagination.totalPages}
-                        onPageChange={handlePageChange}
-                        topPadded
+            <div className="People__people-container">
+                {people.length > 0
+                    ?
+                    <PeopleGrid
+                        title='Popular People'
+                        columns={4}
+                        doubling
+                        people={people}
                     />
-                </>
+                    :
+                    <PeopleGridPlaceholder
+                        title='Popular People'
+                        numberOfCards={12}
+                        columns={4}
+                        doubling
+                    />
+                }
+            </div>
+
+            {people.length > 0 &&
+                <Pagination
+                    activePage={pagination.page}
+                    totalPages={pagination.totalPages}
+                    onPageChange={handlePageChange}
+                    topPadded
+                />
             }
         </div>
     );
