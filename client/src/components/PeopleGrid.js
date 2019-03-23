@@ -1,10 +1,12 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import '../styles/PeopleGrid.css';
+import PersonCard from './PersonCard';
 
 function PeopleGrid({
     title = '',
-    children, // of type PersonCard
+    people,
+    forCast = false,
     ...rest
 }) {
 
@@ -22,11 +24,19 @@ function PeopleGrid({
                 className='PeopleGrid__people'
                 {...rest}
             >
-                {React.Children.map(children, child => (
-                    <Grid.Column className='PeopleGrid__column'>
-                        {child}
+                {people.map(person =>
+                    <Grid.Column
+                        className='PeopleGrid__column'
+                        key={person.id}
+                    >
+                        <PersonCard
+                            id={person.id}
+                            name={person.name}
+                            image={person.profile_path}
+                            sub={forCast ? person.character : ''}
+                        />
                     </Grid.Column>
-                ))}
+                )}
             </Grid>
         </div>
     );

@@ -7,8 +7,6 @@ import { movieAPI } from '../api';
 import { findLanguageFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
-import PersonCard from '../components/PersonCard';
-
 
 function Movie(props) {
     const id = parseInt(props.match.params.id);
@@ -74,16 +72,9 @@ function Movie(props) {
                                 title='Top Billed Cast'
                                 columns={4}
                                 doubling
-                            >
-                                {top4Cast.map(person =>
-                                    <PersonCard
-                                        key={person.id}
-                                        id={person.id}
-                                        name={person.name}
-                                        image={person.profile_path}
-                                    />
-                                )}
-                            </PeopleGrid>
+                                people={top4Cast}
+                                forCast
+                            />
                         </div>
                     </Grid.Column>
                 </Grid.Row>
