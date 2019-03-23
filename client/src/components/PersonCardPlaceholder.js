@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Placeholder } from 'semantic-ui-react';
 
-function PersonCardPlaceholder() {
+function PersonCardPlaceholder({ forCast = false }) {
     return (
         <Card className='PersonCardPlaceholder'>
             <Placeholder>
@@ -12,6 +12,11 @@ function PersonCardPlaceholder() {
                     <Placeholder.Header>
                         <Placeholder.Line length='medium' />
                     </Placeholder.Header>
+                    {forCast &&
+                        <Placeholder.Paragraph>
+                            <Placeholder.Line length='short' />
+                        </Placeholder.Paragraph>
+                    }
                 </Placeholder>
             </Card.Content>
         </Card>
