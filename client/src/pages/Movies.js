@@ -4,12 +4,12 @@ import '../styles/Movies.css';
 import { movieAPI } from '../api';
 import { routeNameToTitle } from '../utilities/routing';
 import Pagination from '../components/Pagination';
+import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 
 function Movies(props) {
     const category = props.match.params.category;
     const title = routeNameToTitle(category);
     const [movies, setMovies] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
     const [cardViewStyle, setCardViewStyle] = useState('poster');
     const [gridColumns, setGridColumns] = useState(4);
@@ -25,8 +25,6 @@ function Movies(props) {
     }, [cardViewStyle]);
 
     async function fetchMovies(category) {
-        setLoading(true);
-
         const res = await movieAPI.getMoviesByCategory(
             category,
             { page: pagination.page }
@@ -39,8 +37,6 @@ function Movies(props) {
 
         const movies = res.data.results;
         setMovies(movies);
-
-        setLoading(false);
     }
 
     function handlePageChange(e, data) {
@@ -53,28 +49,35 @@ function Movies(props) {
 
     return (
         <div className="Movies">
-            {loading
-                ? <div>loading...</div>
-                :
-                <>
-                    <div className="Movies__movies-container">
-                        <MoviesGrid
-                            title={title}
-                            columns={gridColumns}
-                            doubling
-                            menuVisible
-                            movies={movies}
-                            cardViewStyle={cardViewStyle}
-                            onCardViewStyleOptionClick={handleCardViewStyleOptionClick}
-                        />
-                    </div>
-                    <Pagination
-                        activePage={pagination.page}
-                        totalPages={pagination.totalPages}
-                        onPageChange={handlePageChange}
-                        topPadded
+            <div className="Movies__movies-container">
+                {movies.length > 0
+                    ?
+                    <MoviesGrid
+                        title={title}
+                        columns={gridColumns}
+                        doubling
+                        menuVisible
+                        movies={movies}
+                        cardViewStyle={cardViewStyle}
+                        onCardViewStyleOptionClick={handleCardViewStyleOptionClick}
                     />
-                </>
+                    :
+                    <MoviesGridPlaceholder
+                        title={title}
+                        num={12}
+                        columns={gridColumns}
+                        doubling
+                    />
+                }
+            </div>
+
+            {movies.length > 0 &&
+                <Pagination
+                    activePage={pagination.page}
+                    totalPages={pagination.totalPages}
+                    onPageChange={handlePageChange}
+                    topPadded
+                />
             }
         </div>
     );

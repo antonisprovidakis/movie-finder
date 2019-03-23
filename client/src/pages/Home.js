@@ -4,25 +4,16 @@ import MoviesGrid from '../components/MoviesGrid';
 import '../styles/Home.css';
 import { movieAPI } from '../api';
 import axios from 'axios';
-
-const initialState = {
-    inTheatersMovies: [],
-    upcomingMovies: [],
-    popularMovies: [],
-    topRatedMovies: [],
-}
+import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 
 function Home(props) {
-    const [movies, setMovies] = useState(initialState);
-    const [loading, setLoading] = useState(false);
+    const [movies, setMovies] = useState(null);
 
     useEffect(() => {
         fetchMovies();
     }, []);
 
     async function fetchMovies() {
-        setLoading(true);
-
         const [
             inTheatersMovies,
             upcomingMovies,
@@ -41,9 +32,26 @@ function Home(props) {
             popularMovies: popularMovies.data.results.slice(0, 4),
             topRatedMovies: topRatedMovies.data.results.slice(0, 4),
         });
-
-        setLoading(false);
     }
+
+    const sectionsData = [
+        {
+            title: 'Movies In Theaters',
+            movies: (movies && movies.inTheatersMovies) || []
+        },
+        {
+            title: 'Upcoming Movies',
+            movies: (movies && movies.upcomingMovies) || []
+        },
+        {
+            title: 'Popular Movies',
+            movies: (movies && movies.popularMovies) || []
+        },
+        {
+            title: 'Top Rated Movies',
+            movies: (movies && movies.topRatedMovies) || []
+        },
+    ];
 
     return (
         <div className="Home">
@@ -59,47 +67,27 @@ function Home(props) {
                 </Header.Subheader>
             </Header>
 
-            {loading
-                // TODO: place a Loader here
-                ? <div>loading...</div>
+            {movies
+                ?
+                sectionsData.map((sectionData, index) =>
+                    <MoviesGrid
+                        key={index}
+                        title={sectionData.title}
+                        movies={sectionData.movies}
+                        columns={4}
+                        doubling
+                    />
+                )
                 :
-                <>
-                    <div className="Home__in-theaters">
-                        <MoviesGrid
-                            title='Movies In Theaters'
-                            columns={4}
-                            doubling
-                            movies={movies.inTheatersMovies}
-                        />
-                    </div>
-
-                    <div className="Home__upcoming">
-                        <MoviesGrid
-                            title='Upcoming Movies'
-                            columns={4}
-                            doubling
-                            movies={movies.upcomingMovies}
-                        />
-                    </div>
-
-                    <div className="Home__popular">
-                        <MoviesGrid
-                            title='Popular Movies'
-                            columns={4}
-                            doubling
-                            movies={movies.popularMovies}
-                        />
-                    </div>
-
-                    <div className="Home__top-rated">
-                        <MoviesGrid
-                            title='Top Rated Movies'
-                            columns={4}
-                            doubling
-                            movies={movies.topRatedMovies}
-                        />
-                    </div>
-                </>
+                sectionsData.map((sectionData, index) =>
+                    <MoviesGridPlaceholder
+                        key={index}
+                        title={sectionData.title}
+                        num={4}
+                        columns={4}
+                        doubling
+                    />
+                )
             }
         </div>
     );

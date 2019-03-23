@@ -4,6 +4,7 @@ import '../styles/Discover.css';
 import MoviesGrid from '../components/MoviesGrid';
 import { movieAPI } from '../api';
 import Pagination from '../components/Pagination';
+import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -65,7 +66,6 @@ function Discover(props) {
     const [year, setYear] = useState(2018);
     const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
     const [genres, setGenres] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
 
     useEffect(() => {
@@ -73,8 +73,6 @@ function Discover(props) {
     }, [year, sortByFilter, genres, pagination.page, pagination.totalPages]);
 
     async function fetchMovies(year, sortByFilter, genres) {
-        setLoading(true);
-
         const res = await movieAPI.discoverMovies({
             primary_release_year: year,
             sort_by: sortByFilter,
@@ -89,8 +87,6 @@ function Discover(props) {
 
         const movies = res.data.results;
         setMovies(movies);
-
-        setLoading(false);
     }
 
     function handleYearChange(e, data) {
@@ -146,25 +142,31 @@ function Discover(props) {
                 </Form>
             </div>
 
-            {loading
-                ? <div>loading...</div>
-                :
-                <>
-                    <div className="Discover__movies-container">
-                        <MoviesGrid
-                            columns={4}
-                            doubling
-                            movies={movies}
-                            cardViewStyle='poster'
-                        />
-                    </div>
-                    <Pagination
-                        activePage={pagination.page}
-                        totalPages={pagination.totalPages}
-                        onPageChange={handlePageChange}
-                        topPadded
+            <div className="Discover__movies-container">
+                {movies.length > 0
+                    ?
+                    <MoviesGrid
+                        columns={4}
+                        doubling
+                        movies={movies}
+                        cardViewStyle='poster'
                     />
-                </>
+                    :
+                    <MoviesGridPlaceholder
+                        num={12}
+                        columns={4}
+                        doubling
+                    />
+                }
+            </div>
+
+            {movies.length > 0 &&
+                <Pagination
+                    activePage={pagination.page}
+                    totalPages={pagination.totalPages}
+                    onPageChange={handlePageChange}
+                    topPadded
+                />
             }
         </div>
     );
