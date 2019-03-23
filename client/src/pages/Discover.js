@@ -4,7 +4,6 @@ import '../styles/Discover.css';
 import MoviesGrid from '../components/MoviesGrid';
 import { movieAPI } from '../api';
 import Pagination from '../components/Pagination';
-import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -68,7 +67,6 @@ function Discover(props) {
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
-    const isMobile = useMedia(mobileMediaQuery);
 
     useEffect(() => {
         fetchMovies(year, sortByFilter, genres);
@@ -161,14 +159,10 @@ function Discover(props) {
                         />
                     </div>
                     <Pagination
-                        topPadded
                         activePage={pagination.page}
                         totalPages={pagination.totalPages}
-                        siblingRange={isMobile ? 0 : 2}
-                        boundaryRange={isMobile ? 1 : 2}
-                        firstItem={null}
-                        lastItem={null}
                         onPageChange={handlePageChange}
+                        topPadded
                     />
                 </>
             }

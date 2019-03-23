@@ -3,13 +3,11 @@ import PeopleGrid from '../components/PeopleGrid';
 import '../styles/People.css';
 import { personAPI } from '../api';
 import Pagination from '../components/Pagination';
-import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
 
 function People() {
     const [people, setPeople] = useState([]);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
     const [loading, setLoading] = useState(false);
-    const isMobile = useMedia(mobileMediaQuery);
 
     useEffect(() => {
         fetchPeople();
@@ -50,14 +48,10 @@ function People() {
                         />
                     </div>
                     <Pagination
-                        topPadded
                         activePage={pagination.page}
                         totalPages={pagination.totalPages}
-                        siblingRange={isMobile ? 0 : 2}
-                        boundaryRange={isMobile ? 1 : 2}
-                        firstItem={null}
-                        lastItem={null}
                         onPageChange={handlePageChange}
+                        topPadded
                     />
                 </>
             }

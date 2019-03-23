@@ -4,7 +4,6 @@ import '../styles/Movies.css';
 import { movieAPI } from '../api';
 import { routeNameToTitle } from '../utilities/routing';
 import Pagination from '../components/Pagination';
-import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
 
 function Movies(props) {
     const category = props.match.params.category;
@@ -12,7 +11,6 @@ function Movies(props) {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
-    const isMobile = useMedia(mobileMediaQuery);
     const [cardViewStyle, setCardViewStyle] = useState('poster');
     const [gridColumns, setGridColumns] = useState(4);
 
@@ -71,14 +69,10 @@ function Movies(props) {
                         />
                     </div>
                     <Pagination
-                        topPadded
                         activePage={pagination.page}
                         totalPages={pagination.totalPages}
-                        siblingRange={isMobile ? 0 : 2}
-                        boundaryRange={isMobile ? 1 : 2}
-                        firstItem={null}
-                        lastItem={null}
                         onPageChange={handlePageChange}
+                        topPadded
                     />
                 </>
             }
