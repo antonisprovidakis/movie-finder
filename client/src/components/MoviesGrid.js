@@ -32,36 +32,38 @@ function MoviesGrid({
 
     return (
         <div className='MoviesGrid'>
-            <Menu secondary>
-                {title.length > 0 &&
-                    <Menu.Item fitted>
-                        <Header as='h2' className="MoviesGrid__title">
-                            {title}
-                        </Header>
-                    </Menu.Item>
-                }
-
-                {menuVisible &&
-                    <Menu.Menu position='right'>
+            {(title.length > 0 || menuVisible) &&
+                <Menu secondary>
+                    {title.length > 0 &&
                         <Menu.Item fitted>
-                            <Dropdown text='View'>
-                                <Dropdown.Menu >
-                                    <Dropdown.Item
-                                        text='Poster Card View'
-                                        value='poster'
-                                        onClick={handleCardViewStyleOptionClick}
-                                    />
-                                    <Dropdown.Item
-                                        text='Backdrop Card View'
-                                        value='backdrop'
-                                        onClick={handleCardViewStyleOptionClick}
-                                    />
-                                </Dropdown.Menu>
-                            </Dropdown>
+                            <Header as='h2' className="MoviesGrid__title">
+                                {title}
+                            </Header>
                         </Menu.Item>
-                    </Menu.Menu>
-                }
-            </Menu>
+                    }
+
+                    {menuVisible &&
+                        <Menu.Menu position='right'>
+                            <Menu.Item fitted>
+                                <Dropdown text='View'>
+                                    <Dropdown.Menu >
+                                        <Dropdown.Item
+                                            text='Poster Card View'
+                                            value='poster'
+                                            onClick={handleCardViewStyleOptionClick}
+                                        />
+                                        <Dropdown.Item
+                                            text='Backdrop Card View'
+                                            value='backdrop'
+                                            onClick={handleCardViewStyleOptionClick}
+                                        />
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </Menu.Item>
+                        </Menu.Menu>
+                    }
+                </Menu>
+            }
 
             <Grid
                 className='MoviesGrid__movies'
