@@ -9,14 +9,18 @@ import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 function Movies(props) {
     const category = props.match.params.category;
     const title = routeNameToTitle(category);
+    const params = new URLSearchParams(props.location.search);
+    const page = params.get('page') || 1; // TODO: 0 < page < 1000
+
     const [movies, setMovies] = useState([]);
-    const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
+    const [totalPages, setTotalPages] = useState(null);
     const [cardViewStyle, setCardViewStyle] = useState('poster');
     const [gridColumns, setGridColumns] = useState(4);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetchMovies(category);
-    }, [category, pagination.page]);
+        fetchMovies(category, page);
+    }, [category, page]);
 
     useEffect(() => {
         cardViewStyle === 'poster'
@@ -24,23 +28,30 @@ function Movies(props) {
             : setGridColumns(2);
     }, [cardViewStyle]);
 
-    async function fetchMovies(category) {
+    async function fetchMovies(category, page) {
+        setLoading(true);
+
         const res = await movieAPI.getMoviesByCategory(
             category,
-            { page: pagination.page }
+            { page }
         );
 
-        setPagination({
-            page: res.data.page,
-            totalPages: res.data.total_pages
-        });
+        setTotalPages(res.data.total_pages);
 
         const movies = res.data.results;
         setMovies(movies);
+        setLoading(false);
+    }
+
+    function gotoPage(newPage) {
+        props.history.push({
+            pathname: props.location.pathname,
+            search: `?page=${newPage}`
+        });
     }
 
     function handlePageChange(e, data) {
-        setPagination(prevState => ({ ...prevState, page: data.activePage }));
+        gotoPage(data.activePage);
     }
 
     function handleCardViewStyleOptionClick(e, cardViewStyle) {
@@ -50,8 +61,15 @@ function Movies(props) {
     return (
         <div className="Movies">
             <div className="Movies__movies-container">
-                {movies.length > 0
+                {loading
                     ?
+                    <MoviesGridPlaceholder
+                        title={title}
+                        num={12}
+                        columns={gridColumns}
+                        doubling
+                    />
+                    :
                     <MoviesGrid
                         title={title}
                         columns={gridColumns}
@@ -61,24 +79,16 @@ function Movies(props) {
                         cardViewStyle={cardViewStyle}
                         onCardViewStyleOptionClick={handleCardViewStyleOptionClick}
                     />
-                    :
-                    <MoviesGridPlaceholder
-                        title={title}
-                        num={12}
-                        columns={gridColumns}
-                        doubling
-                    />
                 }
             </div>
 
-            {movies.length > 0 &&
-                <Pagination
-                    activePage={pagination.page}
-                    totalPages={pagination.totalPages}
-                    onPageChange={handlePageChange}
-                    topPadded
-                />
-            }
+            <Pagination
+                activePage={page}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                topPadded
+                disabled={loading}
+            />
         </div>
     );
 }

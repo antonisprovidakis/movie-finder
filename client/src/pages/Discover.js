@@ -62,31 +62,36 @@ const genreOptions = [
 ];
 
 function Discover(props) {
+    const params = new URLSearchParams(props.location.search);
+    const page = params.get('page') || 1; // TODO: 0 < page < 1000
+
     const [movies, setMovies] = useState([]);
     const [year, setYear] = useState(2018);
     const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
     const [genres, setGenres] = useState([]);
-    const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
+    const [totalPages, setTotalPages] = useState(null);
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
-        fetchMovies(year, sortByFilter, genres);
-    }, [year, sortByFilter, genres, pagination.page, pagination.totalPages]);
+        fetchMovies(year, sortByFilter, genres, page);
+    }, [year, sortByFilter, genres, page]);
 
-    async function fetchMovies(year, sortByFilter, genres) {
+    async function fetchMovies(year, sortByFilter, genres, page) {
+        setLoading(true);
+
         const res = await movieAPI.discoverMovies({
             primary_release_year: year,
             sort_by: sortByFilter,
             with_genres: genres,
-            page: pagination.page
+            page
         });
 
-        setPagination({
-            page: res.data.page,
-            totalPages: res.data.total_pages
-        })
+        setTotalPages(res.data.total_pages);
 
         const movies = res.data.results;
         setMovies(movies);
+        setLoading(false);
     }
 
     function handleYearChange(e, data) {
@@ -101,8 +106,15 @@ function Discover(props) {
         setGenres(data.value);
     }
 
+    function gotoPage(newPage) {
+        props.history.push({
+            pathname: props.location.pathname,
+            search: `?page=${newPage}`
+        });
+    }
+
     function handlePageChange(e, data) {
-        setPagination(prevState => ({ ...prevState, page: data.activePage }));
+        gotoPage(data.activePage);
     }
 
     return (
@@ -143,31 +155,30 @@ function Discover(props) {
             </div>
 
             <div className="Discover__movies-container">
-                {movies.length > 0
+                {loading
                     ?
+                    <MoviesGridPlaceholder
+                        num={12}
+                        columns={4}
+                        doubling
+                    />
+                    :
                     <MoviesGrid
                         columns={4}
                         doubling
                         movies={movies}
                         cardViewStyle='poster'
                     />
-                    :
-                    <MoviesGridPlaceholder
-                        num={12}
-                        columns={4}
-                        doubling
-                    />
                 }
             </div>
 
-            {movies.length > 0 &&
-                <Pagination
-                    activePage={pagination.page}
-                    totalPages={pagination.totalPages}
-                    onPageChange={handlePageChange}
-                    topPadded
-                />
-            }
+            <Pagination
+                activePage={page}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                topPadded
+                disabled={loading}
+            />
         </div>
     );
 }
