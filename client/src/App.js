@@ -17,53 +17,68 @@ const People = lazy(() => import('./pages/People'));
 const Person = lazy(() => import('./pages/Person'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-function renderNonMobileView() {
+function DesktopContainer({ children }) {
+  return (
+    <Responsive as={React.Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+      <Nav />
+
+      {children}
+
+      <Footer />
+    </Responsive>
+  );
+}
+
+function MobileContainer({ children }) {
+  return (
+    <Responsive as={React.Fragment} maxWidth={Responsive.onlyMobile.maxWidth}>
+      {/* TODO: render custom mobile view here */}
+      <div style={{ backgroundColor: 'red', zIndex: 9999, position: 'absolute', top: '4rem', left: 0, right: 0, fontSize: 24, height: 32 }}>
+        Warning: Mobile view not yet implemented
+      </div>
+
+      <Nav />
+
+      {children}
+
+      <Footer />
+    </Responsive>
+  );
+}
+
+function ResponsiveContainer({ children }) {
   return (
     <>
-      {/* <Nav /> */}
-
-      <MainContent>
-        {/* TODO: router goes in here */}
-        <Container>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Switch>
-              <Route exact path='/' render={(props) => <Home {...props} />} />
-              <Route exact path='/discover' render={(props) => <Discover {...props} />} />
-              <Route exact path='/movie/:category(popular|upcoming|in-theaters|top-rated)' render={(props) => <Movies {...props} />} />
-              <Route exact path='/movie/:id' render={(props) => <Movie {...props} />} />
-              <Route exact path='/person' render={(props) => <People {...props} />} />
-              <Route exact path='/person/:id' render={(props) => <Person {...props} />} />
-              <Route render={(props) => <NotFound {...props} />} />
-            </Switch>
-          </Suspense>
-        </Container>
-      </MainContent>
+      <DesktopContainer>{children}</DesktopContainer>
+      <MobileContainer>{children}</MobileContainer>
     </>
   );
 }
 
-function App() {
+function App(props) {
   return (
     <Router>
       <div className="App">
-        <Nav />
 
-        <Responsive as={React.Fragment} maxWidth={Responsive.onlyMobile.maxWidth}>
-          <div style={{ backgroundColor: 'red', zIndex: 9999, position: 'absolute', top: '4rem', left: 0, right: 0, fontSize: 24, height: 32 }}>
-            Mobile view not yes implemented
-            </div>
-          {/*
-              TODO: mobile view will be rendered here
-            */}
-          {/* {renderMobileView()} */}
-          {renderNonMobileView()}
-        </Responsive>
+        <ResponsiveContainer>
+          <MainContent>
+            {/* TODO: router goes in here */}
+            <Container>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Switch>
+                  <Route exact path='/' render={(props) => <Home {...props} />} />
+                  <Route exact path='/discover' render={(props) => <Discover {...props} />} />
+                  <Route exact path='/movie/:category(popular|upcoming|in-theaters|top-rated)' render={(props) => <Movies {...props} />} />
+                  <Route exact path='/movie/:id' render={(props) => <Movie {...props} />} />
+                  <Route exact path='/person' render={(props) => <People {...props} />} />
+                  <Route exact path='/person/:id' render={(props) => <Person {...props} />} />
+                  <Route render={(props) => <NotFound {...props} />} />
+                </Switch>
+              </Suspense>
+            </Container>
+          </MainContent>
+        </ResponsiveContainer>
 
-        <Responsive as={React.Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-          {renderNonMobileView()}
-        </Responsive>
-
-        <Footer />
       </div >
     </Router>
   );
