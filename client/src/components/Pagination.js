@@ -9,8 +9,13 @@ function Pagination({
     onPageChange,
     topPadded = false,
     bottomPadded = false,
+    disabled = false
 }) {
     const isMobile = useMedia(mobileMediaQuery);
+
+    if (totalPages === null || totalPages === 1) {
+        return null;
+    }
 
     let className = 'Pagination';
 
@@ -32,6 +37,7 @@ function Pagination({
                 boundaryRange={isMobile ? 1 : 2}
                 firstItem={null}
                 lastItem={null}
+                disabled={disabled}
             />
         </div>
     );
