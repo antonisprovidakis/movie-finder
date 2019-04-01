@@ -1,6 +1,6 @@
 .PeopleGrid {
 }
 
-.PeopleGrid__column .PersonCard {
+.PeopleGrid__column > .PersonCard {
     height: 100%;
 }

@@ -1,6 +1,7 @@
 .MoviesGrid {
 }
 
-.MoviesGrid__column .BackdropMovieCard, .PosterMovieCard {
+.MoviesGrid__column > .BackdropMovieCard,
+.MoviesGrid__column > .PosterMovieCard {
     height: 100%;
 }
