@@ -67,28 +67,30 @@ function Home(props) {
                 </Header.Subheader>
             </Header>
 
-            {movies
-                ?
-                sectionsData.map((sectionData, index) =>
-                    <MoviesGrid
-                        key={index}
-                        title={sectionData.title}
-                        movies={sectionData.movies}
-                        columns={4}
-                        doubling
-                    />
-                )
-                :
-                sectionsData.map((sectionData, index) =>
-                    <MoviesGridPlaceholder
-                        key={index}
-                        title={sectionData.title}
-                        num={4}
-                        columns={4}
-                        doubling
-                    />
-                )
-            }
+            <div className='Home__movies-container'>
+                {movies
+                    ?
+                    sectionsData.map((sectionData, index) =>
+                        <MoviesGrid
+                            key={index}
+                            title={sectionData.title}
+                            movies={sectionData.movies}
+                            columns={4}
+                            doubling
+                        />
+                    )
+                    :
+                    sectionsData.map((sectionData, index) =>
+                        <MoviesGridPlaceholder
+                            key={index}
+                            title={sectionData.title}
+                            num={4}
+                            columns={4}
+                            doubling
+                        />
+                    )
+                }
+            </div>
         </div>
     );
 }
