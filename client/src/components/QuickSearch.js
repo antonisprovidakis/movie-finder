@@ -81,7 +81,7 @@ function QuickSearch(props) {
 
     return (
         <Search
-            className="QuickSeach"
+            className="QuickSearch"
             input={<Input fluid={fluidInput} />}
             placeholder={'Quick search'}
             size="small"
