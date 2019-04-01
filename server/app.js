@@ -2,12 +2,18 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const app = express();
-const { movieRoutes, personRoutes, searchRoutes } = require("./routes");
+const {
+    movieRoutes,
+    personRoutes,
+    searchRoutes,
+    configurationRoutes,
+} = require("./routes");
 
 app.use("/", [
     movieRoutes,
     personRoutes,
     searchRoutes,
+    configurationRoutes,
 ]);
 
 if (process.env.NODE_ENV === 'production') {
