@@ -1,3 +1,6 @@
 .Nav {
-    height: 3.5rem;
+}
+
+.Nav .QuickSearch {
+    margin: 0.4rem 0;
 }

@@ -45,19 +45,17 @@ function Nav(props) {
         );
     }
 
-    // TODO: make nav 'sticky'
     return (
-        <Menu
-            fixed='top'
-            className="Nav"
-            as="nav"
-            borderless
-            {...props}
-        >
-            <Container>
-                {renderMenuItems()}
-            </Container>
-        </Menu>
+        <nav className="Nav">
+            <Menu
+                borderless
+                {...props}
+            >
+                <Container>
+                    {renderMenuItems()}
+                </Container>
+            </Menu>
+        </nav>
     );
 }
 
