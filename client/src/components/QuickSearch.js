@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import useDebounce from '../utilities/hooks/useDebounce';
-import { Search, Input } from 'semantic-ui-react';
+import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
 import { createImageSrc } from '../api/config/image';
 
-function QuickSearch(props) {
-    const {
-        delay = 1000,
-        fluid = false,
-        fluidInput = false,
-        ...rest
-    } = props;
-
+function QuickSearch({ delay = 500, fluid = true, fullWidth = false, ...rest }) {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -82,9 +75,16 @@ function QuickSearch(props) {
     return (
         <Search
             className="QuickSearch"
-            input={<Input fluid={fluidInput} />}
+            input={
+                <Input
+                    fluid={fullWidth}
+                    icon={searchTerm.length > 0
+                        ? <Icon name='delete' link onClick={resetComponent} />
+                        : 'search'
+                    }
+                />
+            }
             placeholder={'Quick search'}
-            size="small"
             fluid={fluid}
             onResultSelect={handleResultSelect}
             onSearchChange={handleSearchChange}
