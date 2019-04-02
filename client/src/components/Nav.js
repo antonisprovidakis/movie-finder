@@ -1,32 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { Menu, Container, Icon, Responsive, Dropdown } from 'semantic-ui-react';
+import { Menu, Container, Dropdown } from 'semantic-ui-react';
 import QuickSearch from './QuickSearch';
 import '../styles/Nav.css'
+import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
 
 function Nav(props) {
-    function renderMenuItems() {
-        return (
-            <>
-                <Responsive as={React.Fragment} maxWidth={Responsive.onlyMobile.maxWidth}>
-                    <Menu.Item>
-                        <Icon
-                            name='sidebar'
-                            size='large'
-                            link
-                            fitted
-                        />
+    const isMobile = useMedia(mobileMediaQuery);
+
+    return (
+        <nav className="Nav">
+            <Menu
+                className='Nav__menu'
+                borderless
+                size={isMobile ? 'tiny' : 'large'}
+            >
+                <Container>
+                    <Menu.Item header fitted={isMobile ? null : 'horizontally'} as={Link} to='/' >
+                        <img src='https://react.semantic-ui.com/logo.png' alt="logo" />
                     </Menu.Item>
-                </Responsive>
-
-                <Menu.Item header fitted as={Link} to='/' >
-                    <img src='https://react.semantic-ui.com/logo.png' alt="logo" />
-                </Menu.Item>
-
-                <Responsive as={React.Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-                    <Menu.Item as={Link} to='/discover'>Discover</Menu.Item>
+                    <Menu.Item fitted='vertically' as={Link} to='/discover'>Discover</Menu.Item>
                     <Dropdown
                         item
+                        fitted='vertically'
                         text='Movies'
                     >
                         <Dropdown.Menu>
@@ -36,25 +32,12 @@ function Nav(props) {
                             <Dropdown.Item as={Link} to='/movie/top-rated'>Top Rated</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    <Menu.Item as={Link} to='/person'>People</Menu.Item>
-                    <Menu.Item position='right' fitted>
-                        <QuickSearch fluid />
-                    </Menu.Item>
-                </Responsive>
-            </>
-        );
-    }
-
-    return (
-        <nav className="Nav">
-            <Menu
-                borderless
-                {...props}
-            >
-                <Container>
-                    {renderMenuItems()}
+                    <Menu.Item fitted='vertically' as={Link} to='/person'>People</Menu.Item>
                 </Container>
             </Menu>
+            <Container className='Nav__quicksearch-container'>
+                <QuickSearch size={isMobile ? 'small' : 'large'} fullWidth fluid={false} />
+            </Container>
         </nav>
     );
 }
