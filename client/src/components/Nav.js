@@ -36,7 +36,7 @@ function Nav(props) {
                 </Container>
             </Menu>
             <Container className='Nav__quicksearch-container'>
-                <QuickSearch size={isMobile ? 'small' : 'large'} fullWidth fluid={false} />
+                <QuickSearch size={isMobile ? 'small' : 'large'} fullWidth fluid />
             </Container>
         </nav>
     );

@@ -5,7 +5,7 @@ import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
 import { createImageSrc } from '../api/config/image';
 
-function QuickSearch({ delay = 500, fluid = true, fullWidth = false, ...rest }) {
+function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -79,13 +79,12 @@ function QuickSearch({ delay = 500, fluid = true, fullWidth = false, ...rest }) 
                 <Input
                     fluid={fullWidth}
                     icon={searchTerm.length > 0
-                        ? <Icon name='delete' link onClick={resetComponent} />
+                        ? <Icon name='delete' link onClick={resetComponent} title='Clear' />
                         : 'search'
                     }
                 />
             }
             placeholder={'Quick search'}
-            fluid={fluid}
             onResultSelect={handleResultSelect}
             onSearchChange={handleSearchChange}
             loading={loading}
