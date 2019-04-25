@@ -7,7 +7,7 @@ async function searchMulti(query, params = {}) {
         '/api/search/multi',
         { params }
     );
-    return results;
+    return results.data;
 }
 
 export {

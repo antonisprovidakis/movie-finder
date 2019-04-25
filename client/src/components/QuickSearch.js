@@ -27,7 +27,7 @@ function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
         setLoading(true);
 
         const res = await searchAPI.searchMulti(searchTerm);
-        const results = res.data.results;
+        const results = res.results;
         const resultsMoviesAndPeople = results.filter(result => result.media_type !== 'tv');
         const first5Results = resultsMoviesAndPeople.slice(0, 5);
 

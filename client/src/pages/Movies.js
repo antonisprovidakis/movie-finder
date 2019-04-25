@@ -36,9 +36,9 @@ function Movies(props) {
             { page }
         );
 
-        setTotalPages(res.data.total_pages);
+        setTotalPages(res.total_pages);
 
-        const movies = res.data.results;
+        const movies = res.results;
         setMovies(movies);
         setLoading(false);
     }

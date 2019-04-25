@@ -2,22 +2,22 @@ import axios from 'axios';
 
 async function getPopularMovies(params = {}) {
     const movies = await axios.get('/api/movie/popular', { params });
-    return movies;
+    return movies.data;
 }
 
 async function getUpcomingMovies(params = {}) {
     const movies = await axios.get('/api/movie/upcoming', { params });
-    return movies;
+    return movies.data;
 }
 
 async function getTopRatedMovies(params = {}) {
     const movies = await axios.get('/api/movie/top-rated', { params });
-    return movies;
+    return movies.data;
 }
 
 async function getInTheatersMovies(params = {}) {
     const movies = await axios.get('/api/movie/in-theaters', { params });
-    return movies;
+    return movies.data;
 }
 
 // wrapper function for getPopularMovies, getUpcomingMovies
@@ -39,7 +39,7 @@ async function getMoviesByCategory(category, params = {}) {
 
 async function getMovieInfo(movieId, params = {}) {
     const movie = await axios.get(`/api/movie/${movieId}`, { params });
-    return movie;
+    return movie.data;
 }
 
 async function discoverMovies(params = {}) {
@@ -47,7 +47,7 @@ async function discoverMovies(params = {}) {
         '/api/discover/movie',
         { params }
     );
-    return movies;
+    return movies.data;
 }
 
 export {

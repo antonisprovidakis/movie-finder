@@ -4,7 +4,7 @@ async function getConfiguration() {
     const configuration = await axios.get(
         '/api/configuration'
     );
-    return configuration;
+    return configuration.data;
 }
 
 export {

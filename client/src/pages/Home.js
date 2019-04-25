@@ -27,10 +27,10 @@ function Home(props) {
         ]);
 
         setMovies({
-            inTheatersMovies: inTheatersMovies.data.results.slice(0, 4),
-            upcomingMovies: upcomingMovies.data.results.slice(0, 4),
-            popularMovies: popularMovies.data.results.slice(0, 4),
-            topRatedMovies: topRatedMovies.data.results.slice(0, 4),
+            inTheatersMovies: inTheatersMovies.results.slice(0, 4),
+            upcomingMovies: upcomingMovies.results.slice(0, 4),
+            popularMovies: popularMovies.results.slice(0, 4),
+            topRatedMovies: topRatedMovies.results.slice(0, 4),
         });
     }
 

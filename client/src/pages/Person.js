@@ -14,8 +14,7 @@ function Person(props) {
     }, [id]);
 
     async function fetchPerson(id) {
-        const res = await personAPI.getPersonInfo(id);
-        const person = res.data;
+        const person = await personAPI.getPersonInfo(id);
         setPerson(person);
     }
 

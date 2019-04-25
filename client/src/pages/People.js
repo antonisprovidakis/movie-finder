@@ -22,9 +22,9 @@ function People(props) {
         const res = await personAPI.getPopularPeople({ page });
         // TODO: check for errors in res (e.g. if page > 1000, an error is returned)
 
-        setTotalPages(res.data.total_pages);
+        setTotalPages(res.total_pages);
 
-        const people = res.data.results;
+        const people = res.results;
         setPeople(people);
         setLoading(false);
     }
