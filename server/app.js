@@ -33,7 +33,20 @@ else {
 
 app.use((error, req, res, next) => {
     // logger.error(error);
-    res.status(error.status || 500).json({ error: error.message });
+    console.error(error);
+
+    const response = error.response;
+    let errors;
+
+    if (response) {
+        if (response.body.status_message !== undefined) {
+            errors = [response.body.status_message];
+        } else if (response.body.errors) {
+            errors = response.body.errors.map(error => error.charAt(0).toUpperCase() + error.slice(1));
+        }
+    }
+
+    res.status(error.status || 500).json({ errors: errors || ['Internal server error.'] });
 });
 
 module.exports = app;
