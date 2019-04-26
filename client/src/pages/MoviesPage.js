@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import MoviesGrid from '../components/MoviesGrid';
-import '../styles/Movies.css';
+import '../styles/MoviesPage.css';
 import { movieAPI } from '../api';
 import { routeNameToTitle } from '../utilities/routing';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 
-function Movies(props) {
+function MoviesPage(props) {
     const category = props.match.params.category;
     const title = routeNameToTitle(category);
     const params = new URLSearchParams(props.location.search);
@@ -59,8 +59,8 @@ function Movies(props) {
     }
 
     return (
-        <div className="Movies">
-            <div className="Movies__movies-container">
+        <div className="MoviesPage">
+            <div className="MoviesPage__movies-container">
                 {loading
                     ?
                     <MoviesGridPlaceholder
@@ -93,4 +93,4 @@ function Movies(props) {
     );
 }
 
-export default Movies;
+export default MoviesPage;

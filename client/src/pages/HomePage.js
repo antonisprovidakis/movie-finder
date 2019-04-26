@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from 'semantic-ui-react';
 import MoviesGrid from '../components/MoviesGrid';
-import '../styles/Home.css';
+import '../styles/HomePage.css';
 import { movieAPI } from '../api';
 import axios from 'axios';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 
-function Home(props) {
+function HomePage(props) {
     const [movies, setMovies] = useState(null);
 
     useEffect(() => {
@@ -54,9 +54,9 @@ function Home(props) {
     ];
 
     return (
-        <div className="Home">
+        <div className="HomePage">
             <Header
-                className='Home__welcome-message'
+                className='HomePage__welcome-message'
                 size='huge'
                 textAlign='center'
                 dividing
@@ -67,7 +67,7 @@ function Home(props) {
                 </Header.Subheader>
             </Header>
 
-            <div className='Home__movies-container'>
+            <div className='HomePage__movies-container'>
                 {movies
                     ?
                     sectionsData.map((sectionData, index) =>
@@ -95,4 +95,4 @@ function Home(props) {
     );
 }
 
-export default Home;
+export default HomePage;

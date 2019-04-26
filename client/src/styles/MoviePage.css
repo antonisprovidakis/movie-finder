@@ -1,48 +1,48 @@
-.Movie {
+.MoviePage {
 }
 
-.Movie__info {
+.MoviePage__info {
 }
 
-.Movie__info__picture-container {
+.MoviePage__info__picture-container {
 }
 
-.Movie__info__picture {
+.MoviePage__info__picture {
 }
 
 @media only screen and (max-width: 767px) {
-    .Movie__info__picture {
+    .MoviePage__info__picture {
         margin: 0 auto;
     }
 }
 
-.Movie__title {
+.MoviePage__title {
     margin-bottom: 2rem;
 }
 
 @media only screen and (max-width: 767px) {
-    .Movie__title {
+    .MoviePage__title {
         /* text-align: center; */
     }
 }
 
-.Movie__title__year {
+.MoviePage__title__year {
     font-size: 0.8em;
     font-weight: 400;
     opacity: 0.6;
 }
 
-.Movie__actions {
+.MoviePage__actions {
     margin-bottom: 2rem;
 }
 
-.Movie__actions .Rating {
+.MoviePage__actions .Rating {
     font-size: 3em;
 }
 
-.Movie__actions__rating-container {
+.MoviePage__actions__rating-container {
     font-size: 3em;
 }
 
-.Movie__overview {
+.MoviePage__overview {
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from 'semantic-ui-react';
-import '../styles/Discover.css';
+import '../styles/DiscoverPage.css';
 import MoviesGrid from '../components/MoviesGrid';
 import { movieAPI } from '../api';
 import Pagination from '../components/Pagination';
@@ -61,7 +61,7 @@ const genreOptions = [
     { value: 37, text: 'Western' }
 ];
 
-function Discover(props) {
+function DiscoverPage(props) {
     const params = new URLSearchParams(props.location.search);
     const page = params.get('page') || 1; // TODO: 0 < page < 1000
 
@@ -118,9 +118,9 @@ function Discover(props) {
     }
 
     return (
-        <div className="Discover">
-            <h2 className="Discover__title">Discover</h2>
-            <div className='Discover__menu'>
+        <div className="DiscoverPage">
+            <h2 className="DiscoverPage__title">Discover</h2>
+            <div className='DiscoverPage__menu'>
                 <Form>
                     <Form.Group widths='equal'>
                         <Form.Dropdown
@@ -154,7 +154,7 @@ function Discover(props) {
                 </Form>
             </div>
 
-            <div className="Discover__movies-container">
+            <div className="DiscoverPage__movies-container">
                 {loading
                     ?
                     <MoviesGridPlaceholder
@@ -183,4 +183,4 @@ function Discover(props) {
     );
 }
 
-export default Discover;
+export default DiscoverPage;

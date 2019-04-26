@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Movie.css';
+import '../styles/MoviePage.css';
 import { Grid, Image, Header, List, Label } from 'semantic-ui-react';
 import Rating from '../components/Rating';
 import PersonsGrid from '../components/PersonsGrid';
@@ -8,7 +8,7 @@ import { findLanguageFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
 
-function Movie(props) {
+function MoviePage(props) {
     const id = parseInt(props.match.params.id);
     const [movie, setMovie] = useState(null);
     const [top4Cast, setTop4Cast] = useState([]);
@@ -31,34 +31,34 @@ function Movie(props) {
     }
 
     return (
-        <div className="Movie">
+        <div className="MoviePage">
             <Grid stackable>
                 <Grid.Row>
                     <Grid.Column width={6}>
-                        <div className='Movie__info__picture-container'>
+                        <div className='MoviePage__info__picture-container'>
                             <Image
-                                className='Movie__info__picture'
+                                className='MoviePage__info__picture'
                                 src={createImageSrc({ path: movie.poster_path, type: 'poster', size: 'w500' })}
                             />
                         </div>
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <div className='Movie__title'>
-                            <Header size='huge' className='Movie__title__name'>
-                                {movie.title} <span className='Movie__title__year'>({movie.release_date.split('-')[0]})</span>
+                        <div className='MoviePage__title'>
+                            <Header size='huge' className='MoviePage__title__name'>
+                                {movie.title} <span className='MoviePage__title__year'>({movie.release_date.split('-')[0]})</span>
                             </Header>
                         </div>
-                        <div className='Movie__actions'>
+                        <div className='MoviePage__actions'>
                             <Rating value={movie.vote_average.toFixed(1)} />
                         </div>
-                        <div className='Movie__overview'>
+                        <div className='MoviePage__overview'>
                             <Header
                                 size='medium'
-                                className='Movie__overview__header'
+                                className='MoviePage__overview__header'
                             >
                                 Overview
                             </Header>
-                            <div className='Movie__overview__content'>
+                            <div className='MoviePage__overview__content'>
                                 {movie.overview}
                             </div>
                         </div>
@@ -66,7 +66,7 @@ function Movie(props) {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <div className='Movie__cast'>
+                        <div className='MoviePage__cast'>
                             <PersonsGrid
                                 title='Top Billed Cast'
                                 columns={4}
@@ -79,10 +79,10 @@ function Movie(props) {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <div className='Movie__facts'>
+                        <div className='MoviePage__facts'>
                             <Header
                                 size='medium'
-                                className='Movie__facts_header'
+                                className='MoviePage__facts_header'
                             >
                                 Facts
                             </Header>
@@ -135,4 +135,4 @@ function Movie(props) {
     );
 }
 
-export default Movie;
+export default MoviePage;

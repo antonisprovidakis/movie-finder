@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PersonsGrid from '../components/PersonsGrid';
-import '../styles/Persons.css';
+import '../styles/PersonsPage.css';
 import { personAPI } from '../api';
 import Pagination from '../components/Pagination';
 import PersonsGridPlaceholder from '../components/PersonsGridPlaceholder';
 
-function Persons(props) {
+function PersonsPage(props) {
     const params = new URLSearchParams(props.location.search);
     const page = params.get('page') || 1; // TODO: 0 < page < 1000
 
@@ -41,8 +41,8 @@ function Persons(props) {
     }
 
     return (
-        <div className="Persons">
-            <div className="Persons__persons-container">
+        <div className="PersonsPage">
+            <div className="PersonsPage__persons-container">
                 {loading
                     ?
                     <PersonsGridPlaceholder
@@ -72,4 +72,4 @@ function Persons(props) {
     );
 }
 
-export default Persons;
+export default PersonsPage;

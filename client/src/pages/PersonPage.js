@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Grid, Header, List } from 'semantic-ui-react';
-import '../styles/Person.css';
+import '../styles/PersonPage.css';
 import { personAPI } from '../api';
 import { getGenderNameFromId } from '../api/config/gender';
 import { createImageSrc } from '../api/config/image';
 
-function Person(props) {
+function PersonPage(props) {
     const id = parseInt(props.match.params.id);
     const [person, setPerson] = useState(null);
 
@@ -24,31 +24,31 @@ function Person(props) {
     }
 
     return (
-        <div className='Person'>
+        <div className='PersonPage'>
             <Grid stackable>
                 <Grid.Row>
                     <Grid.Column width={6}>
-                        <div className='Person__info__picture-container'>
+                        <div className='PersonPage__info__picture-container'>
                             <Image
-                                className='Person__info__picture'
+                                className='PersonPage__info__picture'
                                 src={createImageSrc({ path: person.profile_path, type: 'profile', size: 'h632' })}
                             />
                         </div>
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <div className='Person__title'>
+                        <div className='PersonPage__title'>
                             <Header size='huge' className='Person__name'>
                                 {person.name}
                             </Header>
                         </div>
-                        <div className='Person__biography'>
+                        <div className='PersonPage__biography'>
                             <Header
                                 size='medium'
-                                className='Person__biography__header'
+                                className='PersonPage__biography__header'
                             >
                                 Biography
                             </Header>
-                            <div className='Person__biography__content'>
+                            <div className='PersonPage__biography__content'>
                                 {person.biography || `We don't have a biography for ${person.name}.`}
                             </div>
                         </div>
@@ -56,10 +56,10 @@ function Person(props) {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <div className='Person__info__personal'>
+                        <div className='PersonPage__info__personal'>
                             <Header
                                 size='medium'
-                                className='Person__info__personal_header'
+                                className='PersonPage__info__personal_header'
                             >
                                 Personal Info
                             </Header>
@@ -94,4 +94,4 @@ function Person(props) {
     );
 }
 
-export default Person;
+export default PersonPage;
