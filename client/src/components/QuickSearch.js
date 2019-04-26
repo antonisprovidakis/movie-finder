@@ -28,8 +28,8 @@ function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
 
         const res = await searchAPI.searchMulti(searchTerm);
         const results = res.results;
-        const resultsMoviesAndPeople = results.filter(result => result.media_type !== 'tv');
-        const first5Results = resultsMoviesAndPeople.slice(0, 5);
+        const resultsMoviesAndPersons = results.filter(result => result.media_type !== 'tv');
+        const first5Results = resultsMoviesAndPersons.slice(0, 5);
 
         const first5ResultsWithAs = first5Results.map(
             result => {

@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import PeopleGrid from '../components/PeopleGrid';
-import '../styles/People.css';
+import PersonsGrid from '../components/PersonsGrid';
+import '../styles/Persons.css';
 import { personAPI } from '../api';
 import Pagination from '../components/Pagination';
-import PeopleGridPlaceholder from '../components/PeopleGridPlaceholder';
+import PersonsGridPlaceholder from '../components/PersonsGridPlaceholder';
 
-function People(props) {
+function Persons(props) {
     const params = new URLSearchParams(props.location.search);
     const page = params.get('page') || 1; // TODO: 0 < page < 1000
 
-    const [people, setPeople] = useState([]);
+    const [persons, setPersons] = useState([]);
     const [totalPages, setTotalPages] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetchPeople();
+        fetchPersons();
     }, [page]);
 
-    async function fetchPeople() {
+    async function fetchPersons() {
         setLoading(true);
-        const res = await personAPI.getPopularPeople({ page });
+        const res = await personAPI.getPopularPersons({ page });
         // TODO: check for errors in res (e.g. if page > 1000, an error is returned)
 
         setTotalPages(res.total_pages);
 
-        const people = res.results;
-        setPeople(people);
+        const persons = res.results;
+        setPersons(persons);
         setLoading(false);
     }
 
@@ -41,22 +41,22 @@ function People(props) {
     }
 
     return (
-        <div className="People">
-            <div className="People__people-container">
+        <div className="Persons">
+            <div className="Persons__persons-container">
                 {loading
                     ?
-                    <PeopleGridPlaceholder
+                    <PersonsGridPlaceholder
                         title='Popular People'
                         numberOfCards={12}
                         columns={4}
                         doubling
                     />
                     :
-                    <PeopleGrid
+                    <PersonsGrid
                         title='Popular People'
                         columns={4}
                         doubling
-                        people={people}
+                        persons={persons}
                     />
                 }
             </div>
@@ -72,4 +72,4 @@ function People(props) {
     );
 }
 
-export default People;
+export default Persons;

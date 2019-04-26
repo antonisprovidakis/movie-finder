@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Movie.css';
 import { Grid, Image, Header, List, Label } from 'semantic-ui-react';
 import Rating from '../components/Rating';
-import PeopleGrid from '../components/PeopleGrid';
+import PersonsGrid from '../components/PersonsGrid';
 import { movieAPI } from '../api';
 import { findLanguageFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
@@ -67,11 +67,11 @@ function Movie(props) {
                 <Grid.Row>
                     <Grid.Column>
                         <div className='Movie__cast'>
-                            <PeopleGrid
+                            <PersonsGrid
                                 title='Top Billed Cast'
                                 columns={4}
                                 doubling
-                                people={top4Cast}
+                                persons={top4Cast}
                                 forCast
                             />
                         </div>

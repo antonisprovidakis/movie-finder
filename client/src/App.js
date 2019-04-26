@@ -10,7 +10,7 @@ const Home = lazy(() => import('./pages/Home'));
 const Discover = lazy(() => import('./pages/Discover'));
 const Movies = lazy(() => import('./pages/Movies'));
 const Movie = lazy(() => import('./pages/Movie'));
-const People = lazy(() => import('./pages/People'));
+const Persons = lazy(() => import('./pages/Persons'));
 const Person = lazy(() => import('./pages/Person'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -28,7 +28,7 @@ function App(props) {
                 <Route exact path='/discover' render={(props) => <Discover {...props} />} />
                 <Route exact path='/movie/:category(popular|upcoming|in-theaters|top-rated)' render={(props) => <Movies {...props} />} />
                 <Route exact path='/movie/:id' render={(props) => <Movie {...props} />} />
-                <Route exact path='/person' render={(props) => <People {...props} />} />
+                <Route exact path='/person' render={(props) => <Persons {...props} />} />
                 <Route exact path='/person/:id' render={(props) => <Person {...props} />} />
                 <Route render={(props) => <NotFound {...props} />} />
               </Switch>

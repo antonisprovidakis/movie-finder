@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-async function getPopularPeople(params = {}) {
-    const people = await axios.get('/api/person/popular', { params });
-    return people.data;
+async function getPopularPersons(params = {}) {
+    const persons = await axios.get('/api/person/popular', { params });
+    return persons.data;
 }
 
 async function getPersonInfo(personId, params = {}) {
@@ -11,6 +11,6 @@ async function getPersonInfo(personId, params = {}) {
 }
 
 export {
-    getPopularPeople,
+    getPopularPersons,
     getPersonInfo,
 };

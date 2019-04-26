@@ -1,32 +1,32 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
-import '../styles/PeopleGrid.css';
+import '../styles/PersonsGrid.css';
 import PersonCard from './PersonCard';
 
-function PeopleGrid({
+function PersonsGrid({
     title = '',
-    people,
+    persons,
     forCast = false,
     ...rest
 }) {
 
     return (
-        <div className='PeopleGrid'>
+        <div className='PersonsGrid'>
             {title.length > 0 &&
                 <Header
                     as='h2'
-                    className="PeopleGrid__header"
+                    className="PersonsGrid__header"
                 >
                     {title}
                 </Header>
             }
             <Grid
-                className='PeopleGrid__people'
+                className='PersonsGrid__persons'
                 {...rest}
             >
-                {people.map(person =>
+                {persons.map(person =>
                     <Grid.Column
-                        className='PeopleGrid__column'
+                        className='PersonsGrid__column'
                         key={person.id}
                     >
                         <PersonCard
@@ -42,4 +42,4 @@ function PeopleGrid({
     );
 }
 
-export default PeopleGrid;
+export default PersonsGrid;

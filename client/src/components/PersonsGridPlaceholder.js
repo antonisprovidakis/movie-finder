@@ -3,30 +3,30 @@ import { Grid, Header } from 'semantic-ui-react';
 import PersonCardPlaceholder from './PersonCardPlaceholder';
 import times from 'lodash/times';
 
-function PeopleGridPlaceholder({
+function PersonsGridPlaceholder({
     title = '',
     numberOfCards,
     forCast = false,
     ...rest
 }) {
     return (
-        <div className='PeopleGridPlaceholder'>
+        <div className='PersonsGridPlaceholder'>
             {title.length > 0 &&
                 <Header
                     as='h2'
-                    className="PeopleGridPlaceholder__header"
+                    className="PersonsGridPlaceholder__header"
                 >
                     {title}
                 </Header>
             }
             <Grid
-                className='PeopleGridPlaceholder__people'
+                className='PersonsGridPlaceholder__persons'
                 {...rest}
             >
 
                 {times(numberOfCards, (index) =>
                     <Grid.Column
-                        className='PeopleGridPlaceholder__column'
+                        className='PersonsGridPlaceholder__column'
                         key={index}
                     >
                         <PersonCardPlaceholder forCast={forCast} />
@@ -37,4 +37,4 @@ function PeopleGridPlaceholder({
     );
 }
 
-export default PeopleGridPlaceholder;
+export default PersonsGridPlaceholder;
