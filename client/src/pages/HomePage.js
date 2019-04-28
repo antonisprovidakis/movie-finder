@@ -8,7 +8,7 @@ import '../styles/HomePage.css';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 
 function loadData({ loadMoviesByCategory }) {
-    const categories = ['popular', 'in-theaters', 'upcoming', 'top-rated'];
+    const categories = ['popular', 'in-theaters', 'upcoming'];
     categories.forEach(category => loadMoviesByCategory(category, { page: 1, region: 'US' }));
 }
 
@@ -20,7 +20,10 @@ function HomePage(props) {
     }, []);
 
     const sectionsData = [
-
+        {
+            title: 'Popular Movies',
+            movies: movies.popularMovies
+        },
         {
             title: 'Movies In Theaters',
             movies: movies.inTheatersMovies
@@ -28,15 +31,7 @@ function HomePage(props) {
         {
             title: 'Upcoming Movies',
             movies: movies.upcomingMovies
-        },
-        {
-            title: 'Popular Movies',
-            movies: movies.popularMovies
-        },
-        {
-            title: 'Top Rated Movies',
-            movies: movies.topRatedMovies
-        },
+        }
     ];
 
     function renderSection(sectionData) {
@@ -94,20 +89,17 @@ const mapStateToProps = (state) => {
         'in-theaters': inTheatersMoviesSubTree = {},
         upcoming: upcomingMoviesSubTree = {},
         popular: popularMoviesSubTree = {},
-        'top-rated': topRatedMoviesSubTree = {}
     } = state.pagination.moviesByCategory;
 
     const path = 'pages[1]';
     const inTheatersMovieIds = get(inTheatersMoviesSubTree, path, []).slice(0, 4);
     const upcomingMovieIds = get(upcomingMoviesSubTree, path, []).slice(0, 4);
     const popularMovieIds = get(popularMoviesSubTree, path, []).slice(0, 4);
-    const topRatedMovieIds = get(topRatedMoviesSubTree, path, []).slice(0, 4);
 
     const movies = {
         inTheatersMovies: inTheatersMovieIds.map(id => cachedMovies[id]),
         upcomingMovies: upcomingMovieIds.map(id => cachedMovies[id]),
         popularMovies: popularMovieIds.map(id => cachedMovies[id]),
-        topRatedMovies: topRatedMovieIds.map(id => cachedMovies[id])
     };
 
     return {
