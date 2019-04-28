@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-async function searchMulti(query, params = {}) {
-    params = { ...params, query };
+async function searchMulti(query, options = {}) {
+    options.query = query;
 
     const results = await axios.get(
         '/api/search/multi',
-        { params }
+        { params: options }
     );
     return results.data;
 }
