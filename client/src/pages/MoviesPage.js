@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { loadMoviesByCategory, setMovieCardViewStyle } from '../redux/actions';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/MoviesPage.css';
-import { movieAPI } from '../api';
 import { routeNameToTitle } from '../utilities/routing';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
+import extractPageFromReactRouterLocation from '../utilities/extractPageFromReactRouterLocation';
 
-function MoviesPage(props) {
-    const category = props.match.params.category;
+function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle, history, location, loadMoviesByCategory, setMovieCardViewStyle }) {
     const title = routeNameToTitle(category);
-    const params = new URLSearchParams(props.location.search);
-    const page = params.get('page') || 1; // TODO: 0 < page < 1000
-
-    const [movies, setMovies] = useState([]);
-    const [totalPages, setTotalPages] = useState(null);
-    const [cardViewStyle, setCardViewStyle] = useState('poster');
     const [gridColumns, setGridColumns] = useState(4);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetchMovies(category, page);
+        loadMoviesByCategory(category, { page, region: 'US' });
     }, [category, page]);
 
     useEffect(() => {
@@ -28,24 +22,9 @@ function MoviesPage(props) {
             : setGridColumns(2);
     }, [cardViewStyle]);
 
-    async function fetchMovies(category, page) {
-        setLoading(true);
-
-        const res = await movieAPI.getMoviesByCategory(
-            category,
-            { page }
-        );
-
-        setTotalPages(res.total_pages);
-
-        const movies = res.results;
-        setMovies(movies);
-        setLoading(false);
-    }
-
     function gotoPage(newPage) {
-        props.history.push({
-            pathname: props.location.pathname,
+        history.push({
+            pathname: location.pathname,
             search: `?page=${newPage}`
         });
     }
@@ -54,8 +33,10 @@ function MoviesPage(props) {
         gotoPage(data.activePage);
     }
 
-    function handleCardViewStyleOptionClick(e, cardViewStyle) {
-        setCardViewStyle(cardViewStyle);
+    function handleCardViewStyleOptionClick(e, newCardViewStyle) {
+        if (cardViewStyle !== newCardViewStyle) {
+            setMovieCardViewStyle(newCardViewStyle);
+        }
     }
 
     return (
@@ -93,4 +74,29 @@ function MoviesPage(props) {
     );
 }
 
-export default MoviesPage;
+const mapStateToProps = (state, ownProps) => {
+    const category = ownProps.match.params.category;
+    const page = extractPageFromReactRouterLocation(ownProps.location);
+    const cachedMovies = state.entities.movies;
+    const movieIdsBySelectedCategory = state.pagination.moviesByCategory[category] || {};
+    const pages = movieIdsBySelectedCategory.pages || {};
+    const movieIds = pages[page] || [];
+    const movies = movieIds.map(id => cachedMovies[id]);
+    const loading = movieIdsBySelectedCategory.isFetching || false;
+    const totalPages = movieIdsBySelectedCategory.totalPages || null;
+
+    const cardViewStyle = state.ui.movieCardViewStyle;
+
+    return {
+        category,
+        page,
+        movies,
+        loading,
+        totalPages,
+        cardViewStyle
+    }
+}
+
+export default connect(mapStateToProps, {
+    loadMoviesByCategory, setMovieCardViewStyle
+})(MoviesPage);

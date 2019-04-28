@@ -1,37 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { loadPopularPersons } from '../redux/actions';
+import extractPageFromReactRouterLocation from '../utilities/extractPageFromReactRouterLocation';
+
 import PersonsGrid from '../components/PersonsGrid';
 import '../styles/PersonsPage.css';
-import { personAPI } from '../api';
 import Pagination from '../components/Pagination';
 import PersonsGridPlaceholder from '../components/PersonsGridPlaceholder';
 
-function PersonsPage(props) {
-    const params = new URLSearchParams(props.location.search);
-    const page = params.get('page') || 1; // TODO: 0 < page < 1000
-
-    const [persons, setPersons] = useState([]);
-    const [totalPages, setTotalPages] = useState(null);
-    const [loading, setLoading] = useState(false);
-
+function PersonsPage({ persons, loading, totalPages, page, history, location, loadPopularPersons }) {
     useEffect(() => {
-        fetchPersons();
+        loadPopularPersons({ page });
     }, [page]);
 
-    async function fetchPersons() {
-        setLoading(true);
-        const res = await personAPI.getPopularPersons({ page });
-        // TODO: check for errors in res (e.g. if page > 1000, an error is returned)
-
-        setTotalPages(res.total_pages);
-
-        const persons = res.results;
-        setPersons(persons);
-        setLoading(false);
-    }
-
     function gotoPage(newPage) {
-        props.history.push({
-            pathname: props.location.pathname,
+        history.push({
+            pathname: location.pathname,
             search: `?page=${newPage}`
         });
     }
@@ -72,4 +56,22 @@ function PersonsPage(props) {
     );
 }
 
-export default PersonsPage;
+const mapStateToProps = (state, ownProps) => {
+    const page = extractPageFromReactRouterLocation(ownProps.location);
+    const cachedPersons = state.entities.persons;
+    const personsByPage = state.pagination.personsByPage;
+    const pages = personsByPage.pages || {};
+    const personIds = pages[page] || [];
+    const persons = personIds.map(id => cachedPersons[id]);
+    const loading = personsByPage.isFetching || false;
+    const totalPages = personsByPage.totalPages || null;
+
+    return {
+        loading,
+        totalPages,
+        persons,
+        page
+    }
+}
+
+export default connect(mapStateToProps, { loadPopularPersons })(PersonsPage);

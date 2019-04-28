@@ -1,34 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { loadMovieInfo } from '../redux/actions';
 import '../styles/MoviePage.css';
 import { Grid, Image, Header, List, Label } from 'semantic-ui-react';
 import Rating from '../components/Rating';
 import PersonsGrid from '../components/PersonsGrid';
-import { movieAPI } from '../api';
 import { findLanguageFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
 
-function MoviePage(props) {
-    const id = parseInt(props.match.params.id);
-    const [movie, setMovie] = useState(null);
-    const [top4Cast, setTop4Cast] = useState([]);
-
+function MoviePage({ movieId, movie, loadMovieInfo }) {
     useEffect(() => {
-        fetchMovie(id);
-    }, [id]);
-
-    async function fetchMovie(id) {
-        const movie = await movieAPI.getMovieInfo(id, { append_to_response: 'credits' });
-        // TODO: take first 4. Maybe this has to be done on the server?
-        const top4Cast = movie.credits.cast.slice(0, 4);
-        setMovie(movie);
-        setTop4Cast(top4Cast);
-    }
+        loadMovieInfo(movieId, ['imdb_id'], { append_to_response: 'credits' });
+    }, [movieId]);
 
     if (!movie) {
         // TODO: place a Loader here
         return <div>Loading...</div>;
     }
+
+    const top4Cast = (movie.credits && movie.credits.cast.slice(0, 4)) || [];
 
     return (
         <div className="MoviePage">
@@ -102,27 +93,26 @@ function MoviePage(props) {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Runtime</List.Header>
-                                    {`${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
+                                    {movie.runtime && `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Budget</List.Header>
-                                    {`$${movie.budget.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
+                                    {(movie.budget && `$${movie.budget.toLocaleString('en-US', { minimumFractionDigits: 2 })}`) || ''}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Revenue</List.Header>
-                                    {`$${movie.revenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
+                                    {(movie.revenue && `$${movie.revenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`) || ''}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Genres</List.Header>
                                     <Label.Group tag color='blue'>
-                                        {movie.genres
+                                        {movie.genres &&
                                             // TMDb API returns duplicate genre objects, so remove them
-                                            .filter((genre, index, arr) =>
-                                                arr.map(mapObj => mapObj.id).indexOf(genre.id) === index
-                                            )
-                                            .map(genre =>
-                                                <Label key={genre.id}>{genre.name}</Label>
-                                            )
+                                            movie.genres
+                                                .filter((genre, index, arr) =>
+                                                    arr.map(mapObj => mapObj.id).indexOf(genre.id) === index
+                                                )
+                                                .map(genre => <Label key={genre.id}>{genre.name}</Label>)
                                         }
                                     </Label.Group>
                                 </List.Item>
@@ -135,4 +125,15 @@ function MoviePage(props) {
     );
 }
 
-export default MoviePage;
+const mapStateToProps = (state, ownProps) => {
+    const movieId = parseInt(ownProps.match.params.id);
+    const cachedMovies = state.entities.movies;
+    const movie = cachedMovies[movieId];
+
+    return {
+        movieId,
+        movie,
+    }
+}
+
+export default connect(mapStateToProps, { loadMovieInfo })(MoviePage);

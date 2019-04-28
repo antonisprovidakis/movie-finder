@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { discoverMovies, changeQuery } from '../redux/actions';
 import { Form } from 'semantic-ui-react';
 import '../styles/DiscoverPage.css';
 import MoviesGrid from '../components/MoviesGrid';
-import { movieAPI } from '../api';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
+import extractPageFromReactRouterLocation from '../utilities/extractPageFromReactRouterLocation';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -61,38 +63,22 @@ const genreOptions = [
     { value: 37, text: 'Western' }
 ];
 
-function DiscoverPage(props) {
-    const params = new URLSearchParams(props.location.search);
-    const page = params.get('page') || 1; // TODO: 0 < page < 1000
-
-    const [movies, setMovies] = useState([]);
+function DiscoverPage({ page, totalPages, movies, loading, history, location, discoverMovies, changeQuery }) {
     const [year, setYear] = useState(2018);
     const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
     const [genres, setGenres] = useState([]);
-    const [totalPages, setTotalPages] = useState(null);
-    const [loading, setLoading] = useState(false);
-
 
     useEffect(() => {
-        fetchMovies(year, sortByFilter, genres, page);
-    }, [year, sortByFilter, genres, page]);
+        changeQuery(`${year}-${sortByFilter}-${genres.join('_')}`)
 
-    async function fetchMovies(year, sortByFilter, genres, page) {
-        setLoading(true);
-
-        const res = await movieAPI.discoverMovies({
+        discoverMovies({
             primary_release_year: year,
             sort_by: sortByFilter,
             with_genres: genres,
-            page
+            page,
+            region: 'US'
         });
-
-        setTotalPages(res.total_pages);
-
-        const movies = res.results;
-        setMovies(movies);
-        setLoading(false);
-    }
+    }, [year, sortByFilter, genres, page]);
 
     function handleYearChange(e, data) {
         setYear(data.value);
@@ -107,8 +93,8 @@ function DiscoverPage(props) {
     }
 
     function gotoPage(newPage) {
-        props.history.push({
-            pathname: props.location.pathname,
+        history.push({
+            pathname: location.pathname,
             search: `?page=${newPage}`
         });
     }
@@ -183,4 +169,24 @@ function DiscoverPage(props) {
     );
 }
 
-export default DiscoverPage;
+const mapStateToProps = (state, ownProps) => {
+    const page = extractPageFromReactRouterLocation(ownProps.location);
+    const cachedMovies = state.entities.movies;
+    const moviesByDiscoverOptions = state.pagination.moviesByDiscoverOptions;
+    const currentQuery = moviesByDiscoverOptions.currentQuery;
+    const movieIdsByQuery = moviesByDiscoverOptions.byQuery[currentQuery] || {};
+    const pages = movieIdsByQuery.pages || {};
+    const movieIds = pages[page] || [];
+    const movies = movieIds.map(id => cachedMovies[id]);
+    const loading = movieIdsByQuery.isFetching || false;
+    const totalPages = movieIdsByQuery.totalPages || null;
+
+    return {
+        movies,
+        page,
+        totalPages,
+        loading,
+    }
+}
+
+export default connect(mapStateToProps, { discoverMovies, changeQuery })(DiscoverPage);

@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { loadPersonInfo } from '../redux/actions';
 import { Image, Grid, Header, List } from 'semantic-ui-react';
 import '../styles/PersonPage.css';
-import { personAPI } from '../api';
 import { getGenderNameFromId } from '../api/config/gender';
 import { createImageSrc } from '../api/config/image';
 
-function PersonPage(props) {
-    const id = parseInt(props.match.params.id);
-    const [person, setPerson] = useState(null);
-
+function PersonPage({ personId, person, loadPersonInfo }) {
     useEffect(() => {
-        fetchPerson(id);
-    }, [id]);
-
-    async function fetchPerson(id) {
-        const person = await personAPI.getPersonInfo(id);
-        setPerson(person);
-    }
+        loadPersonInfo(personId, ['biography']);
+    }, [personId]);
 
     if (!person) {
         // TODO: place a Loader here
@@ -94,4 +87,15 @@ function PersonPage(props) {
     );
 }
 
-export default PersonPage;
+const mapStateToProps = (state, ownProps) => {
+    const personId = parseInt(ownProps.match.params.id);
+    const persons = state.entities.persons;
+    const person = persons[personId];
+
+    return {
+        personId,
+        person
+    }
+}
+
+export default connect(mapStateToProps, { loadPersonInfo })(PersonPage);

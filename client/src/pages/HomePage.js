@@ -1,57 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { loadMoviesByCategory } from '../redux/actions';
+import get from 'lodash/get';
 import { Header } from 'semantic-ui-react';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/HomePage.css';
-import { movieAPI } from '../api';
-import axios from 'axios';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 
+function loadData({ loadMoviesByCategory }) {
+    const categories = ['popular', 'in-theaters', 'upcoming', 'top-rated'];
+    categories.forEach(category => loadMoviesByCategory(category, { page: 1, region: 'US' }));
+}
+
 function HomePage(props) {
-    const [movies, setMovies] = useState(null);
+    const { movies } = props;
 
     useEffect(() => {
-        fetchMovies();
+        loadData(props);
     }, []);
 
-    async function fetchMovies() {
-        const [
-            inTheatersMovies,
-            upcomingMovies,
-            popularMovies,
-            topRatedMovies,
-        ] = await axios.all([
-            movieAPI.getInTheatersMovies(),
-            movieAPI.getUpcomingMovies(),
-            movieAPI.getPopularMovies(),
-            movieAPI.getTopRatedMovies(),
-        ]);
-
-        setMovies({
-            inTheatersMovies: inTheatersMovies.results.slice(0, 4),
-            upcomingMovies: upcomingMovies.results.slice(0, 4),
-            popularMovies: popularMovies.results.slice(0, 4),
-            topRatedMovies: topRatedMovies.results.slice(0, 4),
-        });
-    }
-
     const sectionsData = [
+
         {
             title: 'Movies In Theaters',
-            movies: (movies && movies.inTheatersMovies) || []
+            movies: movies.inTheatersMovies
         },
         {
             title: 'Upcoming Movies',
-            movies: (movies && movies.upcomingMovies) || []
+            movies: movies.upcomingMovies
         },
         {
             title: 'Popular Movies',
-            movies: (movies && movies.popularMovies) || []
+            movies: movies.popularMovies
         },
         {
             title: 'Top Rated Movies',
-            movies: (movies && movies.topRatedMovies) || []
+            movies: movies.topRatedMovies
         },
     ];
+
+    function renderSection(sectionData) {
+        const { title, movies } = sectionData;
+
+        if (movies.length > 0) {
+            return (
+                <MoviesGrid
+                    key={title}
+                    title={title}
+                    movies={movies}
+                    columns={4}
+                    doubling
+                />
+            );
+        }
+        else {
+            return (
+                <MoviesGridPlaceholder
+                    key={title}
+                    title={title}
+                    num={4}
+                    columns={4}
+                    doubling
+                />
+            );
+        }
+    }
 
     return (
         <div className="HomePage">
@@ -68,31 +81,38 @@ function HomePage(props) {
             </Header>
 
             <div className='HomePage__movies-container'>
-                {movies
-                    ?
-                    sectionsData.map((sectionData, index) =>
-                        <MoviesGrid
-                            key={index}
-                            title={sectionData.title}
-                            movies={sectionData.movies}
-                            columns={4}
-                            doubling
-                        />
-                    )
-                    :
-                    sectionsData.map((sectionData, index) =>
-                        <MoviesGridPlaceholder
-                            key={index}
-                            title={sectionData.title}
-                            num={4}
-                            columns={4}
-                            doubling
-                        />
-                    )
-                }
+                {sectionsData.map(sectionData => renderSection(sectionData))}
             </div>
         </div>
     );
 }
 
-export default HomePage;
+const mapStateToProps = (state) => {
+    const cachedMovies = state.entities.movies;
+
+    const {
+        'in-theaters': inTheatersMoviesSubTree = {},
+        upcoming: upcomingMoviesSubTree = {},
+        popular: popularMoviesSubTree = {},
+        'top-rated': topRatedMoviesSubTree = {}
+    } = state.pagination.moviesByCategory;
+
+    const path = 'pages[1]';
+    const inTheatersMovieIds = get(inTheatersMoviesSubTree, path, []).slice(0, 4);
+    const upcomingMovieIds = get(upcomingMoviesSubTree, path, []).slice(0, 4);
+    const popularMovieIds = get(popularMoviesSubTree, path, []).slice(0, 4);
+    const topRatedMovieIds = get(topRatedMoviesSubTree, path, []).slice(0, 4);
+
+    const movies = {
+        inTheatersMovies: inTheatersMovieIds.map(id => cachedMovies[id]),
+        upcomingMovies: upcomingMovieIds.map(id => cachedMovies[id]),
+        popularMovies: popularMovieIds.map(id => cachedMovies[id]),
+        topRatedMovies: topRatedMovieIds.map(id => cachedMovies[id])
+    };
+
+    return {
+        movies
+    }
+}
+
+export default connect(mapStateToProps, { loadMoviesByCategory })(HomePage);
