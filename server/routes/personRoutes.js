@@ -9,16 +9,8 @@ router.get(
         // logger.info(
         //     `GET /api/v1/inbox-emails offset=${offset} limit=${limit} userId=${req.session.userId}`
         // );
-
-        const {
-            page
-        } = req.query;
-
-        const params = {
-            page
-        };
-
-        const people = await tmdb.personPopular(params);
+        const options = req.query;
+        const people = await tmdb.personPopular(options);
         res.json(people);
     })
 );
@@ -26,15 +18,9 @@ router.get(
 router.get(
     "/api/person/:id",
     catchError(async (req, res) => {
-        const {
-            id
-        } = req.params;
-
-        const params = {
-            id
-        };
-
-        const person = await tmdb.personInfo(params);
+        const params = req.params;
+        const options = req.query;
+        const person = await tmdb.personInfo(params, options);
         res.json(person);
     })
 );

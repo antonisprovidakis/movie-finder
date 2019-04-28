@@ -6,17 +6,8 @@ const router = Router();
 router.get(
     "/api/search/multi",
     catchError(async (req, res) => {
-        const {
-            query,
-            page
-        } = req.query;
-        
-        const params = {
-            query,
-            page
-        };
-
-        const results = await tmdb.searchMulti(params);
+        const options = req.query;
+        const results = await tmdb.searchMulti(options);
         res.json(results);
     })
 );
