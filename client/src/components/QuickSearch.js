@@ -8,18 +8,19 @@ import { createImageSrc } from '../api/config/image';
 function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
-
     const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm, delay);
+
     useEffect(() => {
-        if (searchTerm.length < 1) {
+        if (!searchTerm) {
             resetComponent();
         }
     }, [searchTerm]);
 
-    const debouncedSearchTerm = useDebounce(searchTerm, delay);
     useEffect(() => {
-        if (debouncedSearchTerm.length > 0) {
-            fetchResults(debouncedSearchTerm);
+        const trimmedDebouncedSearchTerm = debouncedSearchTerm.trim();
+        if (trimmedDebouncedSearchTerm) {
+            fetchResults(trimmedDebouncedSearchTerm);
         }
     }, [debouncedSearchTerm]);
 
@@ -61,7 +62,6 @@ function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
     function resetComponent() {
         setLoading(false);
         setResults([]);
-        setSearchTerm('');
     }
 
     function handleResultSelect(e, data) {
@@ -78,7 +78,7 @@ function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
             input={
                 <Input
                     fluid={fullWidth}
-                    icon={searchTerm.length > 0
+                    icon={searchTerm
                         ? <Icon name='delete' link onClick={resetComponent} title='Clear' />
                         : 'search'
                     }
