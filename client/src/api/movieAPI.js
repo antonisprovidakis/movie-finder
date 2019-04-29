@@ -1,23 +1,23 @@
-import axios from 'axios';
+import { callAPI } from './client';
 
 async function getPopularMovies(options = {}) {
-    const movies = await axios.get('/api/movie/popular', { params: options });
-    return movies.data;
+    const movies = await callAPI('/movie/popular', options);
+    return movies;
 }
 
 async function getUpcomingMovies(options = {}) {
-    const movies = await axios.get('/api/movie/upcoming', { params: options });
-    return movies.data;
+    const movies = await callAPI('/movie/upcoming', options);
+    return movies;
 }
 
 async function getTopRatedMovies(options = {}) {
-    const movies = await axios.get('/api/movie/top-rated', { params: options });
-    return movies.data;
+    const movies = await callAPI('/movie/top-rated', options);
+    return movies;
 }
 
 async function getInTheatersMovies(options = {}) {
-    const movies = await axios.get('/api/movie/in-theaters', { params: options });
-    return movies.data;
+    const movies = await callAPI('/movie/in-theaters', options);
+    return movies;
 }
 
 // wrapper function for getPopularMovies, getUpcomingMovies
@@ -38,16 +38,13 @@ async function getMoviesByCategory(category, options = {}) {
 }
 
 async function getMovieInfo(movieId, options = {}) {
-    const movie = await axios.get(`/api/movie/${movieId}`, { params: options });
-    return movie.data;
+    const movie = await callAPI(`/movie/${movieId}`, options);
+    return movie;
 }
 
 async function discoverMovies(options = {}) {
-    const movies = await axios.get(
-        '/api/discover/movie',
-        { params: options }
-    );
-    return movies.data;
+    const movies = await callAPI('/discover/movie', options);
+    return movies;
 }
 
 export {

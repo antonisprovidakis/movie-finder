@@ -1,13 +1,13 @@
-import axios from 'axios';
+import { callAPI } from './client';
 
 async function getPopularPersons(options = {}) {
-    const persons = await axios.get('/api/person/popular', { params: options });
-    return persons.data;
+    const persons = await callAPI('/person/popular', options);
+    return persons;
 }
 
 async function getPersonInfo(personId, options = {}) {
-    const person = await axios.get(`/api/person/${personId}`, { params: options });
-    return person.data;
+    const person = await callAPI(`/person/${personId}`, options);
+    return person;
 }
 
 export {

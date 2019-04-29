@@ -1,10 +1,8 @@
-import axios from 'axios';
+import { callAPI } from './client';
 
 async function getConfiguration() {
-    const configuration = await axios.get(
-        '/api/configuration'
-    );
-    return configuration.data;
+    const configuration = await callAPI('/configuration');
+    return configuration;
 }
 
 export {
