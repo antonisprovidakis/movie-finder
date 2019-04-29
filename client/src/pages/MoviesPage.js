@@ -92,7 +92,8 @@ const mapStateToProps = (state, ownProps) => {
         page,
         movies,
         loading,
-        totalPages,
+        // TODO: this is a temp fix due to a limitation of TMDb (> 1000 returns error)
+        totalPages: totalPages > 1000 ? 1000 : totalPages,
         cardViewStyle
     }
 }
