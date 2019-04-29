@@ -27,7 +27,7 @@ function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
     async function fetchResults(searchTerm) {
         setLoading(true);
 
-        const res = await searchAPI.searchMulti(searchTerm);
+        const res = await searchAPI.searchMulti(searchTerm, { language: 'en-US', region: 'US', page: 1 });
         const results = res.results;
         const resultsMoviesAndPersons = results.filter(result => result.media_type !== 'tv');
         const first5Results = resultsMoviesAndPersons.slice(0, 5);
