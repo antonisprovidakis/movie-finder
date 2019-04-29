@@ -75,8 +75,7 @@ function DiscoverPage({ page, totalPages, movies, loading, history, location, di
             primary_release_year: year,
             sort_by: sortByFilter,
             with_genres: genres,
-            page,
-            region: 'US'
+            page
         });
     }, [year, sortByFilter, genres, page]);
 
