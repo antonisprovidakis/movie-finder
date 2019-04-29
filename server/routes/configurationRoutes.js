@@ -1,12 +1,12 @@
 const { Router } = require("express");
 const catchError = require("../utils/catchError");
-const tmdb = require('../api-client/tmdb');
+const { callAPI } = require('../client');
 const router = Router();
 
 router.get(
     "/api/configuration",
     catchError(async (req, res) => {
-        const config = await tmdb.configuration();
+        const config = await callAPI('/configuration');
         res.json(config);
     })
 );

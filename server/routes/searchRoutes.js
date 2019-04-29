@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const catchError = require("../utils/catchError");
-const tmdb = require('../api-client/tmdb');
+const { callAPI } = require('../client');
 const router = Router();
 
 router.get(
     "/api/search/multi",
     catchError(async (req, res) => {
         const options = req.query;
-        const results = await tmdb.searchMulti(options);
+        const results = await callAPI('/search/multi', options);
         res.json(results);
     })
 );
