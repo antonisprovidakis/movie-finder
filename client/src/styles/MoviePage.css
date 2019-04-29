@@ -46,3 +46,7 @@
 
 .MoviePage__overview {
 }
+
+.MoviePage__cast__missing-message {
+    font-size: 1.2em;
+}

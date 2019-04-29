@@ -19,7 +19,7 @@ function MoviePage({ movieId, movie, loadMovieInfo }) {
         return <div>Loading...</div>;
     }
 
-    const top4Cast = (movie.credits && movie.credits.cast.slice(0, 4)) || [];
+    const top4Cast = movie.credits ? movie.credits.cast.slice(0, 4) : [];
 
     return (
         <div className="MoviePage">
@@ -58,13 +58,20 @@ function MoviePage({ movieId, movie, loadMovieInfo }) {
                 <Grid.Row>
                     <Grid.Column>
                         <div className='MoviePage__cast'>
-                            <PersonsGrid
-                                title='Top Billed Cast'
-                                columns={4}
-                                doubling
-                                persons={top4Cast}
-                                forCast
-                            />
+                            {top4Cast.length > 0
+                                ?
+                                <PersonsGrid
+                                    title='Top Billed Cast'
+                                    columns={4}
+                                    doubling
+                                    persons={top4Cast}
+                                    forCast
+                                />
+                                :
+                                <p className='MoviePage__cast__missing-message'>
+                                    We don't have any cast added to this movie.
+                                </p>
+                            }
                         </div>
                     </Grid.Column>
                 </Grid.Row>
@@ -127,12 +134,12 @@ function MoviePage({ movieId, movie, loadMovieInfo }) {
 
 const mapStateToProps = (state, ownProps) => {
     const movieId = parseInt(ownProps.match.params.id);
-    const cachedMovies = state.entities.movies;
-    const movie = cachedMovies[movieId];
+    const movies = state.entities.movies;
+    const movie = movies[movieId];
 
     return {
         movieId,
-        movie,
+        movie
     }
 }
 
