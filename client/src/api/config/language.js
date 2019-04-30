@@ -1,5 +1,6 @@
-export function findLanguageFromISO(iso) {
-    return languages.find(lang => lang.iso_639_1 === iso);
+export function findLanguageNameInEnglishFromISO(iso) {
+    const language = languages.find(lang => lang.iso_639_1 === iso);
+    return language ? language.english_name : undefined;
 }
 
 const languages = Object.freeze([
