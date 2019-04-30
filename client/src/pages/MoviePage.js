@@ -2,16 +2,17 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadMovieInfo } from '../redux/actions';
 import '../styles/MoviePage.css';
-import { Grid, Image, Header, List, Label } from 'semantic-ui-react';
+import { Grid, Image, Header, List, Label, Flag } from 'semantic-ui-react';
 import Rating from '../components/Rating';
 import PersonsGrid from '../components/PersonsGrid';
-import { findLanguageFromISO } from '../api/config/language';
+import { findLanguageNameInEnglishFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
+import { extractReleaseDatesForRegion } from '../api/helpers';
 
 function MoviePage({ movieId, movie, loadMovieInfo }) {
     useEffect(() => {
-        loadMovieInfo(movieId, ['imdb_id'], { append_to_response: 'credits' });
+        loadMovieInfo(movieId, ['imdb_id'], { append_to_response: ['credits', 'release_dates'] });
     }, [movieId]);
 
     if (!movie) {
@@ -20,6 +21,8 @@ function MoviePage({ movieId, movie, loadMovieInfo }) {
     }
 
     const top4Cast = movie.credits ? movie.credits.cast.slice(0, 4) : [];
+    const titleDate = movie.release_date ? `(${movie.release_date.split('-')[0]})` : '';
+    const releaseDates = extractReleaseDatesForRegion(movie, 'US');
 
     return (
         <div className="MoviePage">
@@ -36,7 +39,7 @@ function MoviePage({ movieId, movie, loadMovieInfo }) {
                     <Grid.Column width={10}>
                         <div className='MoviePage__title'>
                             <Header size='huge' className='MoviePage__title__name'>
-                                {movie.title} <span className='MoviePage__title__year'>({movie.release_date.split('-')[0]})</span>
+                                {movie.title} <span className='MoviePage__title__year'>{titleDate}</span>
                             </Header>
                         </div>
                         <div className='MoviePage__actions'>
@@ -50,7 +53,7 @@ function MoviePage({ movieId, movie, loadMovieInfo }) {
                                 Overview
                             </Header>
                             <div className='MoviePage__overview__content'>
-                                {movie.overview}
+                                {movie.overview || 'There is not an overview yet.'}
                             </div>
                         </div>
                     </Grid.Column>
@@ -92,34 +95,43 @@ function MoviePage({ movieId, movie, loadMovieInfo }) {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Release Information</List.Header>
-                                    {formatDate(movie.release_date)}
+                                    {releaseDates.length > 0
+                                        ? releaseDates.map(
+                                            date => (
+                                                <List.Item key={date}>
+                                                    <Flag name={'US'.toLowerCase()} />{formatDate(date)}
+                                                </List.Item>
+                                            )
+                                        )
+                                        : '-'
+                                    }
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Original Language</List.Header>
-                                    {findLanguageFromISO(movie.original_language).english_name}
+                                    {findLanguageNameInEnglishFromISO(movie.original_language)}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Runtime</List.Header>
-                                    {movie.runtime && `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
+                                    {movie.runtime ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m` : '-'}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Budget</List.Header>
-                                    {(movie.budget && `$${movie.budget.toLocaleString('en-US', { minimumFractionDigits: 2 })}`) || ''}
+                                    {movie.budget ? `$${movie.budget.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Revenue</List.Header>
-                                    {(movie.revenue && `$${movie.revenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`) || ''}
+                                    {movie.revenue ? `$${movie.revenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Genres</List.Header>
                                     <Label.Group tag color='blue'>
-                                        {movie.genres &&
-                                            // TMDb API returns duplicate genre objects, so remove them
-                                            movie.genres
+                                        {movie.genres && movie.genres.length > 0
+                                            ? movie.genres // TMDb API returns duplicate genre objects, so remove them
                                                 .filter((genre, index, arr) =>
                                                     arr.map(mapObj => mapObj.id).indexOf(genre.id) === index
                                                 )
                                                 .map(genre => <Label key={genre.id}>{genre.name}</Label>)
+                                            : 'No genres have been added.'
                                         }
                                     </Label.Group>
                                 </List.Item>
