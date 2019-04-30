@@ -4,8 +4,8 @@ export function createImageSrc({ path, type, size = 'original' }) {
     try {
         imageSrc = buildImageUrl({ path, type, size });
     } catch (error) {
-        console.log('An error occured while trying to create image src. Used the default base64 image src, instead.', error);
-
+        console.error('An error occured while creating image src. Fallback to default base64 image.', error);
+        
         switch (type) {
             case 'backdrop':
                 imageSrc = defaultBackdropImageBase64Data;
