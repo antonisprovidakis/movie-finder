@@ -5,7 +5,7 @@ import { ActionTypes } from '../actions/';
 // Updates the pagination data for different actions.
 const pagination = combineReducers({
     moviesByCategory: paginate({
-        mapActionToKey: action => action.category,
+        mapActionToKey: action => action.payload.category,
         types: [
             ActionTypes.LOAD_MOVIES_BY_CATEGORY_REQUEST,
             ActionTypes.LOAD_MOVIES_BY_CATEGORY_SUCCESS,
@@ -17,14 +17,16 @@ const pagination = combineReducers({
         currentQuery: (state = '', action) => {
             switch (action.type) {
                 case ActionTypes.DISCOVER_MOVIES_CHANGE_QUERY:
-                    return action.query;
+                    return action.payload.query;
                 default:
                     return state;
             }
         },
         byQuery: paginate({
-            mapActionToKey: action =>
-                `${action.options.primary_release_year}-${action.options.sort_by}-${action.options.with_genres.join('_')}`,
+            mapActionToKey: action => {
+                const { primary_release_year, sort_by, with_genres } = action.payload.options;
+                return `${primary_release_year}-${sort_by}-${with_genres.join('_')}`;
+            },
             types: [
                 ActionTypes.DISCOVER_MOVIES_REQUEST,
                 ActionTypes.DISCOVER_MOVIES_SUCCESS,
