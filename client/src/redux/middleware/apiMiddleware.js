@@ -1,6 +1,7 @@
 import { normalize } from 'normalizr';
 import isPlainObject from 'lodash/isPlainObject';
 import isEmpty from 'lodash/isEmpty';
+import isError from 'lodash/isError';
 
 export default function apiMiddleware({ dispatch, getState }) {
     return next => action => {
@@ -49,28 +50,28 @@ export default function apiMiddleware({ dispatch, getState }) {
             response => {
                 const processedResponse = processRespose(response, schema);
                 const finalPayload = augmentPayloadWithData(payload, processedResponse);
-                return dispatch({
-                    type: successType,
-                    payload: finalPayload
-                });
+                return dispatch(createAction(successType, finalPayload));
             },
-            error =>
-                dispatch({
-                    type: failureType,
-                    payload: error,
-                    error: true
-                })
+            error => dispatch(failureType, error)
         );
     }
 }
 
 function createAction(type, payload) {
-    if (isEmpty(payload)) {
-        return { type: type };
+    if (isError(payload)) {
+        return {
+            type,
+            payload,
+            error: true
+        };
     }
 
+    if (isEmpty(payload)) {
+        return { type };
+    };
+
     return {
-        type: type,
+        type,
         payload
     };
 }
