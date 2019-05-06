@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "humps": "^2.0.1",
     "lodash": "^4.17.11",
     "normalizr": "^3.3.0",
     "react": "^16.8.1",

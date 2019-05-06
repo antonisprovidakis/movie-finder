@@ -1,5 +1,7 @@
 import Schemas from '../schemas';
 import { movieAPI, personAPI, } from '../../api';
+import { createQuery } from '../../utilities/discoverMovies';
+import { decamelizeKeys } from 'humps';
 
 const LOAD_MOVIE_INFO_REQUEST = 'LOAD_MOVIE_INFO_REQUEST';
 const LOAD_MOVIE_INFO_SUCCESS = 'LOAD_MOVIE_INFO_SUCCESS';
@@ -10,7 +12,7 @@ export function loadMovieInfo(movieId, requiredFields = [], options = {}) {
         types: [LOAD_MOVIE_INFO_REQUEST, LOAD_MOVIE_INFO_SUCCESS, LOAD_MOVIE_INFO_FAILURE],
         payload: { movieId, options },
         schema: Schemas.MOVIE,
-        callAPI: () => movieAPI.getMovieInfo(movieId, options),
+        callAPI: () => movieAPI.getMovieInfo(movieId, decamelizeKeys(options)),
         shouldCallAPI: state => {
             const movie = state.entities.movies[movieId];
 
@@ -32,7 +34,7 @@ export function loadMoviesByCategory(category, options = {}) {
         types: [LOAD_MOVIES_BY_CATEGORY_REQUEST, LOAD_MOVIES_BY_CATEGORY_SUCCESS, LOAD_MOVIES_BY_CATEGORY_FAILURE],
         payload: { category, options },
         schema: Schemas.MOVIE_ARRAY,
-        callAPI: () => movieAPI.getMoviesByCategory(category, options),
+        callAPI: () => movieAPI.getMoviesByCategory(category, decamelizeKeys(options)),
         shouldCallAPI: state => {
             const {
                 pages = {}
@@ -43,12 +45,20 @@ export function loadMoviesByCategory(category, options = {}) {
     }
 }
 
-const DISCOVER_MOVIES_CHANGE_QUERY = 'DISCOVER_MOVIES_CHANGE_QUERY';
+const CHANGE_DISCOVER_MOVIES_OPTIONS = 'CHANGE_DISCOVER_MOVIES_OPTIONS';
 
-export function changeQuery(query) {
+export function changeDiscoverOptions(options) {
     return {
-        type: DISCOVER_MOVIES_CHANGE_QUERY,
-        payload: { query }
+        type: CHANGE_DISCOVER_MOVIES_OPTIONS,
+        payload: { options }
+    };
+}
+
+const RESET_DISCOVER_MOVIES_OPTIONS = 'RESET_DISCOVER_MOVIES_OPTIONS';
+
+export function resetDiscoverOptions() {
+    return {
+        type: RESET_DISCOVER_MOVIES_OPTIONS
     };
 }
 
@@ -57,14 +67,13 @@ const DISCOVER_MOVIES_SUCCESS = 'DISCOVER_MOVIES_SUCCESS';
 const DISCOVER_MOVIES_FAILURE = 'DISCOVER_MOVIES_FAILURE';
 
 export function discoverMovies(options = {}) {
-    // TODO: turn this into a helper function
-    // or use query onto payload?
-    const query = `${options.primary_release_year}-${options.sort_by}-${options.with_genres.join('_')}`;
+    const { primaryReleaseYear, sortBy, withGenres } = options;
+    const query = createQuery(primaryReleaseYear, sortBy, withGenres);
     return {
         types: [DISCOVER_MOVIES_REQUEST, DISCOVER_MOVIES_SUCCESS, DISCOVER_MOVIES_FAILURE],
         payload: { options },
         schema: Schemas.MOVIE_ARRAY,
-        callAPI: () => movieAPI.discoverMovies(options),
+        callAPI: () => movieAPI.discoverMovies(decamelizeKeys(options)),
         shouldCallAPI: state => {
             const {
                 pages = {}
@@ -84,7 +93,7 @@ export function loadPersonInfo(personId, requiredFields = [], options = {}) {
         types: [LOAD_PERSON_INFO_REQUEST, LOAD_PERSON_INFO_SUCCESS, LOAD_PERSON_INFO_FAILURE],
         payload: { personId, options },
         schema: Schemas.PERSON,
-        callAPI: () => personAPI.getPersonInfo(personId, options),
+        callAPI: () => personAPI.getPersonInfo(personId, decamelizeKeys(options)),
         shouldCallAPI: state => {
             const person = state.entities.persons[personId];
 
@@ -106,7 +115,7 @@ export function loadPopularPersons(options = {}) {
         types: [LOAD_POPULAR_PERSONS_REQUEST, LOAD_POPULAR_PERSONS_SUCCESS, LOAD_POPULAR_PERSONS_FAILURE],
         payload: { options },
         schema: Schemas.PERSON_ARRAY,
-        callAPI: () => personAPI.getPopularPersons(options),
+        callAPI: () => personAPI.getPopularPersons(decamelizeKeys(options)),
         shouldCallAPI: state => {
             const pages = state.pagination.personsByPage.pages || {};
             const personIdsOfSelectedPage = pages[options.page || 1];
@@ -137,7 +146,8 @@ export const ActionTypes = {
     LOAD_POPULAR_PERSONS_REQUEST,
     LOAD_POPULAR_PERSONS_SUCCESS,
     LOAD_POPULAR_PERSONS_FAILURE,
-    DISCOVER_MOVIES_CHANGE_QUERY,
+    CHANGE_DISCOVER_MOVIES_OPTIONS,
+    RESET_DISCOVER_MOVIES_OPTIONS,
     DISCOVER_MOVIES_REQUEST,
     DISCOVER_MOVIES_SUCCESS,
     DISCOVER_MOVIES_FAILURE,
