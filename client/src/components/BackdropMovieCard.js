@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
 import '../styles/BackdropMovieCard.css';
-import { trimOverview } from '../utilities/text';
+import { truncateOverview } from '../utilities/movieCard';
 import { formatDate } from '../utilities/date';
 import { createImageSrc } from '../api/config/image';
 
@@ -39,7 +39,7 @@ function BackdropMovieCard({ movie, showOverview = true }) {
                     </div>
                 </Card.Meta>
                 {showOverview && <Card.Description>
-                    <div className='BackdropMovieCard__overview'>{trimOverview(overview)}</div>
+                    <div className='BackdropMovieCard__overview'>{truncateOverview(overview)}</div>
                 </Card.Description>}
             </Card.Content>
         </Card>
