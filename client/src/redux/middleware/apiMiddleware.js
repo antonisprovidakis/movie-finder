@@ -1,7 +1,7 @@
-import { normalize } from 'normalizr';
 import isPlainObject from 'lodash/isPlainObject';
 import isEmpty from 'lodash/isEmpty';
 import isError from 'lodash/isError';
+import processTMDBResponse from './processTMDBResponse';
 
 export default function apiMiddleware({ dispatch, getState }) {
     return next => action => {
@@ -48,7 +48,7 @@ export default function apiMiddleware({ dispatch, getState }) {
 
         return callAPI().then(
             response => {
-                const processedResponse = processRespose(response, schema);
+                const processedResponse = processTMDBResponse(response, schema);
                 const finalPayload = augmentPayloadWithData(payload, processedResponse);
                 return dispatch(createAction(successType, finalPayload));
             },
@@ -80,27 +80,5 @@ function augmentPayloadWithData(payload, data) {
     return {
         ...payload,
         ...data
-    };
-}
-
-function processRespose(response, schema) {
-    if (!schema) {
-        return {
-            data: response
-        };
-    }
-
-    if (!response.results) {
-        const data = normalize(response, schema);
-        return {
-            data
-        };
-    }
-
-    const { results, ...pagination } = response;
-    const data = normalize(results, schema);
-    return {
-        data,
-        pagination
     };
 }
