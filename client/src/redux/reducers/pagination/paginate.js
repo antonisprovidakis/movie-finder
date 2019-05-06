@@ -15,7 +15,7 @@ const paginate = ({ types, mapActionToKey = () => '' }) => {
 
   const updatePagination = (state = {
     isFetching: false,
-    totalPages: null,
+    totalPages: undefined,
     pages: {}
   }, action) => {
     switch (action.type) {
