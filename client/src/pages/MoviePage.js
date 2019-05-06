@@ -12,7 +12,7 @@ import { extractReleaseDatesForRegion } from '../api/helpers';
 
 function MoviePage({ movieId, movie, loadMovieInfo }) {
     useEffect(() => {
-        loadMovieInfo(movieId, ['imdb_id'], { append_to_response: ['credits', 'release_dates'] });
+        loadMovieInfo(movieId, ['imdb_id'], { appendToResponse: ['credits', 'release_dates'] });
     }, [movieId]);
 
     if (!movie) {
