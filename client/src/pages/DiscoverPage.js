@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { discoverMovies, changeQuery } from '../redux/actions';
+import { discoverMovies, changeDiscoverOptions, resetDiscoverOptions } from '../redux/actions';
 import { Form } from 'semantic-ui-react';
 import '../styles/DiscoverPage.css';
 import MoviesGrid from '../components/MoviesGrid';
@@ -8,6 +8,7 @@ import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { genres } from '../api/config/genres';
 import extractPageFromReactRouterLocation from '../utilities/extractPageFromReactRouterLocation';
+import { createQuery } from '../utilities/discoverMovies';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -46,32 +47,34 @@ const genreOptions = genres.map(genre =>
     ({ value: genre.id, text: genre.name })
 );
 
-function DiscoverPage({ page, totalPages, movies, loading, history, location, discoverMovies, changeQuery }) {
-    const [year, setYear] = useState(2018);
-    const [sortByFilter, setSortByFilter] = useState(sortByFilterOptions[0].value);
-    const [genres, setGenres] = useState([]);
+function DiscoverPage({ page, options, totalPages, movies, loading, history, location, discoverMovies, changeDiscoverOptions, resetDiscoverOptions }) {
+    const { primaryReleaseYear, sortBy, withGenres } = options;
 
     useEffect(() => {
-        changeQuery(`${year}-${sortByFilter}-${genres.join('_')}`)
+        return function () {
+            resetDiscoverOptions();
+        }
+    }, []);
 
+    useEffect(() => {
         discoverMovies({
-            primary_release_year: year,
-            sort_by: sortByFilter,
-            with_genres: genres,
+            primaryReleaseYear,
+            sortBy,
+            withGenres,
             page
         });
-    }, [year, sortByFilter, genres, page]);
+    }, [primaryReleaseYear, sortBy, withGenres, page]);
 
     function handleYearChange(e, data) {
-        setYear(data.value);
+        changeDiscoverOptions({ primaryReleaseYear: data.value });
     }
 
     function handleSortByChange(e, data) {
-        setSortByFilter(data.value);
+        changeDiscoverOptions({ sortBy: data.value });
     }
 
     function handleGenresChange(e, data) {
-        setGenres(data.value);
+        changeDiscoverOptions({ withGenres: data.value });
     }
 
     function gotoPage(newPage) {
@@ -97,7 +100,7 @@ function DiscoverPage({ page, totalPages, movies, loading, history, location, di
                             selection
                             onChange={handleYearChange}
                             options={yearOptions}
-                            value={year}
+                            value={primaryReleaseYear}
                         />
                         <Form.Dropdown
                             label='Sort By'
@@ -105,7 +108,7 @@ function DiscoverPage({ page, totalPages, movies, loading, history, location, di
                             selection
                             onChange={handleSortByChange}
                             options={sortByFilterOptions}
-                            value={sortByFilter}
+                            value={sortBy}
                         />
                         <Form.Dropdown
                             label='Genres'
@@ -116,7 +119,7 @@ function DiscoverPage({ page, totalPages, movies, loading, history, location, di
                             selection
                             onChange={handleGenresChange}
                             options={genreOptions}
-                            value={genres}
+                            value={withGenres}
                         />
                     </Form.Group>
                 </Form>
@@ -155,8 +158,10 @@ const mapStateToProps = (state, ownProps) => {
     const page = extractPageFromReactRouterLocation(ownProps.location);
     const cachedMovies = state.entities.movies;
     const moviesByDiscoverOptions = state.pagination.moviesByDiscoverOptions;
-    const currentQuery = moviesByDiscoverOptions.currentQuery;
-    const movieIdsByQuery = moviesByDiscoverOptions.byQuery[currentQuery] || {};
+    const options = moviesByDiscoverOptions.currentOptions;
+    const { primaryReleaseYear, sortBy, withGenres } = options;
+    const query = createQuery(primaryReleaseYear, sortBy, withGenres);
+    const movieIdsByQuery = moviesByDiscoverOptions.byQuery[query] || {};
     const pages = movieIdsByQuery.pages || {};
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
@@ -168,7 +173,8 @@ const mapStateToProps = (state, ownProps) => {
         page,
         totalPages,
         loading,
+        options
     }
 }
 
-export default connect(mapStateToProps, { discoverMovies, changeQuery })(DiscoverPage);
+export default connect(mapStateToProps, { discoverMovies, changeDiscoverOptions, resetDiscoverOptions })(DiscoverPage);
