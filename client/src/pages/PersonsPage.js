@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadPopularPersons } from '../redux/actions';
-import extractPageFromReactRouterLocation from '../utilities/extractPageFromReactRouterLocation';
+import extractPageFromReactRouterLocation from '../utils/extractPageFromReactRouterLocation';
 
 import PersonsGrid from '../components/PersonsGrid';
 import '../styles/PersonsPage.css';

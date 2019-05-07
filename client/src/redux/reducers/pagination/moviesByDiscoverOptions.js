@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import paginate from './paginate';
 import { ActionTypes } from '../../actions';
-import { createQuery } from '../../../utilities/discoverMovies';
+import { createQuery } from '../../../utils/discoverMovies';
 
 const initialState = {
     primaryReleaseYear: 2018,

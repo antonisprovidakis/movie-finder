@@ -1,6 +1,6 @@
 import Schemas from '../schemas';
 import { movieAPI, personAPI, } from '../../api';
-import { createQuery } from '../../utilities/discoverMovies';
+import { createQuery } from '../../utils/discoverMovies';
 import { decamelizeKeys } from 'humps';
 
 const LOAD_MOVIE_INFO_REQUEST = 'LOAD_MOVIE_INFO_REQUEST';

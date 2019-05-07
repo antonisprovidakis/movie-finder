@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination as PaginationSUI } from 'semantic-ui-react';
 import '../styles/Pagination.css';
-import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
+import useMedia, { mobileMediaQuery } from '../utils/hooks/useMedia';
 
 function Pagination({
     activePage,

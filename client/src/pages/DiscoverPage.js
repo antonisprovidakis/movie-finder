@@ -7,8 +7,8 @@ import MoviesGrid from '../components/MoviesGrid';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { genres } from '../api/config/genres';
-import extractPageFromReactRouterLocation from '../utilities/extractPageFromReactRouterLocation';
-import { createQuery } from '../utilities/discoverMovies';
+import extractPageFromReactRouterLocation from '../utils/extractPageFromReactRouterLocation';
+import { createQuery } from '../utils/discoverMovies';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {

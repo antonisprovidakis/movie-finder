@@ -4,7 +4,7 @@ import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
 import '../styles/PosterMovieCard.css';
 import { createImageSrc } from '../api/config/image';
-import { formatDate } from '../utilities/date';
+import { formatDate } from '../utils/date';
 
 function PosterMovieCard({ movie }) {
     const {

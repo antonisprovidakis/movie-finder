@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { loadMoviesByCategory, setMovieCardViewStyle } from '../redux/actions';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/MoviesPage.css';
-import { routeNameToTitle } from '../utilities/routing';
+import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
-import extractPageFromReactRouterLocation from '../utilities/extractPageFromReactRouterLocation';
+import extractPageFromReactRouterLocation from '../utils/extractPageFromReactRouterLocation';
 
 function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle, history, location, loadMoviesByCategory, setMovieCardViewStyle }) {
     const title = routeNameToTitle(category);

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Menu, Container, Dropdown } from 'semantic-ui-react';
 import QuickSearch from './QuickSearch';
 import '../styles/Nav.css'
-import useMedia, { mobileMediaQuery } from '../utilities/hooks/useMedia';
+import useMedia, { mobileMediaQuery } from '../utils/hooks/useMedia';
 
 function Nav(props) {
     const isMobile = useMedia(mobileMediaQuery);

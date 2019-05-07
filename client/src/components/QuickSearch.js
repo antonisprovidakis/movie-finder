@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import useDebounce from '../utilities/hooks/useDebounce';
+import useDebounce from '../utils/hooks/useDebounce';
 import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
 import { createImageSrc } from '../api/config/image';
