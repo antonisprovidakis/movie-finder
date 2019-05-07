@@ -9,4 +9,11 @@ const tmdb = axios.create({
     paramsSerializer: params => qs.stringify(params, { arrayFormat: 'comma' })
 });
 
-module.exports = tmdb;
+async function get(endpoint, options = {}) {
+    const res = await tmdb.get(endpoint, { params: options });
+    return res.data;
+}
+
+module.exports = {
+    get
+}

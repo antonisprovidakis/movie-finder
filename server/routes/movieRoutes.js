@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const catchError = require("../utils/catchError");
-const { callAPI } = require('../client');
+const client = require('../client');
 const router = Router();
 
 router.get(
@@ -10,7 +10,9 @@ router.get(
         //     `GET /api/v1/inbox-emails offset=${offset} limit=${limit} userId=${req.session.userId}`
         // );
         const options = req.query;
-        const popularMovies = await callAPI('/movie/popular', options);
+        const popularMovies = await client.get('/movie/popular', options);
+        console.log('popularMovies');
+
         res.json(popularMovies);
     })
 );
@@ -19,7 +21,7 @@ router.get(
     "/api/movie/upcoming",
     catchError(async (req, res) => {
         const options = req.query;
-        const upcomingMovies = await callAPI('/movie/upcoming', options);
+        const upcomingMovies = await client.get('/movie/upcoming', options);
         res.json(upcomingMovies);
     })
 );
@@ -28,7 +30,7 @@ router.get(
     "/api/movie/in-theaters",
     catchError(async (req, res) => {
         const options = req.query;
-        const inTheatersMovies = await callAPI('/movie/now_playing', options);
+        const inTheatersMovies = await client.get('/movie/now_playing', options);
         res.json(inTheatersMovies);
     })
 );
@@ -37,7 +39,9 @@ router.get(
     "/api/movie/top-rated",
     catchError(async (req, res) => {
         const options = req.query;
-        const topRatedMovies = await callAPI('/movie/top_rated', options);
+        const topRatedMovies = await client.get('/movie/top_rated', options);
+        console.log('top-rated');
+
         res.json(topRatedMovies);
     })
 );
@@ -47,7 +51,7 @@ router.get(
     catchError(async (req, res) => {
         const { id } = req.params;
         const options = req.query;
-        const movie = await callAPI(`/movie/${id}`, options);
+        const movie = await client.get(`/movie/${id}`, options);
         res.json(movie);
     })
 );
@@ -56,7 +60,7 @@ router.get(
     "/api/discover/movie",
     catchError(async (req, res) => {
         const options = req.query;
-        const movies = await callAPI('/discover/movie', options);
+        const movies = await client.get('/discover/movie', options);
         res.json(movies);
     })
 );

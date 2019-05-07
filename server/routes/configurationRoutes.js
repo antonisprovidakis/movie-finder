@@ -1,12 +1,12 @@
 const { Router } = require("express");
 const catchError = require("../utils/catchError");
-const { callAPI } = require('../client');
+const client = require('../client');
 const router = Router();
 
 router.get(
     "/api/configuration",
     catchError(async (req, res) => {
-        const config = await callAPI('/configuration');
+        const config = await client.get('/configuration');
         res.json(config);
     })
 );

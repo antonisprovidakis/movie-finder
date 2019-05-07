@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const catchError = require("../utils/catchError");
-const { callAPI } = require('../client');
+const client = require('../client');
 const router = Router();
 
 router.get(
@@ -10,7 +10,7 @@ router.get(
         //     `GET /api/v1/inbox-emails offset=${offset} limit=${limit} userId=${req.session.userId}`
         // );
         const options = req.query;
-        const people = await callAPI('/person/popular', options);
+        const people = await client.get('/person/popular', options);
         res.json(people);
     })
 );
@@ -20,7 +20,7 @@ router.get(
     catchError(async (req, res) => {
         const { id } = req.params;
         const options = req.query;
-        const person = await callAPI(`/person/${id}`, options);
+        const person = await client.get(`/person/${id}`, options);
         res.json(person);
     })
 );
