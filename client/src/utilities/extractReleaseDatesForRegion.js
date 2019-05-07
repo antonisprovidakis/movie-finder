@@ -22,6 +22,4 @@ function extractReleaseDatesForRegion(movie, region = 'US') {
     return releaseDates;
 }
 
-export {
-    extractReleaseDatesForRegion
-}
+export default extractReleaseDatesForRegion;

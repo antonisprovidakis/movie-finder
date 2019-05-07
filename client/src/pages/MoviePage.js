@@ -8,7 +8,7 @@ import PersonsGrid from '../components/PersonsGrid';
 import { findLanguageNameInEnglishFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utilities/date';
-import { extractReleaseDatesForRegion } from '../api/helpers';
+import extractReleaseDatesForRegion from '../utilities/extractReleaseDatesForRegion';
 
 function MoviePage({ movieId, movie, loadMovieInfo }) {
     useEffect(() => {
