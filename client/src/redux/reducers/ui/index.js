@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { ActionTypes } from '../actions/';
+import { ActionTypes } from '../../actions';
 
 const movieCardViewStyle = (state = 'poster', action) => {
     switch (action.type) {
