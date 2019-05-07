@@ -11,8 +11,6 @@ router.get(
         // );
         const options = req.query;
         const popularMovies = await client.get('/movie/popular', options);
-        console.log('popularMovies');
-
         res.json(popularMovies);
     })
 );
@@ -40,8 +38,6 @@ router.get(
     catchError(async (req, res) => {
         const options = req.query;
         const topRatedMovies = await client.get('/movie/top_rated', options);
-        console.log('top-rated');
-
         res.json(topRatedMovies);
     })
 );
