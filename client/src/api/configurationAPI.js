@@ -1,10 +1,10 @@
-import { callAPI } from './client';
+import client from './client';
 
 async function getConfiguration() {
-    const configuration = await callAPI('/configuration');
+    const configuration = await client.get('/configuration');
     return configuration;
 }
 
-export {
-    getConfiguration,
+export default {
+    getConfiguration
 }

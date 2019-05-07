@@ -1,22 +1,22 @@
-import { callAPI } from './client';
+import client from './client';
 
 async function getPopularMovies(options = {}) {
-    const movies = await callAPI('/movie/popular', options);
+    const movies = await client.get('/movie/popular', options);
     return movies;
 }
 
 async function getUpcomingMovies(options = {}) {
-    const movies = await callAPI('/movie/upcoming', options);
+    const movies = await client.get('/movie/upcoming', options);
     return movies;
 }
 
 async function getTopRatedMovies(options = {}) {
-    const movies = await callAPI('/movie/top-rated', options);
+    const movies = await client.get('/movie/top-rated', options);
     return movies;
 }
 
 async function getInTheatersMovies(options = {}) {
-    const movies = await callAPI('/movie/in-theaters', options);
+    const movies = await client.get('/movie/in-theaters', options);
     return movies;
 }
 
@@ -38,16 +38,16 @@ async function getMoviesByCategory(category, options = {}) {
 }
 
 async function getMovieInfo(movieId, options = {}) {
-    const movie = await callAPI(`/movie/${movieId}`, options);
+    const movie = await client.get(`/movie/${movieId}`, options);
     return movie;
 }
 
 async function discoverMovies(options = {}) {
-    const movies = await callAPI('/discover/movie', options);
+    const movies = await client.get('/discover/movie', options);
     return movies;
 }
 
-export {
+export default {
     getPopularMovies,
     getUpcomingMovies,
     getTopRatedMovies,

@@ -1,7 +1,7 @@
-import * as movieAPI from './movieAPI';
-import * as personAPI from './personAPI';
-import * as searchAPI from './searchAPI';
-import * as configurationAPI from './configurationAPI';
+import movieAPI from './movieAPI';
+import personAPI from './personAPI';
+import searchAPI from './searchAPI';
+import configurationAPI from './configurationAPI';
 
 export {
     movieAPI,

@@ -1,11 +1,11 @@
-import { callAPI } from './client';
+import client from './client';
 
 async function searchMulti(query, options = {}) {
     options.query = query;
-    const results = await callAPI('/search/multi', options);
+    const results = await client.get('/search/multi', options);
     return results;
 }
 
-export {
+export default {
     searchMulti,
 }
