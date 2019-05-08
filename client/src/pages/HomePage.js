@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { loadMoviesByCategory } from '../redux/actions';
-import get from 'lodash/get';
+import _get from 'lodash/get';
 import { Header, Button } from 'semantic-ui-react';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/HomePage.css';
@@ -103,9 +103,9 @@ const mapStateToProps = (state) => {
     } = state.pagination.moviesByCategory;
 
     const path = 'pages[1]';
-    const inTheatersMovieIds = get(inTheatersMoviesSubTree, path, []).slice(0, 4);
-    const upcomingMovieIds = get(upcomingMoviesSubTree, path, []).slice(0, 4);
-    const popularMovieIds = get(popularMoviesSubTree, path, []).slice(0, 4);
+    const inTheatersMovieIds = _get(inTheatersMoviesSubTree, path, []).slice(0, 4);
+    const upcomingMovieIds = _get(upcomingMoviesSubTree, path, []).slice(0, 4);
+    const popularMovieIds = _get(popularMoviesSubTree, path, []).slice(0, 4);
 
     const movies = {
         inTheatersMovies: inTheatersMovieIds.map(id => cachedMovies[id]),

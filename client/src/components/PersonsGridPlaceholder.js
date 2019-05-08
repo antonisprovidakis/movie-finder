@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import PersonCardPlaceholder from './PersonCardPlaceholder';
-import times from 'lodash/times';
+import _times from 'lodash/times';
 
 function PersonsGridPlaceholder({
     title = '',
@@ -24,7 +24,7 @@ function PersonsGridPlaceholder({
                 {...rest}
             >
 
-                {times(numberOfCards, (index) =>
+                {_times(numberOfCards, (index) =>
                     <Grid.Column
                         className='PersonsGridPlaceholder__column'
                         key={index}

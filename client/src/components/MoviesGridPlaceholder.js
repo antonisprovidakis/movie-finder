@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Header, Menu } from 'semantic-ui-react';
 import PosterMovieCardPlaceholder from './PosterMovieCardPlaceholder';
-import times from 'lodash/times';
+import _times from 'lodash/times';
 
 function MoviesGridPlaceholder({
     title = '',
@@ -24,7 +24,7 @@ function MoviesGridPlaceholder({
                 className='MoviesGridPlaceholder__movies'
                 {...rest}
             >
-                {times(num, (index) =>
+                {_times(num, (index) =>
                     <Grid.Column
                         className='MoviesGridPlaceholder__column'
                         key={index}

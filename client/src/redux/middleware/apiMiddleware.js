@@ -1,6 +1,6 @@
-import isPlainObject from 'lodash/isPlainObject';
-import isEmpty from 'lodash/isEmpty';
-import isError from 'lodash/isError';
+import _isPlainObject from 'lodash/isPlainObject';
+import _isEmpty from 'lodash/isEmpty';
+import _isError from 'lodash/isError';
 import processTMDBResponse from './processTMDBResponse';
 
 export default function apiMiddleware({ dispatch, getState }) {
@@ -38,7 +38,7 @@ export default function apiMiddleware({ dispatch, getState }) {
             return;
         }
 
-        if (!isPlainObject(payload)) {
+        if (!_isPlainObject(payload)) {
             throw new Error('Expected payload to be a plain object.');
         }
 
@@ -58,7 +58,7 @@ export default function apiMiddleware({ dispatch, getState }) {
 }
 
 function createAction(type, payload) {
-    if (isError(payload)) {
+    if (_isError(payload)) {
         return {
             type,
             payload,
@@ -66,7 +66,7 @@ function createAction(type, payload) {
         };
     }
 
-    if (isEmpty(payload)) {
+    if (_isEmpty(payload)) {
         return { type };
     };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Header, Menu, Dropdown } from 'semantic-ui-react';
 import '../styles/MoviesGrid.css';
-import invoke from 'lodash/invoke';
+import _invoke from 'lodash/invoke';
 import PosterMovieCard from './PosterMovieCard';
 import BackdropMovieCard from './BackdropMovieCard';
 
@@ -27,7 +27,7 @@ function MoviesGrid({
 
     function handleCardViewStyleOptionClick(e, item) {
         const cardViewStyle = item.value;
-        invoke({ onCardViewStyleOptionClick }, 'onCardViewStyleOptionClick', e, cardViewStyle);
+        _invoke({ onCardViewStyleOptionClick }, 'onCardViewStyleOptionClick', e, cardViewStyle);
     }
 
     return (
