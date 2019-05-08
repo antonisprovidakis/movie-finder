@@ -1,17 +1,22 @@
 .HomePage {
 }
 
-.HomePage__movies-container > .MoviesGrid,
-.HomePage__movies-container > .MoviesGridPlaceholder {
+.HomePage__movies-container .MoviesGrid,
+.HomePage__movies-container .MoviesGridPlaceholder {
     padding: 1em 0;
 }
 
-.HomePage__movies-container > .MoviesGrid:first-child,
-.HomePage__movies-container > .MoviesGridPlaceholder:first-child {
+.HomePage__movies-container .MoviesGrid:first-child,
+.HomePage__movies-container .MoviesGridPlaceholder:first-child {
     padding: 0 0 1em 0;
 }
 
-.HomePage__movies-container > .MoviesGrid:last-child,
-.HomePage__movies-container > .MoviesGridPlaceholder:last-child {
+.HomePage__movies-container .MoviesGrid:last-child,
+.HomePage__movies-container .MoviesGridPlaceholder:last-child {
     padding: 1em 0 0 0;
+}
+
+.HomePage__movies-container__section__bottom {
+    display: flex; 
+    justify-content: flex-end;
 }

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { loadMoviesByCategory } from '../redux/actions';
 import get from 'lodash/get';
-import { Header } from 'semantic-ui-react';
+import { Header, Button } from 'semantic-ui-react';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/HomePage.css';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
@@ -22,43 +23,53 @@ function HomePage(props) {
     const sectionsData = [
         {
             title: 'Popular Movies',
-            movies: movies.popularMovies
+            movies: movies.popularMovies,
+            linkTo: '/movie/popular'
         },
         {
             title: 'Movies In Theaters',
-            movies: movies.inTheatersMovies
+            movies: movies.inTheatersMovies,
+            linkTo: '/movie/in-theaters'
         },
         {
             title: 'Upcoming Movies',
-            movies: movies.upcomingMovies
+            movies: movies.upcomingMovies,
+            linkTo: '/movie/upcoming'
         }
     ];
 
-    function renderSection(sectionData) {
-        const { title, movies } = sectionData;
-
-        if (movies.length > 0) {
-            return (
-                <MoviesGrid
-                    key={title}
-                    title={title}
-                    movies={movies}
-                    columns={4}
-                    doubling
-                />
-            );
-        }
-        else {
-            return (
-                <MoviesGridPlaceholder
-                    key={title}
-                    title={title}
-                    num={4}
-                    columns={4}
-                    doubling
-                />
-            );
-        }
+    function renderSection({ title, movies, linkTo }) {
+        return (
+            <div key={title} className='HomePage__movies-container__section'>
+                {movies.length > 0
+                    ?
+                    <>
+                        <MoviesGrid
+                            title={title}
+                            movies={movies}
+                            columns={4}
+                            doubling
+                        />
+                        <div className='HomePage__movies-container__section__bottom'>
+                            <Button
+                                as={Link}
+                                to={linkTo}
+                                color='orange'
+                            >
+                                See More
+                        </Button>
+                        </div>
+                    </>
+                    :
+                    <MoviesGridPlaceholder
+                        title={title}
+                        num={4}
+                        columns={4}
+                        doubling
+                    />
+                }
+            </div>
+        );
     }
 
     return (
