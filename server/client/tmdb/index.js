@@ -10,7 +10,7 @@ const rateLimiter = limits().within(TIME_FRAME + SAFE_TIME_WINDOW, MAX_REQUESTS)
 const tmdb = axios.create({
     baseURL: 'https://api.themoviedb.org/3',
     params: {
-        'api_key': process.env.TMDB_API_KEY,
+        api_key: process.env.TMDB_API_KEY,
     },
     paramsSerializer: params => qs.stringify(params, { arrayFormat: 'comma' })
 });
