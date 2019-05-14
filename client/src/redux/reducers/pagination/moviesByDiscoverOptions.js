@@ -17,7 +17,7 @@ function currentOptions(state = initialState, action) {
                 ...action.payload.options
             };
         case ActionTypes.RESET_DISCOVER_MOVIES_OPTIONS:
-            return initialState;
+            return { ...initialState };
         default:
             return state;
     }
