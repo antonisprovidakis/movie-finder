@@ -5,7 +5,7 @@ import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
 import { createImageSrc } from '../api/config/image';
 
-function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
+function QuickSearch({ delay = 500, fullWidth = false, className = '', ...rest }) {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -74,7 +74,7 @@ function QuickSearch({ delay = 500, fullWidth = false, ...rest }) {
 
     return (
         <Search
-            className="QuickSearch"
+            className={`QuickSearch ${className}`}
             input={
                 <Input
                     fluid={fullWidth}
