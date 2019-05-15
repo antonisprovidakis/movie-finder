@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { Menu, Container, Dropdown } from 'semantic-ui-react';
-import QuickSearch from './QuickSearch';
 import '../styles/Nav.css'
-import useMedia, { mobileMediaQuery } from '../utils/hooks/useMedia';
 
-function Nav(props) {
-    const isMobile = useMedia(mobileMediaQuery);
-
+function Nav({ isMobile }) {
     return (
         <nav className="Nav">
             <Menu
@@ -35,9 +31,6 @@ function Nav(props) {
                     <Menu.Item fitted='vertically' as={Link} to='/person'>People</Menu.Item>
                 </Container>
             </Menu>
-            <Container className='Nav__quicksearch-container'>
-                <QuickSearch size={isMobile ? 'small' : 'large'} fullWidth fluid />
-            </Container>
         </nav>
     );
 }
