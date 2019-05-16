@@ -50,7 +50,7 @@ const CHANGE_DISCOVER_MOVIES_OPTIONS = 'CHANGE_DISCOVER_MOVIES_OPTIONS';
 export function changeDiscoverOptions(options) {
     return {
         type: CHANGE_DISCOVER_MOVIES_OPTIONS,
-        payload: { options }
+        options
     };
 }
 
@@ -129,7 +129,7 @@ const SET_MOVIE_CARD_VIEW_STYLE = 'SET_MOVIE_CARD_VIEW_STYLE';
 export function setMovieCardViewStyle(viewStyle) {
     return {
         type: SET_MOVIE_CARD_VIEW_STYLE,
-        payload: { viewStyle }
+        viewStyle
     };
 }
 

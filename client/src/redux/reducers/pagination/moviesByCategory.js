@@ -2,7 +2,7 @@ import paginate from './paginate';
 import { ActionTypes } from '../../actions';
 
 const moviesByCategory  = paginate({
-    mapActionToKey: action => action.payload.category,
+    mapActionToKey: action => action.category,
     types: [
         ActionTypes.LOAD_MOVIES_BY_CATEGORY_REQUEST,
         ActionTypes.LOAD_MOVIES_BY_CATEGORY_SUCCESS,

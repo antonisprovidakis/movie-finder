@@ -14,7 +14,7 @@ function currentOptions(state = initialState, action) {
         case ActionTypes.CHANGE_DISCOVER_MOVIES_OPTIONS:
             return {
                 ...state,
-                ...action.payload.options
+                ...action.options
             };
         case ActionTypes.RESET_DISCOVER_MOVIES_OPTIONS:
             return { ...initialState };
@@ -25,7 +25,7 @@ function currentOptions(state = initialState, action) {
 
 const byQuery = paginate({
     mapActionToKey: action => {
-        const { primaryReleaseYear, sortBy, withGenres } = action.payload.options;
+        const { primaryReleaseYear, sortBy, withGenres } = action.options;
         return createQuery(primaryReleaseYear, sortBy, withGenres);
     },
     types: [

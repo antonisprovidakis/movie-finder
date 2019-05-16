@@ -1,6 +1,4 @@
 import _isPlainObject from 'lodash/isPlainObject';
-import _isEmpty from 'lodash/isEmpty';
-import _isError from 'lodash/isError';
 import processTMDBResponse from './processTMDBResponse';
 
 export default function apiMiddleware({ dispatch, getState }) {
@@ -44,41 +42,28 @@ export default function apiMiddleware({ dispatch, getState }) {
 
         const [requestType, successType, failureType] = types;
 
-        dispatch(createAction(requestType, payload));
+        dispatch({
+            type: requestType,
+            ...payload
+        });
 
         return callAPI().then(
             response => {
                 const processedResponse = processTMDBResponse(response, schema);
-                const finalPayload = augmentPayloadWithData(payload, processedResponse);
-                return dispatch(createAction(successType, finalPayload));
+                return dispatch({
+                    type: successType,
+                    ...payload,
+                    response: processedResponse
+                });
             },
-            error => dispatch(failureType, error)
+            error => {
+                console.log({ error });
+                return dispatch({
+                    type: failureType,
+                    ...payload,
+                    error
+                });
+            }
         );
     }
-}
-
-function createAction(type, payload) {
-    if (_isError(payload)) {
-        return {
-            type,
-            payload,
-            error: true
-        };
-    }
-
-    if (_isEmpty(payload)) {
-        return { type };
-    };
-
-    return {
-        type,
-        payload
-    };
-}
-
-function augmentPayloadWithData(payload, data) {
-    return {
-        ...payload,
-        ...data
-    };
 }
