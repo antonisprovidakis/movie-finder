@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import NotFound from '../components/NotFound';
 import { loadPersonInfo } from '../redux/actions';
 import { Image, Grid, Header, List } from 'semantic-ui-react';
 import '../styles/PersonPage.css';
 import { getGenderNameFromId } from '../api/config/gender';
 import { createImageSrc } from '../api/config/image';
 
-function PersonPage({ personId, person, loadPersonInfo }) {
+function PersonPage({ personId, person, loading, loadPersonInfo }) {
     useEffect(() => {
         loadPersonInfo(personId, ['biography']);
     }, [personId]);
 
-    if (!person) {
+    if (loading) {
         // TODO: place a Loader here
-        return <div>loading...</div>;
+        return <div>Loading...</div>;
+    }
+
+    if (!person) {
+        return <NotFound />;
     }
 
     return (
@@ -91,10 +96,12 @@ const mapStateToProps = (state, ownProps) => {
     const personId = parseInt(ownProps.match.params.id);
     const persons = state.entities.persons;
     const person = persons[personId];
+    const loading = state.ui.isFetchingPersonInfo;
 
     return {
         personId,
-        person
+        person,
+        loading,
     }
 }
 
