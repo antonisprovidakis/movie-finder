@@ -56,14 +56,12 @@ export default function apiMiddleware({ dispatch, getState }) {
                     response: processedResponse
                 });
             },
-            error => {
-                console.log({ error });
-                return dispatch({
+            error =>
+                dispatch({
                     type: failureType,
                     ...payload,
                     error
-                });
-            }
+                })
         );
     }
 }
