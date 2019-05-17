@@ -4,20 +4,25 @@ import { loadMovieInfo } from '../redux/actions';
 import '../styles/MoviePage.css';
 import { Grid, Image, Header, List, Label, Flag } from 'semantic-ui-react';
 import Rating from '../components/Rating';
+import NotFound from '../components/NotFound';
 import PersonsGrid from '../components/PersonsGrid';
 import { findLanguageNameInEnglishFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utils/date';
 import extractReleaseDatesForRegion from '../utils/extractReleaseDatesForRegion';
 
-function MoviePage({ movieId, movie, loadMovieInfo }) {
+function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
     useEffect(() => {
         loadMovieInfo(movieId, ['imdb_id'], { appendToResponse: ['credits', 'release_dates'] });
     }, [movieId]);
 
-    if (!movie) {
+    if (loading) {
         // TODO: place a Loader here
         return <div>Loading...</div>;
+    }
+
+    if (!movie) {
+        return <NotFound />;
     }
 
     const top4Cast = movie.credits ? movie.credits.cast.slice(0, 4) : [];
@@ -148,10 +153,12 @@ const mapStateToProps = (state, ownProps) => {
     const movieId = parseInt(ownProps.match.params.id);
     const movies = state.entities.movies;
     const movie = movies[movieId];
+    const loading = state.ui.isFetchingMovieInfo;
 
     return {
         movieId,
-        movie
+        movie,
+        loading,
     }
 }
 
