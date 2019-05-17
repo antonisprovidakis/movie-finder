@@ -18,6 +18,7 @@ function determineMovieCardComponent(cardViewStyle) {
 function MoviesGrid({
     title = '',
     movies,
+    noResultsMessage = 'No results found.',
     cardViewStyle = 'poster', // 'poster' || 'backdrop'
     onCardViewStyleOptionClick,
     menuVisible = false,
@@ -65,16 +66,20 @@ function MoviesGrid({
                 </Menu>
             }
 
-            <Grid
-                className='MoviesGrid__movies'
-                {...rest}
-            >
-                {movies.map(movie =>
-                    <Grid.Column key={movie.id} className='MoviesGrid__column'>
-                        <MovieCard movie={movie} />
-                    </Grid.Column>
-                )}
-            </Grid>
+            {movies.length === 0
+                ? noResultsMessage
+                :
+                <Grid
+                    className='MoviesGrid__movies'
+                    {...rest}
+                >
+                    {movies.map(movie =>
+                        <Grid.Column key={movie.id} className='MoviesGrid__column'>
+                            <MovieCard movie={movie} />
+                        </Grid.Column>
+                    )}
+                </Grid>
+            }
         </div>
     );
 }

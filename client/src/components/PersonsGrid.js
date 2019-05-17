@@ -6,6 +6,7 @@ import PersonCard from './PersonCard';
 function PersonsGrid({
     title = '',
     persons,
+    noResultsMessage = 'No results found.',
     forCast = false,
     ...rest
 }) {
@@ -20,24 +21,29 @@ function PersonsGrid({
                     {title}
                 </Header>
             }
-            <Grid
-                className='PersonsGrid__persons'
-                {...rest}
-            >
-                {persons.map(person =>
-                    <Grid.Column
-                        className='PersonsGrid__column'
-                        key={person.id}
-                    >
-                        <PersonCard
-                            id={person.id}
-                            name={person.name}
-                            image={person.profile_path}
-                            sub={forCast ? person.character : ''}
-                        />
-                    </Grid.Column>
-                )}
-            </Grid>
+
+            {persons.length === 0
+                ? noResultsMessage
+                :
+                <Grid
+                    className='PersonsGrid__persons'
+                    {...rest}
+                >
+                    {persons.map(person =>
+                        <Grid.Column
+                            className='PersonsGrid__column'
+                            key={person.id}
+                        >
+                            <PersonCard
+                                id={person.id}
+                                name={person.name}
+                                image={person.profile_path}
+                                sub={forCast ? person.character : ''}
+                            />
+                        </Grid.Column>
+                    )}
+                </Grid>
+            }
         </div>
     );
 }
