@@ -4,22 +4,25 @@ module.exports = function (error, req, res, next) {
 
     const response = error.response;
     if (!response) {
-        res.status(500).json({ error: 'Internal server error' });
-        return;
+        return res.status(500).json({
+            error: { message: 'Internal Server Error' }
+        });
     }
 
-    const data = response.data;
-    // const status = response.status;
-    // const code = data.status_code;
-    // const message = data.status_message;
-    // const success = data.success;
-    // const errors = data.errors;
-    const errorMessage = data.status_message
-        ? data.status_message
-        : capitalizeString(data.errors[0]);
-    res.status(response.status).json({ error: errorMessage });
-}
+    // see: https://www.themoviedb.org/documentation/api/status-codes
+    const {
+        status_code: tmdbAPIStatusCode,
+        status_message: tmdbAPIStatusMessage,
+        errors
+    } = response.data;
 
-function capitalizeString(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    const message = typeof tmdbAPIStatusCode !== 'undefined'
+        ? tmdbAPIStatusMessage
+        : errors[0];
+    return res.status(response.status).json({
+        error: {
+            code: tmdbAPIStatusCode,
+            message
+        }
+    });
 }
