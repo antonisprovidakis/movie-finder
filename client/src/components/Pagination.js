@@ -13,7 +13,7 @@ function Pagination({
 }) {
     const isMobile = useMedia(mobileMediaQuery);
 
-    if (totalPages === null || totalPages === 1) {
+    if (totalPages === null || totalPages === 1 || activePage > totalPages) {
         return null;
     }
 
