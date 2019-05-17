@@ -6,7 +6,7 @@ import '../styles/MoviesPage.css';
 import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
-import extractPageFromReactRouterLocation from '../utils/extractPageFromReactRouterLocation';
+import { extractPageFromQueryString, determinePage } from '../utils/page';
 
 function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle, history, location, loadMoviesByCategory, setMovieCardViewStyle }) {
     const title = routeNameToTitle(category);
@@ -76,14 +76,17 @@ function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle
 
 const mapStateToProps = (state, ownProps) => {
     const category = ownProps.match.params.category;
-    const page = extractPageFromReactRouterLocation(ownProps.location);
     const cachedMovies = state.entities.movies;
     const movieIdsBySelectedCategory = state.pagination.moviesByCategory[category] || {};
     const pages = movieIdsBySelectedCategory.pages || {};
+    const totalPages = movieIdsBySelectedCategory.totalPages || null;
+    const pageFromQuery = extractPageFromQueryString(ownProps.location.search);
+    // TODO: (SSR) - To be implemented
+    // if page > totalPages, set page equals to totalPages
+    const page = determinePage(pageFromQuery);
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
     const loading = movieIdsBySelectedCategory.isFetching || false;
-    const totalPages = movieIdsBySelectedCategory.totalPages || null;
 
     const cardViewStyle = state.ui.movieCardViewStyle;
 

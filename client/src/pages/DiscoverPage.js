@@ -7,7 +7,7 @@ import MoviesGrid from '../components/MoviesGrid';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { genres } from '../api/config/genres';
-import extractPageFromReactRouterLocation from '../utils/extractPageFromReactRouterLocation';
+import { extractPageFromQueryString, determinePage } from '../utils/page';
 import { createQuery } from '../utils/discoverMovies';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
@@ -155,7 +155,6 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const page = extractPageFromReactRouterLocation(ownProps.location);
     const cachedMovies = state.entities.movies;
     const moviesByDiscoverOptions = state.pagination.moviesByDiscoverOptions;
     const options = moviesByDiscoverOptions.currentOptions;
@@ -163,15 +162,19 @@ const mapStateToProps = (state, ownProps) => {
     const query = createQuery(primaryReleaseYear, sortBy, withGenres);
     const movieIdsByQuery = moviesByDiscoverOptions.byQuery[query] || {};
     const pages = movieIdsByQuery.pages || {};
+    const totalPages = movieIdsByQuery.totalPages || null;
+    const pageFromQuery = extractPageFromQueryString(ownProps.location.search);
+    // TODO: (SSR) - To be implemented
+    // if page > totalPages, set page equals to totalPages
+    const page = determinePage(pageFromQuery);
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
     const loading = movieIdsByQuery.isFetching || false;
-    const totalPages = movieIdsByQuery.totalPages || null;
 
     return {
         movies,
         page,
-        totalPages,
+        totalPages: totalPages > 1000 ? 1000 : totalPages,
         loading,
         options
     }

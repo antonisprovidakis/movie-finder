@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadPopularPersons } from '../redux/actions';
-import extractPageFromReactRouterLocation from '../utils/extractPageFromReactRouterLocation';
-
+import { extractPageFromQueryString, determinePage } from '../utils/page';
 import PersonsGrid from '../components/PersonsGrid';
 import '../styles/PersonsPage.css';
 import Pagination from '../components/Pagination';
@@ -57,18 +56,21 @@ function PersonsPage({ persons, loading, totalPages, page, history, location, lo
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const page = extractPageFromReactRouterLocation(ownProps.location);
     const cachedPersons = state.entities.persons;
     const personsByPage = state.pagination.personsByPage;
     const pages = personsByPage.pages || {};
+    const totalPages = personsByPage.totalPages || null;
+    const pageFromQuery = extractPageFromQueryString(ownProps.location.search);
+    // TODO: (SSR) - To be implemented
+    // if page > totalPages, set page equals to totalPages
+    const page = determinePage(pageFromQuery);
     const personIds = pages[page] || [];
     const persons = personIds.map(id => cachedPersons[id]);
     const loading = personsByPage.isFetching || false;
-    const totalPages = personsByPage.totalPages || null;
 
     return {
         loading,
-        totalPages,
+        totalPages: totalPages > 1000 ? 1000 : totalPages,
         persons,
         page
     }
