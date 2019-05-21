@@ -1,43 +1,54 @@
 .CollectionGrid {
 }
 
-.CollectionGrid__top {
+.CollectionGrid__header {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    margin: 1rem 0;
+    margin: 0 0 1rem 0;
 }
 
-.CollectionGrid__top__title {
+.CollectionGrid__header.CollectionGrid__header--has-title.CollectionGrid__header--has-menu {
+    justify-content: space-between;
+}
+
+.CollectionGrid__header.CollectionGrid__header--has-title {
+    justify-content: flex-start;
+}
+
+.CollectionGrid__header.CollectionGrid__header--has-menu {
+    justify-content: flex-end;
+}
+
+.CollectionGrid__header__title {
     display: inline-block;
     margin: 0;
 }
 
-.CollectionGrid__top__menu_item {
+.CollectionGrid__header__menu_item {
     margin: 0 0.35em;
 }
 
-.CollectionGrid__top__menu_item:first-child {
+.CollectionGrid__header__menu_item:first-child {
     margin: 0 0.35em 0 0;
 }
 
-.CollectionGrid__top__menu_item:last-child {
+.CollectionGrid__header__menu_item:last-child {
     margin: 0 0 0 0.35em;
 }
 
-.CollectionGrid__top__menu_item:only-child {
+.CollectionGrid__header__menu_item:only-child {
     margin: 0;
 }
 
 @media only screen and (max-width: 767px) {
-    .CollectionGrid__top {
+    .CollectionGrid__header {
         flex-direction: column;
     }
 
-    .CollectionGrid__top__title {
-        margin-bottom: 0.5rem;
+    .CollectionGrid__header__title:not(:only-child) {
+        margin: 0 0 0.5rem 0;
     }
-
 }
 
 .CollectionGrid__column_content {

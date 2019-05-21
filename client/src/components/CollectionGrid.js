@@ -2,24 +2,30 @@ import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import '../styles/CollectionGrid.css';
 
-function CollectionGrid({
-    title = '',
-    collection = [],
-    renderItem,
-    noResultsMessage = 'No results found.',
-    menuItems = [],
-    // TODO: placeholder
-    ...rest
-}) {
+function CollectionGridHeader({ title = '', menuItems = [] }) {
+    const shouldRenderTitle = title.length > 0;
+    const shouldRenderMenu = menuItems.length > 0;
+    const shouldRenderTopPart = shouldRenderTitle || shouldRenderMenu;
+
+    if (!shouldRenderTopPart) {
+        return null;
+    }
+
+    const classes = [
+        'CollectionGrid__header',
+        shouldRenderTitle ? 'CollectionGrid__header--has-title' : '',
+        shouldRenderMenu ? 'CollectionGrid__header--has-menu' : ''
+    ].join(' ').trim();
+
     return (
-        <div className='CollectionGrid'>
-            <div className='CollectionGrid__top'>
-                <h2 className='CollectionGrid__top__title'>{title}</h2>
-                <div className='CollectionGrid__top__menu'>
+        <div className={classes}>
+            {shouldRenderTitle && <h2 className='CollectionGrid__header__title'>{title}</h2>}
+            {shouldRenderMenu &&
+                <div className='CollectionGrid__header__menu'>
                     {menuItems.map((menuItem, index) => {
                         const className = [
                             menuItem.props.className,
-                            'CollectionGrid__top__menu_item'
+                            'CollectionGrid__header__menu_item'
                         ].join(' ').trim();
 
                         return React.cloneElement(menuItem, {
@@ -28,7 +34,22 @@ function CollectionGrid({
                         })
                     })}
                 </div>
-            </div>
+            }
+        </div>
+    );
+}
+
+function CollectionGrid({
+    title = '',
+    collection = [],
+    renderItem,
+    noResultsMessage = 'No results found.',
+    menuItems = [],
+    ...rest
+}) {
+    return (
+        <div className='CollectionGrid'>
+            <CollectionGridHeader title={title} menuItems={menuItems} />
 
             {collection.length === 0
                 ? noResultsMessage
