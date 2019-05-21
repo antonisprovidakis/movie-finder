@@ -16,19 +16,18 @@ const movieCardTypes = {
     backdrop: BackdropMovieCard
 };
 
-function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle, history, location, loadMoviesByCategory, setMovieCardViewStyle }) {
+function MoviesPage({ category, page, movies, loading, totalPages, history, location, movieCardViewStyle, setMovieCardViewStyle, loadMoviesByCategory }) {
     const title = routeNameToTitle(category);
-    const [gridColumns, setGridColumns] = useState(4);
+    const [gridColumns, setGridColumns] = useState(movieCardViewStyle === 'poster' ? 4 : 2);
 
     useEffect(() => {
         loadMoviesByCategory(category, { page, region: 'US' });
     }, [category, page]);
 
     useEffect(() => {
-        cardViewStyle === 'poster'
-            ? setGridColumns(4)
-            : setGridColumns(2);
-    }, [cardViewStyle]);
+        const cols = movieCardViewStyle === 'poster' ? 4 : 2;
+        setGridColumns(cols);
+    }, [movieCardViewStyle]);
 
     function gotoPage(newPage) {
         history.push({
@@ -43,13 +42,11 @@ function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle
 
     function handleCardViewStyleOptionClick(e, item) {
         const newMovieCardViewStyle = item.value;
-        if (cardViewStyle !== newMovieCardViewStyle) {
-            setMovieCardViewStyle(newMovieCardViewStyle);
-        }
+        setMovieCardViewStyle(newMovieCardViewStyle);
     }
 
     const moviesGridMenuItems = [
-        <Dropdown text='View' className='mydrop'>
+        <Dropdown text='View'>
             <Dropdown.Menu>
                 <Dropdown.Item
                     text='Poster Card View'
@@ -83,7 +80,7 @@ function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle
                         doubling
                         movies={movies}
                         menuItems={moviesGridMenuItems}
-                        movieCardComponent={movieCardTypes[cardViewStyle]}
+                        movieCardComponent={movieCardTypes[movieCardViewStyle]}
                     />
                 }
             </div>
@@ -113,7 +110,7 @@ const mapStateToProps = (state, ownProps) => {
     const movies = movieIds.map(id => cachedMovies[id]);
     const loading = movieIdsBySelectedCategory.isFetching || false;
 
-    const cardViewStyle = state.ui.movieCardViewStyle;
+    const movieCardViewStyle = state.ui.movieCardViewStyle;
 
     return {
         category,
@@ -122,7 +119,7 @@ const mapStateToProps = (state, ownProps) => {
         loading,
         // TODO: this is a temp fix due to a limitation of TMDb (> 1000 returns error)
         totalPages: totalPages > 1000 ? 1000 : totalPages,
-        movieCardViewStyle: cardViewStyle
+        movieCardViewStyle
     }
 }
 
