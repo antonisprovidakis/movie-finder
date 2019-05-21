@@ -1,45 +1,45 @@
-.MoviesGrid {
+.CollectionGrid {
 }
 
-.MoviesGrid__column_content {
-    height: 100%;
-}
-
-.MoviesGrid__top {
+.CollectionGrid__top {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     margin: 1rem 0;
 }
 
-.MoviesGrid__top__title {
+.CollectionGrid__top__title {
     display: inline-block;
     margin: 0;
 }
 
-.MoviesGrid__top__menu_item {
+.CollectionGrid__top__menu_item {
     margin: 0 0.35em;
 }
 
-.MoviesGrid__top__menu_item:first-child {
+.CollectionGrid__top__menu_item:first-child {
     margin: 0 0.35em 0 0;
 }
 
-.MoviesGrid__top__menu_item:last-child {
+.CollectionGrid__top__menu_item:last-child {
     margin: 0 0 0 0.35em;
 }
 
-.MoviesGrid__top__menu_item:only-child {
+.CollectionGrid__top__menu_item:only-child {
     margin: 0;
 }
 
 @media only screen and (max-width: 767px) {
-    .MoviesGrid__top {
+    .CollectionGrid__top {
         flex-direction: column;
     }
 
-    .MoviesGrid__top__title {
+    .CollectionGrid__top__title {
         margin-bottom: 0.5rem;
     }
 
+}
+
+.CollectionGrid__column_content {
+    height: 100%;
 }
