@@ -3,9 +3,11 @@ import { Card, Placeholder } from 'semantic-ui-react';
 import '../styles/PosterMovieCard.css';
 
 function PosterMovieCardPlaceholder(props) {
+    const { className = '' } = props;
+
     return (
         <Card
-            className="PosterMovieCardPlaceholder"
+            className={`PosterMovieCardPlaceholder ${className}`}
             fluid
         >
             <Placeholder>

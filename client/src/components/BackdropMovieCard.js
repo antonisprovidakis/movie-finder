@@ -7,7 +7,7 @@ import { truncateOverview } from '../utils/movieCard';
 import { formatDate } from '../utils/date';
 import { createImageSrc } from '../api/config/image';
 
-function BackdropMovieCard({ movie, showOverview = true }) {
+function BackdropMovieCard({ movie, showOverview = true, className = '' }) {
     const {
         id,
         title,
@@ -21,7 +21,7 @@ function BackdropMovieCard({ movie, showOverview = true }) {
         <Card
             as={Link}
             to={`/movie/${id}`}
-            className="BackdropMovieCard"
+            className={`BackdropMovieCard ${className}`}
             fluid
         >
             <Image

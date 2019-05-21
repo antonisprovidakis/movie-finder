@@ -6,7 +6,7 @@ import '../styles/PosterMovieCard.css';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utils/date';
 
-function PosterMovieCard({ movie }) {
+function PosterMovieCard({ movie, className = '' }) {
     const {
         id,
         title,
@@ -19,7 +19,7 @@ function PosterMovieCard({ movie }) {
         <Card
             as={Link}
             to={`/movie/${id}`}
-            className="PosterMovieCard"
+            className={`PosterMovieCard ${className}`}
             fluid
         >
             <Image
