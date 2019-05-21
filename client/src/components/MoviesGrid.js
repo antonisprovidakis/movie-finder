@@ -1,70 +1,33 @@
 import React from 'react';
-import { Grid, Header, Menu, Dropdown } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import '../styles/MoviesGrid.css';
-import _invoke from 'lodash/invoke';
-import PosterMovieCard from './PosterMovieCard';
-import BackdropMovieCard from './BackdropMovieCard';
-
-function determineMovieCardComponent(cardViewStyle) {
-    switch (cardViewStyle) {
-        case 'backdrop':
-            return BackdropMovieCard;
-        case 'poster':
-        default:
-            return PosterMovieCard;
-    }
-}
 
 function MoviesGrid({
     title = '',
     movies,
+    movieCardComponent: MovieCard,
     noResultsMessage = 'No results found.',
-    cardViewStyle = 'poster', // 'poster' || 'backdrop'
-    onCardViewStyleOptionClick,
-    menuVisible = false,
+    menuItems = [],
     ...rest
 }) {
-    const MovieCard = determineMovieCardComponent(cardViewStyle);
-
-    function handleCardViewStyleOptionClick(e, item) {
-        const cardViewStyle = item.value;
-        _invoke({ onCardViewStyleOptionClick }, 'onCardViewStyleOptionClick', e, cardViewStyle);
-    }
-
     return (
         <div className='MoviesGrid'>
-            {(title.length > 0 || menuVisible) &&
-                <Menu secondary>
-                    {title.length > 0 &&
-                        <Menu.Item fitted>
-                            <Header as='h2' className="MoviesGrid__title">
-                                {title}
-                            </Header>
-                        </Menu.Item>
-                    }
+            <div className='MoviesGrid__top'>
+                <h2 className='MoviesGrid__top__title'>{title}</h2>
+                <div className='MoviesGrid__top__menu'>
+                    {menuItems.map((menuItem, index) => {
+                        const className = [
+                            menuItem.props.className,
+                            'MoviesGrid__top__menu_item'
+                        ].join(' ').trim();
 
-                    {menuVisible &&
-                        <Menu.Menu position='right'>
-                            <Menu.Item fitted>
-                                <Dropdown text='View'>
-                                    <Dropdown.Menu >
-                                        <Dropdown.Item
-                                            text='Poster Card View'
-                                            value='poster'
-                                            onClick={handleCardViewStyleOptionClick}
-                                        />
-                                        <Dropdown.Item
-                                            text='Backdrop Card View'
-                                            value='backdrop'
-                                            onClick={handleCardViewStyleOptionClick}
-                                        />
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </Menu.Item>
-                        </Menu.Menu>
-                    }
-                </Menu>
-            }
+                        return React.cloneElement(menuItem, {
+                            key: index,
+                            className
+                        })
+                    })}
+                </div>
+            </div>
 
             {movies.length === 0
                 ? noResultsMessage

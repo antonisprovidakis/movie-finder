@@ -7,6 +7,14 @@ import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { extractPageFromQueryString, determinePage } from '../utils/page';
+import { Dropdown } from 'semantic-ui-react';
+import PosterMovieCard from '../components/PosterMovieCard';
+import BackdropMovieCard from '../components/BackdropMovieCard';
+
+const movieCardTypes = {
+    poster: PosterMovieCard,
+    backdrop: BackdropMovieCard
+};
 
 function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle, history, location, loadMoviesByCategory, setMovieCardViewStyle }) {
     const title = routeNameToTitle(category);
@@ -33,11 +41,29 @@ function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle
         gotoPage(data.activePage);
     }
 
-    function handleCardViewStyleOptionClick(e, newCardViewStyle) {
-        if (cardViewStyle !== newCardViewStyle) {
-            setMovieCardViewStyle(newCardViewStyle);
+    function handleCardViewStyleOptionClick(e, item) {
+        const newMovieCardViewStyle = item.value;
+        if (cardViewStyle !== newMovieCardViewStyle) {
+            setMovieCardViewStyle(newMovieCardViewStyle);
         }
     }
+
+    const moviesGridMenuItems = [
+        <Dropdown text='View' className='mydrop'>
+            <Dropdown.Menu>
+                <Dropdown.Item
+                    text='Poster Card View'
+                    value='poster'
+                    onClick={handleCardViewStyleOptionClick}
+                />
+                <Dropdown.Item
+                    text='Backdrop Card View'
+                    value='backdrop'
+                    onClick={handleCardViewStyleOptionClick}
+                />
+            </Dropdown.Menu>
+        </Dropdown>
+    ];
 
     return (
         <div className="MoviesPage">
@@ -55,10 +81,9 @@ function MoviesPage({ category, movies, page, loading, totalPages, cardViewStyle
                         title={title}
                         columns={gridColumns}
                         doubling
-                        menuVisible
                         movies={movies}
-                        cardViewStyle={cardViewStyle}
-                        onCardViewStyleOptionClick={handleCardViewStyleOptionClick}
+                        menuItems={moviesGridMenuItems}
+                        movieCardComponent={movieCardTypes[cardViewStyle]}
                     />
                 }
             </div>
@@ -97,7 +122,7 @@ const mapStateToProps = (state, ownProps) => {
         loading,
         // TODO: this is a temp fix due to a limitation of TMDb (> 1000 returns error)
         totalPages: totalPages > 1000 ? 1000 : totalPages,
-        cardViewStyle
+        movieCardViewStyle: cardViewStyle
     }
 }
 

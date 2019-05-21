@@ -7,6 +7,7 @@ import { Header, Button } from 'semantic-ui-react';
 import MoviesGrid from '../components/MoviesGrid';
 import '../styles/HomePage.css';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
+import PosterMovieCard from '../components/PosterMovieCard';
 
 function loadData({ loadMoviesByCategory }) {
     const categories = ['popular', 'in-theaters', 'upcoming'];
@@ -47,6 +48,7 @@ function HomePage(props) {
                         <MoviesGrid
                             title={title}
                             movies={movies}
+                            movieCardComponent={PosterMovieCard}
                             columns={4}
                             doubling
                         />
