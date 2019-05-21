@@ -65,7 +65,7 @@ function HomePage(props) {
                                 color='orange'
                             >
                                 See More
-                        </Button>
+                            </Button>
                         </div>
                     </>
                     :
