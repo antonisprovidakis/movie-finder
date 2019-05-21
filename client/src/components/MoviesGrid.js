@@ -4,7 +4,7 @@ import '../styles/MoviesGrid.css';
 
 function MoviesGrid({
     title = '',
-    movies,
+    movies = [],
     movieCardComponent: MovieCard,
     noResultsMessage = 'No results found.',
     menuItems = [],
