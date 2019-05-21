@@ -5,11 +5,12 @@ import '../styles/MoviePage.css';
 import { Grid, Image, Header, List, Label, Flag } from 'semantic-ui-react';
 import Rating from '../components/Rating';
 import NotFound from '../components/NotFound';
-import PersonsGrid from '../components/PersonsGrid';
+import CollectionGrid from '../components/CollectionGrid';
 import { findLanguageNameInEnglishFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utils/date';
 import extractReleaseDatesForRegion from '../utils/extractReleaseDatesForRegion';
+import PersonCard from '../components/PersonCard';
 
 function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
     useEffect(() => {
@@ -23,6 +24,16 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
 
     if (!movie) {
         return <NotFound />;
+    }
+
+    function renderCastItem(item) {
+        const {
+            id,
+            name,
+            profile_path: image,
+            character: sub
+        } = item;
+        return <PersonCard id={id} name={name} image={image} sub={sub} />
     }
 
     const top4Cast = movie.credits ? movie.credits.cast.slice(0, 4) : [];
@@ -66,20 +77,14 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
                 <Grid.Row>
                     <Grid.Column>
                         <div className='MoviePage__cast'>
-                            {top4Cast.length > 0
-                                ?
-                                <PersonsGrid
-                                    title='Top Billed Cast'
-                                    columns={4}
-                                    doubling
-                                    persons={top4Cast}
-                                    forCast
-                                />
-                                :
-                                <p className='MoviePage__cast__missing-message'>
-                                    We don't have any cast added to this movie.
-                                </p>
-                            }
+                            <CollectionGrid
+                                title='Top Billed Cast'
+                                columns={4}
+                                doubling
+                                collection={top4Cast}
+                                renderItem={renderCastItem}
+                                noResultsMessage={"We don't have any cast added to this movie."}
+                            />
                         </div>
                     </Grid.Column>
                 </Grid.Row>

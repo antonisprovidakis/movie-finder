@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { loadMoviesByCategory } from '../redux/actions';
 import _get from 'lodash/get';
 import { Header, Button } from 'semantic-ui-react';
-import MoviesGrid from '../components/MoviesGrid';
+import CollectionGrid from '../components/CollectionGrid';
 import '../styles/HomePage.css';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import PosterMovieCard from '../components/PosterMovieCard';
@@ -39,19 +39,25 @@ function HomePage(props) {
         }
     ];
 
+    function renderItem(item) {
+        return <PosterMovieCard movie={item} />
+    }
+
     function renderSection({ title, movies, linkTo }) {
         return (
             <div key={title} className='HomePage__movies-container__section'>
                 {movies.length > 0
                     ?
                     <>
-                        <MoviesGrid
-                            title={title}
-                            movies={movies}
-                            movieCardComponent={PosterMovieCard}
-                            columns={4}
-                            doubling
-                        />
+                        <div className='HomePage__movies-container__section__main'>
+                            <CollectionGrid
+                                title={title}
+                                collection={movies}
+                                renderItem={renderItem}
+                                columns={4}
+                                doubling
+                            />
+                        </div>
                         <div className='HomePage__movies-container__section__bottom'>
                             <Button
                                 as={Link}
@@ -63,12 +69,14 @@ function HomePage(props) {
                         </div>
                     </>
                     :
-                    <MoviesGridPlaceholder
-                        title={title}
-                        num={4}
-                        columns={4}
-                        doubling
-                    />
+                    <div className='HomePage__movies-container__section__main'>
+                        <MoviesGridPlaceholder
+                            title={title}
+                            num={4}
+                            columns={4}
+                            doubling
+                        />
+                    </div>
                 }
             </div>
         );

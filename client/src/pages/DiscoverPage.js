@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { discoverMovies, changeDiscoverOptions, resetDiscoverOptions } from '../redux/actions';
 import { Form } from 'semantic-ui-react';
 import '../styles/DiscoverPage.css';
-import MoviesGrid from '../components/MoviesGrid';
+import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { genres } from '../api/config/genres';
@@ -89,6 +89,10 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
         gotoPage(data.activePage);
     }
 
+    function renderItem(item) {
+        return <PosterMovieCard movie={item} />
+    }
+
     return (
         <div className="DiscoverPage">
             <h2 className="DiscoverPage__title">Discover</h2>
@@ -135,11 +139,11 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
                         doubling
                     />
                     :
-                    <MoviesGrid
+                    <CollectionGrid
                         columns={4}
                         doubling
-                        movies={movies}
-                        movieCardComponent={PosterMovieCard}
+                        collection={movies}
+                        renderItem={renderItem}
                     />
                 }
             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadMoviesByCategory, setMovieCardViewStyle } from '../redux/actions';
-import MoviesGrid from '../components/MoviesGrid';
+import CollectionGrid from '../components/CollectionGrid';
 import '../styles/MoviesPage.css';
 import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
@@ -62,6 +62,11 @@ function MoviesPage({ category, page, movies, loading, totalPages, history, loca
         </Dropdown>
     ];
 
+    function renderItem(item) {
+        const MovieCardComponent = movieCardTypes[movieCardViewStyle];
+        return <MovieCardComponent movie={item} />
+    }
+
     return (
         <div className="MoviesPage">
             <div className="MoviesPage__movies-container">
@@ -74,13 +79,13 @@ function MoviesPage({ category, page, movies, loading, totalPages, history, loca
                         doubling
                     />
                     :
-                    <MoviesGrid
+                    <CollectionGrid
                         title={title}
                         columns={gridColumns}
                         doubling
-                        movies={movies}
+                        collection={movies}
+                        renderItem={renderItem}
                         menuItems={moviesGridMenuItems}
-                        movieCardComponent={movieCardTypes[movieCardViewStyle]}
                     />
                 }
             </div>

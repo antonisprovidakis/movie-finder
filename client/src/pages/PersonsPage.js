@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadPopularPersons } from '../redux/actions';
 import { extractPageFromQueryString, determinePage } from '../utils/page';
-import PersonsGrid from '../components/PersonsGrid';
+import CollectionGrid from '../components/CollectionGrid';
 import '../styles/PersonsPage.css';
 import Pagination from '../components/Pagination';
 import PersonsGridPlaceholder from '../components/PersonsGridPlaceholder';
+import PersonCard from '../components/PersonCard';
 
 function PersonsPage({ persons, loading, totalPages, page, history, location, loadPopularPersons }) {
     useEffect(() => {
@@ -23,6 +24,15 @@ function PersonsPage({ persons, loading, totalPages, page, history, location, lo
         gotoPage(data.activePage);
     }
 
+    function renderItem(item) {
+        const {
+            id,
+            name,
+            profile_path: image
+        } = item;
+        return <PersonCard id={id} name={name} image={image} />
+    }
+
     return (
         <div className="PersonsPage">
             <div className="PersonsPage__persons-container">
@@ -35,11 +45,12 @@ function PersonsPage({ persons, loading, totalPages, page, history, location, lo
                         doubling
                     />
                     :
-                    <PersonsGrid
+                    <CollectionGrid
                         title='Popular People'
                         columns={4}
                         doubling
-                        persons={persons}
+                        collection={persons}
+                        renderItem={renderItem}
                     />
                 }
             </div>
