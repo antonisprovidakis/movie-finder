@@ -9,6 +9,7 @@ import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { genres } from '../api/config/genres';
 import { extractPageFromQueryString, determinePage } from '../utils/page';
 import { createQuery } from '../utils/discoverMovies';
+import PosterMovieCard from '../components/PosterMovieCard';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -138,7 +139,7 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
                         columns={4}
                         doubling
                         movies={movies}
-                        cardViewStyle='poster'
+                        movieCardComponent={PosterMovieCard}
                     />
                 }
             </div>
