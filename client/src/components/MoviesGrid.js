@@ -38,7 +38,7 @@ function MoviesGrid({
                 >
                     {movies.map(movie =>
                         <Grid.Column key={movie.id} className='MoviesGrid__column'>
-                            <MovieCard movie={movie} />
+                            <MovieCard className='MoviesGrid__column_content' movie={movie} />
                         </Grid.Column>
                     )}
                 </Grid>
