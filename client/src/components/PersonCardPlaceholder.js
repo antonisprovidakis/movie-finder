@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Placeholder } from 'semantic-ui-react';
 
-function PersonCardPlaceholder({ forCast = false }) {
+function PersonCardPlaceholder({ forCast = false, className = '' }) {
     return (
-        <Card className='PersonCardPlaceholder'>
+        <Card className={`PersonCardPlaceholder ${className}`}>
             <Placeholder>
                 <Placeholder.Image square />
             </Placeholder>

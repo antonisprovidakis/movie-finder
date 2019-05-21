@@ -4,12 +4,12 @@ import { Card, Image } from 'semantic-ui-react';
 import '../styles/PersonCard.css';
 import { createImageSrc } from '../api/config/image';
 
-function PersonCard({ id, name, image, sub = '' }) {
+function PersonCard({ id, name, image, sub = '', className = '' }) {
     return (
         <Card
             as={Link}
             to={`/person/${id}`}
-            className="PersonCard"
+            className={`PersonCard ${className}`}
             fluid
         >
             <Image
