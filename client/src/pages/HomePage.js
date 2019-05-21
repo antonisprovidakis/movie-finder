@@ -63,6 +63,7 @@ function HomePage(props) {
                                 as={Link}
                                 to={linkTo}
                                 color='orange'
+                                floated='right'
                             >
                                 See More
                             </Button>

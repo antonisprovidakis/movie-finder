@@ -18,6 +18,5 @@
 }
 
 .HomePage__movies-container__section__bottom {
-    display: flex; 
-    justify-content: flex-end;
+    overflow: hidden;
 }
