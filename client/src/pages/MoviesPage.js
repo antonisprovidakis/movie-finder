@@ -5,11 +5,11 @@ import CollectionGrid from '../components/CollectionGrid';
 import '../styles/MoviesPage.css';
 import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
-import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { extractPageFromQueryString, determinePage } from '../utils/page';
 import { Dropdown } from 'semantic-ui-react';
 import PosterMovieCard from '../components/PosterMovieCard';
 import BackdropMovieCard from '../components/BackdropMovieCard';
+import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
 const movieCardTypes = {
     poster: PosterMovieCard,
@@ -67,27 +67,25 @@ function MoviesPage({ category, page, movies, loading, totalPages, history, loca
         return <MovieCardComponent movie={item} />
     }
 
+    function renderPlaceholderItem() {
+        // TODO: or BackdropMovieCardPlaceholder (not implemented, yet)
+        return <PosterMovieCardPlaceholder />;
+    }
+
     return (
         <div className="MoviesPage">
             <div className="MoviesPage__movies-container">
-                {loading
-                    ?
-                    <MoviesGridPlaceholder
-                        title={title}
-                        num={12}
-                        columns={gridColumns}
-                        doubling
-                    />
-                    :
-                    <CollectionGrid
-                        title={title}
-                        columns={gridColumns}
-                        doubling
-                        collection={movies}
-                        renderItem={renderItem}
-                        menuItems={moviesGridMenuItems}
-                    />
-                }
+                <CollectionGrid
+                    title={title}
+                    collection={movies}
+                    renderItem={renderItem}
+                    menuItems={moviesGridMenuItems}
+                    placeholderItemsCount={20}
+                    renderPlaceholderItem={renderPlaceholderItem}
+                    loading={loading}
+                    columns={gridColumns}
+                    doubling
+                />
             </div>
 
             <Pagination

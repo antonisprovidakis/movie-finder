@@ -6,8 +6,8 @@ import _get from 'lodash/get';
 import { Header, Button } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';
 import '../styles/HomePage.css';
-import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import PosterMovieCard from '../components/PosterMovieCard';
+import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
 function loadData({ loadMoviesByCategory }) {
     const categories = ['popular', 'in-theaters', 'upcoming'];
@@ -43,40 +43,36 @@ function HomePage(props) {
         return <PosterMovieCard movie={item} />
     }
 
+    function renderPlaceholderItem() {
+        return <PosterMovieCardPlaceholder />;
+    }
+
     function renderSection({ title, movies, linkTo }) {
         return (
             <div key={title} className='HomePage__movies-container__section'>
-                {movies.length > 0
-                    ?
-                    <>
-                        <div className='HomePage__movies-container__section__main'>
-                            <CollectionGrid
-                                title={title}
-                                collection={movies}
-                                renderItem={renderItem}
-                                columns={4}
-                                doubling
-                            />
-                        </div>
-                        <div className='HomePage__movies-container__section__bottom'>
-                            <Button
-                                as={Link}
-                                to={linkTo}
-                                color='orange'
-                                floated='right'
-                            >
-                                See More
+                <div className='HomePage__movies-container__section__main'>
+                    <CollectionGrid
+                        title={title}
+                        collection={movies}
+                        renderItem={renderItem}
+                        placeholderItemsCount={4}
+                        renderPlaceholderItem={renderPlaceholderItem}
+                        loading={movies.length === 0}
+                        columns={4}
+                        doubling
+                    />
+                </div>
+                {
+                    movies.length !== 0 &&
+                    <div className='HomePage__movies-container__section__bottom'>
+                        <Button
+                            as={Link}
+                            to={linkTo}
+                            color='orange'
+                            floated='right'
+                        >
+                            See More
                             </Button>
-                        </div>
-                    </>
-                    :
-                    <div className='HomePage__movies-container__section__main'>
-                        <MoviesGridPlaceholder
-                            title={title}
-                            num={4}
-                            columns={4}
-                            doubling
-                        />
                     </div>
                 }
             </div>

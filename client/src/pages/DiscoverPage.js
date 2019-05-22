@@ -5,11 +5,11 @@ import { Form } from 'semantic-ui-react';
 import '../styles/DiscoverPage.css';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
-import MoviesGridPlaceholder from '../components/MoviesGridPlaceholder';
 import { genres } from '../api/config/genres';
 import { extractPageFromQueryString, determinePage } from '../utils/page';
 import { createQuery } from '../utils/discoverMovies';
 import PosterMovieCard from '../components/PosterMovieCard';
+import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
 function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
@@ -93,6 +93,10 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
         return <PosterMovieCard movie={item} />
     }
 
+    function renderPlaceholderItem() {
+        return <PosterMovieCardPlaceholder />;
+    }
+
     return (
         <div className="DiscoverPage">
             <h2 className="DiscoverPage__title">Discover</h2>
@@ -131,21 +135,15 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
             </div>
 
             <div className="DiscoverPage__movies-container">
-                {loading
-                    ?
-                    <MoviesGridPlaceholder
-                        num={12}
-                        columns={4}
-                        doubling
-                    />
-                    :
-                    <CollectionGrid
-                        columns={4}
-                        doubling
-                        collection={movies}
-                        renderItem={renderItem}
-                    />
-                }
+                <CollectionGrid
+                    collection={movies}
+                    renderItem={renderItem}
+                    placeholderItemsCount={20}
+                    renderPlaceholderItem={renderPlaceholderItem}
+                    loading={loading}
+                    columns={4}
+                    doubling
+                />
             </div>
 
             <Pagination

@@ -5,8 +5,8 @@ import { extractPageFromQueryString, determinePage } from '../utils/page';
 import CollectionGrid from '../components/CollectionGrid';
 import '../styles/PersonsPage.css';
 import Pagination from '../components/Pagination';
-import PersonsGridPlaceholder from '../components/PersonsGridPlaceholder';
 import PersonCard from '../components/PersonCard';
+import PersonCardPlaceholder from '../components/PersonCardPlaceholder';
 
 function PersonsPage({ persons, loading, totalPages, page, history, location, loadPopularPersons }) {
     useEffect(() => {
@@ -33,26 +33,23 @@ function PersonsPage({ persons, loading, totalPages, page, history, location, lo
         return <PersonCard id={id} name={name} image={image} />
     }
 
+    function renderPlaceholderItem() {
+        return <PersonCardPlaceholder />;
+    }
+
     return (
         <div className="PersonsPage">
             <div className="PersonsPage__persons-container">
-                {loading
-                    ?
-                    <PersonsGridPlaceholder
-                        title='Popular People'
-                        numberOfCards={12}
-                        columns={4}
-                        doubling
-                    />
-                    :
-                    <CollectionGrid
-                        title='Popular People'
-                        columns={4}
-                        doubling
-                        collection={persons}
-                        renderItem={renderItem}
-                    />
-                }
+                <CollectionGrid
+                    title='Popular People'
+                    collection={persons}
+                    renderItem={renderItem}
+                    placeholderItemsCount={12}
+                    renderPlaceholderItem={renderPlaceholderItem}
+                    loading={loading}
+                    columns={4}
+                    doubling
+                />
             </div>
 
             <Pagination

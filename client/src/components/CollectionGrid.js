@@ -39,42 +39,82 @@ function CollectionGridHeader({ title = '', menuItems = [] }) {
     );
 }
 
+function BaseGrid({ collection, renderItem, ...rest }) {
+    return (
+        <Grid className='CollectionGrid__items' {...rest}>
+            {
+                collection.map((item, index) => {
+                    const renderedItem = renderItem(item, index);
+
+                    if (!React.isValidElement(renderedItem)) {
+                        return null;
+                    }
+
+                    const className = [
+                        renderedItem.className,
+                        'CollectionGrid__column_content'
+                    ].join(' ').trim();
+
+                    return (
+                        <Grid.Column key={index} className='CollectionGrid__column'>
+                            {React.cloneElement(renderedItem, { className })}
+                        </Grid.Column>
+                    )
+                })
+            }
+        </Grid>
+    );
+}
+
+function GridPlaceholder({ placeholderItemsCount, renderItem, ...rest }) {
+    const collection = Array(placeholderItemsCount).fill({});
+    return (
+        <BaseGrid
+            collection={collection}
+            renderItem={renderItem}
+            {...rest}
+        />
+    );
+}
+
 function CollectionGrid({
     title = '',
     collection = [],
     renderItem,
     noResultsMessage = 'No results found.',
+    renderPlaceholderItem = () => null,
+    placeholderItemsCount = 0,
+    loading = false,
     menuItems = [],
     ...rest
 }) {
     return (
         <div className='CollectionGrid'>
-            <CollectionGridHeader title={title} menuItems={menuItems} />
-
-            {collection.length === 0
-                ? noResultsMessage
-                :
-                <Grid
-                    className='CollectionGrid__items'
-                    {...rest}
-                >
-                    {collection.map(item => {
-                        const renderedItem = renderItem(item);
-
-                        const className = [
-                            renderedItem.className,
-                            'CollectionGrid__column_content'
-                        ].join(' ').trim();
-
-                        const updatedRenderedItem = React.cloneElement(renderedItem, { className });
-
-                        return (
-                            <Grid.Column key={item.id} className='CollectionGrid__column'>
-                                {updatedRenderedItem}
-                            </Grid.Column>
-                        )
-                    })}
-                </Grid>
+            <CollectionGridHeader title={title} menuItems={loading ? [] : menuItems} />
+            {
+                loading
+                    ? (
+                        <GridPlaceholder
+                            renderItem={renderPlaceholderItem}
+                            placeholderItemsCount={placeholderItemsCount}
+                            {...rest}
+                        />
+                    )
+                    : (
+                        collection.length > 0
+                            ? (
+                                <BaseGrid
+                                    collection={collection}
+                                    renderItem={renderItem}
+                                    {...rest}
+                                />
+                            )
+                            : (
+                                <p className='CollectionGrid__no-results-message'>
+                                    {noResultsMessage}
+                                </p>
+                            )
+                    )
             }
         </div>
     );
