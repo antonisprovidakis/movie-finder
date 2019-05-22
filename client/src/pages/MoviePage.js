@@ -79,11 +79,11 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
                         <div className='MoviePage__cast'>
                             <CollectionGrid
                                 title='Top Billed Cast'
-                                columns={4}
-                                doubling
                                 collection={top4Cast}
                                 renderItem={renderCastItem}
                                 noResultsMessage={"We don't have any cast added to this movie."}
+                                columns={4}
+                                doubling
                             />
                         </div>
                     </Grid.Column>
