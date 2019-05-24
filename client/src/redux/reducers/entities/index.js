@@ -1,9 +1,12 @@
 import _merge from 'lodash/merge';
-import _get from 'lodash/get';
 
 // Updates an entity cache in response to any action with response.entities.
 const entities = (state = { movies: {}, persons: {} }, action) => {
-    const entities = _get(action, 'response.data.entities');
+    const entities =
+        action.response &&
+        action.response.data &&
+        action.response.data.entities;
+
     if (entities) {
         return _merge({}, state, entities);
     }
