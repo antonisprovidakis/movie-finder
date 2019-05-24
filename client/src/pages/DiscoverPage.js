@@ -6,12 +6,13 @@ import '../styles/DiscoverPage.css';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import { genres } from '../api/config/genres';
-import { extractPageFromQueryString, determinePage } from '../utils/page';
+import { sortingFilters } from '../api/config/sortingFilters';
+import { getPageFromQueryString } from '../utils/page';
 import { createQuery } from '../utils/discoverMovies';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
-function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 1900 } = {}) {
+function createYearOptions({ fromYear = new Date().getFullYear(), toYear = 1900 } = {}) {
     if (fromYear === toYear) {
         const option = { value: fromYear, text: fromYear }
         return [option];
@@ -31,24 +32,32 @@ function createYearOptions({ fromYear = (new Date()).getFullYear(), toYear = 190
     return yearOptions;
 }
 
-// TODO: set according to API (HINT: start from current year back to 1900)
-const yearOptions = createYearOptions();
+const yearOptions = createYearOptions({
+    fromYear: new Date().getFullYear(),
+    toYear: 1900
+});
 
-const sortByFilterOptions = [
-    { value: 'popularity.desc', text: 'Popular Descending' },
-    { value: 'popularity.asc', text: 'Popular Ascending' },
-    { value: 'vote_average.desc', text: 'Rating Descending' },
-    { value: 'vote_average.asc', text: 'Rating Ascending' },
-    { value: 'release_date.desc', text: 'Release Date Descending' },
-    { value: 'release_date.asc', text: 'Release Date Ascending' }
-];
+const sortByFilterOptions = sortingFilters.map(filter =>
+    ({ value: filter.id, text: filter.text })
+);
 
 // check if they can be fetched from server dynamically
 const genreOptions = genres.map(genre =>
     ({ value: genre.id, text: genre.name })
 );
 
-function DiscoverPage({ page, options, totalPages, movies, loading, history, location, discoverMovies, changeDiscoverOptions, resetDiscoverOptions }) {
+function DiscoverPage({
+    page,
+    options,
+    totalPages,
+    movies,
+    isFetching,
+    history,
+    location,
+    discoverMovies,
+    changeDiscoverOptions,
+    resetDiscoverOptions
+}) {
     const { primaryReleaseYear, sortBy, withGenres } = options;
 
     useEffect(() => {
@@ -140,7 +149,7 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
                     renderItem={renderItem}
                     placeholderItemsCount={20}
                     renderPlaceholderItem={renderPlaceholderItem}
-                    loading={loading}
+                    loading={isFetching}
                     columns={4}
                     doubling
                 />
@@ -151,7 +160,7 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
                 topPadded
-                disabled={loading}
+                disabled={isFetching}
             />
         </div>
     );
@@ -159,28 +168,32 @@ function DiscoverPage({ page, options, totalPages, movies, loading, history, loc
 
 const mapStateToProps = (state, ownProps) => {
     const cachedMovies = state.entities.movies;
-    const moviesByDiscoverOptions = state.pagination.moviesByDiscoverOptions;
-    const options = moviesByDiscoverOptions.currentOptions;
-    const { primaryReleaseYear, sortBy, withGenres } = options;
-    const query = createQuery(primaryReleaseYear, sortBy, withGenres);
-    const movieIdsByQuery = moviesByDiscoverOptions.byQuery[query] || {};
-    const pages = movieIdsByQuery.pages || {};
-    const totalPages = movieIdsByQuery.totalPages || null;
-    const pageFromQuery = extractPageFromQueryString(ownProps.location.search);
-    // TODO: (SSR) - To be implemented
-    // if page > totalPages, set page equals to totalPages
-    const page = determinePage(pageFromQuery);
+    const { options, byQuery = {} } = state.pagination.moviesByDiscoverOptions;
+    const query = createQuery(
+        options.primaryReleaseYear,
+        options.sortBy,
+        options.withGenres
+    );
+    const {
+        isFetching = false,
+        totalPages = undefined,
+        pages = {}
+    } = byQuery[query] || {};
+    const page = getPageFromQueryString(ownProps.location.search);
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
-    const loading = movieIdsByQuery.isFetching || false;
 
     return {
         movies,
         page,
-        totalPages: totalPages > 1000 ? 1000 : totalPages,
-        loading,
+        totalPages,
+        isFetching,
         options
     }
 }
 
-export default connect(mapStateToProps, { discoverMovies, changeDiscoverOptions, resetDiscoverOptions })(DiscoverPage);
+export default connect(mapStateToProps, {
+    discoverMovies,
+    changeDiscoverOptions,
+    resetDiscoverOptions
+})(DiscoverPage);
