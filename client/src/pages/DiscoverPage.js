@@ -75,16 +75,8 @@ function DiscoverPage({
         });
     }, [primaryReleaseYear, sortBy, withGenres, page]);
 
-    function handleYearChange(e, data) {
-        changeDiscoverOptions({ primaryReleaseYear: data.value });
-    }
-
-    function handleSortByChange(e, data) {
-        changeDiscoverOptions({ sortBy: data.value });
-    }
-
-    function handleGenresChange(e, data) {
-        changeDiscoverOptions({ withGenres: data.value });
+    function handleChange(e, { name, value }) {
+        changeDiscoverOptions({ [name]: value });
     }
 
     function gotoPage(newPage) {
@@ -115,29 +107,32 @@ function DiscoverPage({
                 <Form>
                     <Form.Group widths='equal'>
                         <Form.Dropdown
+                            name='primaryReleaseYear'
                             label='Year'
                             fluid
                             selection
-                            onChange={handleYearChange}
+                            onChange={handleChange}
                             options={yearOptions}
                             value={primaryReleaseYear}
                         />
                         <Form.Dropdown
+                            name='sortBy'
                             label='Sort By'
                             fluid
                             selection
-                            onChange={handleSortByChange}
+                            onChange={handleChange}
                             options={sortByFilterOptions}
                             value={sortBy}
                         />
                         <Form.Dropdown
+                            name='withGenres'
                             label='Genres'
                             placeholder='Filter by genres...'
                             fluid
                             multiple
                             search
                             selection
-                            onChange={handleGenresChange}
+                            onChange={handleChange}
                             options={genreOptions}
                             value={withGenres}
                         />
