@@ -106,6 +106,8 @@ function DiscoverPage({
         return <PosterMovieCardPlaceholder />;
     }
 
+    const shouldRenderPagination = totalPages > 1 && page <= totalPages;
+
     return (
         <div className="DiscoverPage">
             <h2 className="DiscoverPage__title">Discover</h2>
@@ -155,13 +157,15 @@ function DiscoverPage({
                 />
             </div>
 
-            <Pagination
-                activePage={page}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                topPadded
-                disabled={isFetching}
-            />
+            {shouldRenderPagination &&
+                <Pagination
+                    activePage={page}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    topPadded
+                    disabled={isFetching}
+                />
+            }
         </div>
     );
 }
