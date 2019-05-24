@@ -9,7 +9,7 @@ const initialState = {
     withGenres: []
 };
 
-function currentOptions(state = initialState, action) {
+function options(state = initialState, action) {
     switch (action.type) {
         case ActionTypes.CHANGE_DISCOVER_MOVIES_OPTIONS:
             return {
@@ -36,7 +36,7 @@ const byQuery = paginate({
 });
 
 const moviesByDiscoverOptions = combineReducers({
-    currentOptions,
+    options,
     byQuery
 });
 
