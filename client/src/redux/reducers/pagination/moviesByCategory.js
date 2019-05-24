@@ -1,12 +1,12 @@
 import paginate from './paginate';
-import { ActionTypes } from '../../actions';
+import { MovieActionTypes } from '../../actions/movieActions';
 
-const moviesByCategory  = paginate({
+const moviesByCategory = paginate({
     mapActionToKey: action => action.category,
     types: [
-        ActionTypes.LOAD_MOVIES_BY_CATEGORY_REQUEST,
-        ActionTypes.LOAD_MOVIES_BY_CATEGORY_SUCCESS,
-        ActionTypes.LOAD_MOVIES_BY_CATEGORY_FAILURE
+        MovieActionTypes.LOAD_MOVIES_BY_CATEGORY_REQUEST,
+        MovieActionTypes.LOAD_MOVIES_BY_CATEGORY_SUCCESS,
+        MovieActionTypes.LOAD_MOVIES_BY_CATEGORY_FAILURE
     ]
 });
 

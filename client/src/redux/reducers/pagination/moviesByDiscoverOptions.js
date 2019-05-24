@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import paginate from './paginate';
-import { ActionTypes } from '../../actions';
+import { MovieActionTypes } from '../../actions/movieActions';
 import { createQuery } from '../../../utils/discoverMovies';
 
 const initialState = {
@@ -11,12 +11,12 @@ const initialState = {
 
 function options(state = initialState, action) {
     switch (action.type) {
-        case ActionTypes.CHANGE_DISCOVER_MOVIES_OPTIONS:
+        case MovieActionTypes.CHANGE_DISCOVER_MOVIES_OPTIONS:
             return {
                 ...state,
                 ...action.options
             };
-        case ActionTypes.RESET_DISCOVER_MOVIES_OPTIONS:
+        case MovieActionTypes.RESET_DISCOVER_MOVIES_OPTIONS:
             return { ...initialState };
         default:
             return state;
@@ -29,9 +29,9 @@ const byQuery = paginate({
         return createQuery(primaryReleaseYear, sortBy, withGenres);
     },
     types: [
-        ActionTypes.DISCOVER_MOVIES_REQUEST,
-        ActionTypes.DISCOVER_MOVIES_SUCCESS,
-        ActionTypes.DISCOVER_MOVIES_FAILURE
+        MovieActionTypes.DISCOVER_MOVIES_REQUEST,
+        MovieActionTypes.DISCOVER_MOVIES_SUCCESS,
+        MovieActionTypes.DISCOVER_MOVIES_FAILURE
     ]
 });
 

@@ -1,11 +1,11 @@
 import paginate from './paginate';
-import { ActionTypes } from '../../actions';
+import { PersonActionTypes } from '../../actions/personActions';
 
 const personsByPage = paginate({
     types: [
-        ActionTypes.LOAD_POPULAR_PERSONS_REQUEST,
-        ActionTypes.LOAD_POPULAR_PERSONS_SUCCESS,
-        ActionTypes.LOAD_POPULAR_PERSONS_FAILURE
+        PersonActionTypes.LOAD_POPULAR_PERSONS_REQUEST,
+        PersonActionTypes.LOAD_POPULAR_PERSONS_SUCCESS,
+        PersonActionTypes.LOAD_POPULAR_PERSONS_FAILURE
     ]
 });
 

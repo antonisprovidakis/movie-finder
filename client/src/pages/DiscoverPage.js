@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { discoverMovies, changeDiscoverOptions, resetDiscoverOptions } from '../redux/actions';
+import {
+    discoverMovies,
+    changeDiscoverOptions,
+    resetDiscoverOptions
+} from '../redux/actions/movieActions';
 import { Form } from 'semantic-ui-react';
 import '../styles/DiscoverPage.css';
 import CollectionGrid from '../components/CollectionGrid';

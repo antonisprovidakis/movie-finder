@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { loadMovieInfo } from '../redux/actions';
+import { loadMovieInfo } from '../redux/actions/movieActions';
 import '../styles/MoviePage.css';
 import { Grid, Image, Header, List, Label, Flag } from 'semantic-ui-react';
 import Rating from '../components/Rating';

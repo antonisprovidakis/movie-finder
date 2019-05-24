@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { loadMoviesByCategory, setMovieCardViewStyle } from '../redux/actions';
+import { loadMoviesByCategory } from '../redux/actions/movieActions';
+import { setMovieCardViewStyle } from '../redux/actions/uiActions';
 import CollectionGrid from '../components/CollectionGrid';
 import '../styles/MoviesPage.css';
 import { routeNameToTitle } from '../utils/routing';

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { loadMoviesByCategory } from '../redux/actions';
+import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import _get from 'lodash/get';
 import { Header, Button } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';

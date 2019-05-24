@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { loadPopularPersons } from '../redux/actions';
+import { loadPopularPersons } from '../redux/actions/personActions';
 import { getPageFromQueryString } from '../utils/page';
 import CollectionGrid from '../components/CollectionGrid';
 import '../styles/PersonsPage.css';
