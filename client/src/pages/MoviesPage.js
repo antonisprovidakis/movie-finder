@@ -5,7 +5,7 @@ import CollectionGrid from '../components/CollectionGrid';
 import '../styles/MoviesPage.css';
 import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
-import { extractPageFromQueryString, determinePage } from '../utils/page';
+import { getPageFromQueryString } from '../utils/page';
 import { Dropdown } from 'semantic-ui-react';
 import PosterMovieCard from '../components/PosterMovieCard';
 import BackdropMovieCard from '../components/BackdropMovieCard';
@@ -16,7 +16,18 @@ const movieCardTypes = {
     backdrop: BackdropMovieCard
 };
 
-function MoviesPage({ category, page, movies, loading, totalPages, history, location, movieCardViewStyle, setMovieCardViewStyle, loadMoviesByCategory }) {
+function MoviesPage({
+    category,
+    page,
+    movies,
+    totalPages,
+    isFetching,
+    history,
+    location,
+    movieCardViewStyle,
+    setMovieCardViewStyle,
+    loadMoviesByCategory
+}) {
     const title = routeNameToTitle(category);
     const [gridColumns, setGridColumns] = useState(movieCardViewStyle === 'poster' ? 4 : 2);
 
@@ -72,6 +83,8 @@ function MoviesPage({ category, page, movies, loading, totalPages, history, loca
         return <PosterMovieCardPlaceholder />;
     }
 
+    const shouldRenderPagination = totalPages > 1 && page <= totalPages;
+
     return (
         <div className="MoviesPage">
             <div className="MoviesPage__movies-container">
@@ -82,19 +95,20 @@ function MoviesPage({ category, page, movies, loading, totalPages, history, loca
                     menuItems={moviesGridMenuItems}
                     placeholderItemsCount={20}
                     renderPlaceholderItem={renderPlaceholderItem}
-                    loading={loading}
+                    loading={isFetching}
                     columns={gridColumns}
                     doubling
                 />
             </div>
 
-            <Pagination
-                activePage={page}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                topPadded
-                disabled={loading}
-            />
+            {shouldRenderPagination &&
+                < Pagination
+                    activePage={page}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    topPadded
+                    disabled={isFetching}
+                />}
         </div>
     );
 }
@@ -102,26 +116,22 @@ function MoviesPage({ category, page, movies, loading, totalPages, history, loca
 const mapStateToProps = (state, ownProps) => {
     const category = ownProps.match.params.category;
     const cachedMovies = state.entities.movies;
-    const movieIdsBySelectedCategory = state.pagination.moviesByCategory[category] || {};
-    const pages = movieIdsBySelectedCategory.pages || {};
-    const totalPages = movieIdsBySelectedCategory.totalPages || null;
-    const pageFromQuery = extractPageFromQueryString(ownProps.location.search);
-    // TODO: (SSR) - To be implemented
-    // if page > totalPages, set page equals to totalPages
-    const page = determinePage(pageFromQuery);
+    const {
+        isFetching = false,
+        totalPages = undefined,
+        pages = {}
+    } = state.pagination.moviesByCategory[category] || {};
+    const page = getPageFromQueryString(ownProps.location.search);
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
-    const loading = movieIdsBySelectedCategory.isFetching || false;
-
     const movieCardViewStyle = state.ui.movieCardViewStyle;
 
     return {
         category,
         page,
         movies,
-        loading,
-        // TODO: this is a temp fix due to a limitation of TMDb (> 1000 returns error)
-        totalPages: totalPages > 1000 ? 1000 : totalPages,
+        isFetching,
+        totalPages,
         movieCardViewStyle
     }
 }
