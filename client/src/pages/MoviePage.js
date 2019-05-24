@@ -15,7 +15,7 @@ import PersonCard from '../components/PersonCard';
 function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
     useEffect(() => {
         loadMovieInfo(movieId, ['imdb_id'], { appendToResponse: ['credits', 'release_dates'] });
-    }, [movieId]);
+    }, [loadMovieInfo, movieId]);
 
     if (loading) {
         // TODO: place a Loader here

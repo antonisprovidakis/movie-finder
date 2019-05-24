@@ -10,7 +10,7 @@ import { createImageSrc } from '../api/config/image';
 function PersonPage({ personId, person, loading, loadPersonInfo }) {
     useEffect(() => {
         loadPersonInfo(personId, ['biography']);
-    }, [personId]);
+    }, [loadPersonInfo, personId]);
 
     if (loading) {
         // TODO: place a Loader here

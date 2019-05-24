@@ -9,17 +9,11 @@ import '../styles/HomePage.css';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
-function loadData({ loadMoviesByCategory }) {
-    const categories = ['popular', 'in-theaters', 'upcoming'];
-    categories.forEach(category => loadMoviesByCategory(category, { page: 1, region: 'US' }));
-}
-
-function HomePage(props) {
-    const { movies } = props;
-
+function HomePage({ movies, loadMoviesByCategory }) {
     useEffect(() => {
-        loadData(props);
-    }, []);
+        const categories = ['popular', 'in-theaters', 'upcoming'];
+        categories.forEach(category => loadMoviesByCategory(category, { page: 1, region: 'US' }));
+    }, [loadMoviesByCategory]);
 
     const sectionsData = [
         {

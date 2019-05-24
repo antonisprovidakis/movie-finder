@@ -33,7 +33,7 @@ function MoviesPage({
 
     useEffect(() => {
         loadMoviesByCategory(category, { page, region: 'US' });
-    }, [category, page]);
+    }, [loadMoviesByCategory, category, page]);
 
     useEffect(() => {
         const cols = movieCardViewStyle === 'poster' ? 4 : 2;

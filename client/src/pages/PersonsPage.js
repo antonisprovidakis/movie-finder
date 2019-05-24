@@ -19,7 +19,7 @@ function PersonsPage({
 }) {
     useEffect(() => {
         loadPopularPersons({ page });
-    }, [page]);
+    }, [loadPopularPersons, page]);
 
     function gotoPage(newPage) {
         history.push({

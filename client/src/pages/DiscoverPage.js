@@ -64,7 +64,7 @@ function DiscoverPage({
         return function () {
             resetDiscoverOptions();
         }
-    }, []);
+    }, [resetDiscoverOptions]);
 
     useEffect(() => {
         discoverMovies({
@@ -73,7 +73,7 @@ function DiscoverPage({
             withGenres,
             page
         });
-    }, [primaryReleaseYear, sortBy, withGenres, page]);
+    }, [discoverMovies, primaryReleaseYear, sortBy, withGenres, page]);
 
     function handleChange(e, { name, value }) {
         changeDiscoverOptions({ [name]: value });

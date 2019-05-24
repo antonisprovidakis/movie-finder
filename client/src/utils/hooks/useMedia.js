@@ -29,7 +29,7 @@ function useMedia(query) {
         media.addListener(listener);
 
         return () => media.removeListener(listener);
-    }, [query]);
+    }, [matches, query]);
 
     return matches;
 }
