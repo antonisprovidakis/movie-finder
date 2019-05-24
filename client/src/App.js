@@ -29,16 +29,16 @@ function App(props) {
           <Suspense fallback={<div>Loading...</div>}>
             <Switch>
               <Route exact path='/' render={(props) => <Homepage {...props} />} />
-              <Route exact path='/discover' render={(props) => <DiscoverPage {...props} />} />
-              <Route exact path='/movie/:category(popular|upcoming|in-theaters|top-rated)' render={(props) => <MoviesPage {...props} />} />
-              <Route exact path='/movie/:id([1-9]\d{0,})' render={(props) => <MoviePage {...props} />} />
-              <Route exact path='/person' render={(props) => <PersonsPage {...props} />} />
-              <Route exact path='/person/:id([1-9]\d{0,})' render={(props) => <PersonPage {...props} />} />
+              <Route exact sensitive path='/discover' render={(props) => <DiscoverPage {...props} />} />
+              <Route exact sensitive path='/movie/:category(popular|upcoming|in-theaters|top-rated)' render={(props) => <MoviesPage {...props} />} />
+              <Route exact sensitive path='/movie/:id([1-9]\d{0,})' render={(props) => <MoviePage {...props} />} />
+              <Route exact sensitive path='/person' render={(props) => <PersonsPage {...props} />} />
+              <Route exact sensitive path='/person/:id([1-9]\d{0,})' render={(props) => <PersonPage {...props} />} />
               <Route render={(props) => <NotFoundPage {...props} />} />
             </Switch>
           </Suspense>
         </MainContent>
-        
+
         <Footer />
       </div >
     </Router>
