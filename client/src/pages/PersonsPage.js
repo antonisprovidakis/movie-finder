@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadPopularPersons } from '../redux/actions';
-import { extractPageFromQueryString, determinePage } from '../utils/page';
+import { getPageFromQueryString } from '../utils/page';
 import CollectionGrid from '../components/CollectionGrid';
 import '../styles/PersonsPage.css';
 import Pagination from '../components/Pagination';
 import PersonCard from '../components/PersonCard';
 import PersonCardPlaceholder from '../components/PersonCardPlaceholder';
 
-function PersonsPage({ persons, loading, totalPages, page, history, location, loadPopularPersons }) {
+function PersonsPage({
+    persons,
+    isFetching,
+    totalPages,
+    page,
+    history,
+    location,
+    loadPopularPersons
+}) {
     useEffect(() => {
         loadPopularPersons({ page });
     }, [page]);
@@ -37,6 +45,8 @@ function PersonsPage({ persons, loading, totalPages, page, history, location, lo
         return <PersonCardPlaceholder />;
     }
 
+    const shouldRenderPagination = totalPages > 1 && page <= totalPages;
+
     return (
         <div className="PersonsPage">
             <div className="PersonsPage__persons-container">
@@ -46,39 +56,39 @@ function PersonsPage({ persons, loading, totalPages, page, history, location, lo
                     renderItem={renderItem}
                     placeholderItemsCount={12}
                     renderPlaceholderItem={renderPlaceholderItem}
-                    loading={loading}
+                    loading={isFetching}
                     columns={4}
                     doubling
                 />
             </div>
 
-            <Pagination
-                activePage={page}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                topPadded
-                disabled={loading}
-            />
+            {shouldRenderPagination &&
+                <Pagination
+                    activePage={page}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    topPadded
+                    disabled={isFetching}
+                />
+            }
         </div>
     );
 }
 
 const mapStateToProps = (state, ownProps) => {
     const cachedPersons = state.entities.persons;
-    const personsByPage = state.pagination.personsByPage;
-    const pages = personsByPage.pages || {};
-    const totalPages = personsByPage.totalPages || null;
-    const pageFromQuery = extractPageFromQueryString(ownProps.location.search);
-    // TODO: (SSR) - To be implemented
-    // if page > totalPages, set page equals to totalPages
-    const page = determinePage(pageFromQuery);
+    const {
+        isFetching = false,
+        totalPages = undefined,
+        pages = {}
+    } = state.pagination.personsByPage;
+    const page = getPageFromQueryString(ownProps.location.search);
     const personIds = pages[page] || [];
     const persons = personIds.map(id => cachedPersons[id]);
-    const loading = personsByPage.isFetching || false;
 
     return {
-        loading,
-        totalPages: totalPages > 1000 ? 1000 : totalPages,
+        isFetching,
+        totalPages,
         persons,
         page
     }
