@@ -6,6 +6,7 @@ import '../styles/MoviePage.css';
 import { Grid, Image, Header, List, Label, Flag } from 'semantic-ui-react';
 import Rating from '../components/Rating';
 import NotFound from '../components/NotFound';
+import Loader from '../components/Loader';
 import CollectionGrid from '../components/CollectionGrid';
 import { findLanguageNameInEnglishFromISO } from '../api/config/language';
 import { createImageSrc } from '../api/config/image';
@@ -19,8 +20,7 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
     }, [loadMovieInfo, movieId]);
 
     if (loading) {
-        // TODO: place a Loader here
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     if (!movie) {
