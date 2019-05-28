@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NotFound from '../components/NotFound';
+import Loader from '../components/Loader';
 import { loadPersonInfo } from '../redux/actions/personActions';
 import { Image, Grid, Header, List } from 'semantic-ui-react';
 import '../styles/PersonPage.css';
@@ -14,8 +15,7 @@ function PersonPage({ personId, person, loading, loadPersonInfo }) {
     }, [loadPersonInfo, personId]);
 
     if (loading) {
-        // TODO: place a Loader here
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     if (!person) {
