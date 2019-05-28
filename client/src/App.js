@@ -5,6 +5,7 @@ import Nav from './components/Nav';
 import MainContent from './components/MainContent';
 import QuickSearch from './components/QuickSearch';
 import Footer from './components/Footer';
+import Loader from './components/Loader';
 import useMedia, { mobileMediaQuery } from './utils/hooks/useMedia';
 
 const Homepage = lazy(() => import('./pages/HomePage'));
@@ -26,7 +27,7 @@ function App(props) {
         <MainContent className='App__main-content'>
           <QuickSearch className='App__quicksearch' size={isMobile ? 'small' : 'large'} fullWidth fluid />
 
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loader />}>
             <Switch>
               <Route exact path='/' component={Homepage} />
               <Route exact sensitive path='/discover' component={DiscoverPage} />
