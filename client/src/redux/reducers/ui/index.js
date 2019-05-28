@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 import { UIActionTypes } from '../../actions/uiActions';
+import { MovieActionTypes } from '../../actions/movieActions';
+import { PersonActionTypes } from '../../actions/personActions';
 
 const movieCardViewStyle = (state = 'poster', action) => {
     switch (action.type) {
@@ -27,14 +29,14 @@ const createIsFetchingResourceReducer = (request, success, failure) => {
 const ui = combineReducers({
     movieCardViewStyle,
     isFetchingMovieInfo: createIsFetchingResourceReducer(
-        UIActionTypes.LOAD_MOVIE_INFO_REQUEST,
-        UIActionTypes.LOAD_MOVIE_INFO_SUCCESS,
-        UIActionTypes.LOAD_MOVIE_INFO_FAILURE
+        MovieActionTypes.LOAD_MOVIE_INFO_REQUEST,
+        MovieActionTypes.LOAD_MOVIE_INFO_SUCCESS,
+        MovieActionTypes.LOAD_MOVIE_INFO_FAILURE
     ),
     isFetchingPersonInfo: createIsFetchingResourceReducer(
-        UIActionTypes.LOAD_PERSON_INFO_REQUEST,
-        UIActionTypes.LOAD_PERSON_INFO_SUCCESS,
-        UIActionTypes.LOAD_PERSON_INFO_FAILURE
+        PersonActionTypes.LOAD_PERSON_INFO_REQUEST,
+        PersonActionTypes.LOAD_PERSON_INFO_SUCCESS,
+        PersonActionTypes.LOAD_PERSON_INFO_FAILURE
     ),
 });
 
