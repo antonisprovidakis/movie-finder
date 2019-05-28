@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
@@ -6,14 +7,17 @@ import '../styles/PosterMovieCard.css';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utils/date';
 
-function PosterMovieCard({ movie, className = '' }) {
+function PosterMovieCard({ movie, className }) {
     const {
         id,
         title,
         release_date: date,
         poster_path: image,
-        vote_average: rating
+        vote_average: voteAverage,
+        vote_count: voteCount
     } = movie;
+
+    const rating = voteCount > 0 ? voteAverage : undefined;
 
     return (
         <Card
@@ -33,12 +37,21 @@ function PosterMovieCard({ movie, className = '' }) {
                 <Card.Meta>
                     <div className='PosterMovieCard__date'>{formatDate(date)}</div>
                     <div className='PosterMovieCard__rating'>
-                        <Rating value={rating.toFixed(1)} />
+                        <Rating value={rating} />
                     </div>
                 </Card.Meta>
             </Card.Content>
         </Card>
     );
+}
+
+PosterMovieCard.propTypes = {
+    movie: PropTypes.object.isRequired,
+    classname: PropTypes.string,
+}
+
+PosterMovieCard.defaultProps = {
+    classname: ''
 }
 
 export default PosterMovieCard;

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadMovieInfo } from '../redux/actions/movieActions';
 import '../styles/MoviePage.css';
@@ -36,9 +37,26 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
         return <PersonCard id={id} name={name} image={image} sub={sub} />
     }
 
-    const top4Cast = movie.credits ? movie.credits.cast.slice(0, 4) : [];
-    const titleDate = movie.release_date ? `(${movie.release_date.split('-')[0]})` : '';
+    const {
+        title,
+        overview,
+        credits,
+        release_date: releaseDate,
+        poster_path: imagePath,
+        vote_average: voteAverage,
+        vote_count: voteCount,
+        status,
+        original_language: originalLanguage,
+        runtime,
+        budget,
+        revenue,
+        genres
+    } = movie;
+
+    const top4Cast = credits ? credits.cast.slice(0, 4) : [];
+    const titleDate = releaseDate ? `(${releaseDate.split('-')[0]})` : '';
     const releaseDates = extractReleaseDatesForRegion(movie, 'US');
+    const rating = voteCount > 0 ? voteAverage : undefined;
 
     return (
         <div className="MoviePage">
@@ -48,18 +66,18 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
                         <div className='MoviePage__info__picture-container'>
                             <Image
                                 className='MoviePage__info__picture'
-                                src={createImageSrc({ path: movie.poster_path, type: 'poster', size: 'w500' })}
+                                src={createImageSrc({ path: imagePath, type: 'poster', size: 'w500' })}
                             />
                         </div>
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <div className='MoviePage__title'>
                             <Header size='huge' className='MoviePage__title__name'>
-                                {movie.title} <span className='MoviePage__title__year'>{titleDate}</span>
+                                {title} <span className='MoviePage__title__year'>{titleDate}</span>
                             </Header>
                         </div>
                         <div className='MoviePage__actions'>
-                            <Rating value={movie.vote_average.toFixed(1)} />
+                            <Rating value={rating} />
                         </div>
                         <div className='MoviePage__overview'>
                             <Header
@@ -69,7 +87,7 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
                                 Overview
                             </Header>
                             <div className='MoviePage__overview__content'>
-                                {movie.overview || 'There is not an overview yet.'}
+                                {overview || 'There is not an overview yet.'}
                             </div>
                         </div>
                     </Grid.Column>
@@ -101,7 +119,7 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
                             <List relaxed='very'>
                                 <List.Item>
                                     <List.Header>Status</List.Header>
-                                    {movie.status}
+                                    {status}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Release Information</List.Header>
@@ -118,25 +136,25 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Original Language</List.Header>
-                                    {findLanguageNameInEnglishFromISO(movie.original_language)}
+                                    {findLanguageNameInEnglishFromISO(originalLanguage)}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Runtime</List.Header>
-                                    {movie.runtime ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m` : '-'}
+                                    {runtime ? `${Math.floor(runtime / 60)}h ${runtime % 60}m` : '-'}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Budget</List.Header>
-                                    {movie.budget ? `$${movie.budget.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
+                                    {budget ? `$${budget.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Revenue</List.Header>
-                                    {movie.revenue ? `$${movie.revenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
+                                    {revenue ? `$${revenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Genres</List.Header>
                                     <Label.Group tag color='blue'>
-                                        {movie.genres && movie.genres.length > 0
-                                            ? movie.genres // TMDb API returns duplicate genre objects, so remove them
+                                        {genres && genres.length > 0
+                                            ? genres // TMDb API returns duplicate genre objects, so remove them
                                                 .filter((genre, index, arr) =>
                                                     arr.map(mapObj => mapObj.id).indexOf(genre.id) === index
                                                 )
@@ -165,6 +183,13 @@ const mapStateToProps = (state, ownProps) => {
         movie,
         loading,
     }
+}
+
+MoviePage.propTypes = {
+    movieId: PropTypes.number.isRequired,
+    movie: PropTypes.object,
+    loading: PropTypes.bool.isRequired,
+    loadMovieInfo: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, { loadMovieInfo })(MoviePage);

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadPopularPersons } from '../redux/actions/personActions';
 import { getPageFromQueryString } from '../utils/page';
@@ -92,6 +93,21 @@ const mapStateToProps = (state, ownProps) => {
         persons,
         page
     }
+}
+
+PersonsPage.propTypes = {
+    persons: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+    page: PropTypes.number,
+    totalPages: PropTypes.number,
+    isFetching: PropTypes.bool.isRequired,
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired,
+        search: PropTypes.string.isRequired,
+    }).isRequired,
+    loadPopularPersons: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, { loadPopularPersons })(PersonsPage);

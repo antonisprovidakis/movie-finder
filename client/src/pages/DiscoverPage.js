@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
     discoverMovies,
@@ -193,6 +194,28 @@ const mapStateToProps = (state, ownProps) => {
         isFetching,
         options
     }
+}
+
+DiscoverPage.propTypes = {
+    movies: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+    options: PropTypes.shape({
+        primaryReleaseYear: PropTypes.number.isRequired,
+        sortBy: PropTypes.string.isRequired,
+        withGenres: PropTypes.arrayOf(PropTypes.number).isRequired,
+    }).isRequired,
+    page: PropTypes.number,
+    totalPages: PropTypes.number,
+    isFetching: PropTypes.bool.isRequired,
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired,
+        search: PropTypes.string.isRequired,
+    }).isRequired,
+    discoverMovies: PropTypes.func.isRequired,
+    changeDiscoverOptions: PropTypes.func.isRequired,
+    resetDiscoverOptions: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, {

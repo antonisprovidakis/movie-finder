@@ -1,10 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, Placeholder } from 'semantic-ui-react';
 import '../styles/PosterMovieCard.css';
 
-function PosterMovieCardPlaceholder(props) {
-    const { className = '' } = props;
-
+function PosterMovieCardPlaceholder({ className }) {
     return (
         <Card
             className={`PosterMovieCardPlaceholder ${className}`}
@@ -26,6 +25,14 @@ function PosterMovieCardPlaceholder(props) {
             </Card.Content>
         </Card>
     );
+}
+
+PosterMovieCardPlaceholder.propTypes = {
+    className: PropTypes.string
+}
+
+PosterMovieCardPlaceholder.defaultProps = {
+    className: ''
 }
 
 export default PosterMovieCardPlaceholder;

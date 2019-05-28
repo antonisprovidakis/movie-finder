@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import '../styles/PersonCard.css';
 import { createImageSrc } from '../api/config/image';
 
-function PersonCard({ id, name, image, sub = '', className = '' }) {
+function PersonCard({ id, name, image, sub, className }) {
     return (
         <Card
             as={Link}
@@ -26,6 +27,19 @@ function PersonCard({ id, name, image, sub = '', className = '' }) {
             </Card.Content>
         </Card>
     );
+}
+
+PersonCard.propTypes = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string,
+    sub: PropTypes.string,
+    className: PropTypes.string,
+}
+
+PersonCard.defaultProps = {
+    sub: '',
+    className: ''
 }
 
 export default PersonCard;

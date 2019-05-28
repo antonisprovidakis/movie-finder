@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
@@ -7,15 +8,18 @@ import { truncateOverview } from '../utils/movieCard';
 import { formatDate } from '../utils/date';
 import { createImageSrc } from '../api/config/image';
 
-function BackdropMovieCard({ movie, showOverview = true, className = '' }) {
+function BackdropMovieCard({ movie, showOverview, className }) {
     const {
         id,
         title,
         release_date: date,
         backdrop_path: image,
-        vote_average: rating,
+        vote_average: voteAverage,
+        vote_count: voteCount,
         overview
     } = movie;
+
+    const rating = voteCount > 0 ? voteAverage : undefined;
 
     return (
         <Card
@@ -35,7 +39,7 @@ function BackdropMovieCard({ movie, showOverview = true, className = '' }) {
                 <Card.Meta>
                     <div className='BackdropMovieCard__date'>{formatDate(date)}</div>
                     <div className='BackdropMovieCard__rating'>
-                        <Rating value={rating.toFixed(1)} />
+                        <Rating value={rating} />
                     </div>
                 </Card.Meta>
                 {showOverview && <Card.Description>
@@ -44,6 +48,17 @@ function BackdropMovieCard({ movie, showOverview = true, className = '' }) {
             </Card.Content>
         </Card>
     );
+}
+
+BackdropMovieCard.propTypes = {
+    movie: PropTypes.object.isRequired,
+    showOverview: PropTypes.bool,
+    classname: PropTypes.string,
+}
+
+BackdropMovieCard.defaultProps = {
+    showOverview: true,
+    classname: ''
 }
 
 export default BackdropMovieCard;

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import useDebounce from '../utils/hooks/useDebounce';
 import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
 import { createImageSrc } from '../api/config/image';
 
-function QuickSearch({ delay = 500, fullWidth = false, className = '', ...rest }) {
+function QuickSearch({ delay, fullWidth, className, ...rest }) {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -93,6 +94,18 @@ function QuickSearch({ delay = 500, fullWidth = false, className = '', ...rest }
             {...rest}
         />
     );
+}
+
+QuickSearch.propTypes = {
+    delay: PropTypes.number,
+    fullWidth: PropTypes.bool,
+    className: PropTypes.string
+}
+
+QuickSearch.defaultProps = {
+    delay: 500,
+    fullWidth: false,
+    className: ''
 }
 
 export default QuickSearch;

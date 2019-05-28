@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
@@ -117,6 +118,15 @@ const mapStateToProps = (state) => {
     return {
         movies
     }
+}
+
+HomePage.propTypes = {
+    movies: PropTypes.shape({
+        popularMovies: PropTypes.arrayOf(PropTypes.object).isRequired,
+        inTheatersMovies: PropTypes.arrayOf(PropTypes.object).isRequired,
+        upcomingMovies: PropTypes.arrayOf(PropTypes.object).isRequired
+    }).isRequired,
+    loadMoviesByCategory: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, { loadMoviesByCategory })(HomePage);

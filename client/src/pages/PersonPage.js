@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NotFound from '../components/NotFound';
 import { loadPersonInfo } from '../redux/actions/personActions';
@@ -103,6 +104,13 @@ const mapStateToProps = (state, ownProps) => {
         person,
         loading,
     }
+}
+
+PersonPage.propTypes = {
+    personId: PropTypes.number.isRequired,
+    person: PropTypes.object,
+    loading: PropTypes.bool.isRequired,
+    loadPersonInfo: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, { loadPersonInfo })(PersonPage);

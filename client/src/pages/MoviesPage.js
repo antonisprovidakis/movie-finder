@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { setMovieCardViewStyle } from '../redux/actions/uiActions';
@@ -135,6 +136,27 @@ const mapStateToProps = (state, ownProps) => {
         totalPages,
         movieCardViewStyle
     }
+}
+
+MoviesPage.propTypes = {
+    movies: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+    category: PropTypes.string.isRequired,
+    page: PropTypes.number,
+    totalPages: PropTypes.number,
+    isFetching: PropTypes.bool.isRequired,
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired,
+        search: PropTypes.string.isRequired,
+    }).isRequired,
+    movieCardViewStyle: PropTypes.oneOf([
+        'poster',
+        'backdrop'
+    ]),
+    setMovieCardViewStyle: PropTypes.func.isRequired,
+    loadMoviesByCategory: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, {

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid } from 'semantic-ui-react';
 import '../styles/CollectionGrid.css';
 import concatClasses from '../utils/concatClasses';
 
-function CollectionGridHeader({ title = '', menuItems = [] }) {
+function CollectionGridHeader({ title, menuItems }) {
     const shouldRenderTitle = title.length > 0;
     const shouldRenderMenu = menuItems.length > 0;
     const shouldRenderTopPart = shouldRenderTitle || shouldRenderMenu;
@@ -40,6 +41,18 @@ function CollectionGridHeader({ title = '', menuItems = [] }) {
     );
 }
 
+CollectionGridHeader.propTypes = {
+    title: PropTypes.string,
+    menuItems: PropTypes.arrayOf(
+        PropTypes.element
+    )
+}
+
+CollectionGridHeader.defaultProps = {
+    title: '',
+    menuItems: []
+}
+
 function BaseGrid({ collection, renderItem, ...rest }) {
     return (
         <Grid className='CollectionGrid__items' {...rest}>
@@ -67,26 +80,38 @@ function BaseGrid({ collection, renderItem, ...rest }) {
     );
 }
 
-function GridPlaceholder({ placeholderItemsCount, renderItem, ...rest }) {
+BaseGrid.propTypes = {
+    collection: PropTypes.arrayOf(
+        PropTypes.object
+    ),
+    renderItem: PropTypes.func.isRequired
+}
+
+function GridPlaceholder({ placeholderItemsCount, renderPlaceholderItem, ...rest }) {
     const collection = Array(placeholderItemsCount).fill({});
     return (
         <BaseGrid
             collection={collection}
-            renderItem={renderItem}
+            renderItem={renderPlaceholderItem}
             {...rest}
         />
     );
 }
 
+GridPlaceholder.propTypes = {
+    placeholderItemsCount: PropTypes.number.isRequired,
+    renderPlaceholderItem: PropTypes.func.isRequired
+}
+
 function CollectionGrid({
-    title = '',
-    collection = [],
+    title,
+    collection,
     renderItem,
-    noResultsMessage = 'No results found.',
-    renderPlaceholderItem = () => null,
-    placeholderItemsCount = 0,
-    loading = false,
-    menuItems = [],
+    noResultsMessage,
+    renderPlaceholderItem,
+    placeholderItemsCount,
+    loading,
+    menuItems,
     ...rest
 }) {
     return (
@@ -96,7 +121,7 @@ function CollectionGrid({
                 loading
                     ? (
                         <GridPlaceholder
-                            renderItem={renderPlaceholderItem}
+                            renderPlaceholderItem={renderPlaceholderItem}
                             placeholderItemsCount={placeholderItemsCount}
                             {...rest}
                         />
@@ -119,6 +144,26 @@ function CollectionGrid({
             }
         </div>
     );
+}
+
+CollectionGrid.propTypes = {
+    title: PropTypes.string,
+    collection: PropTypes.arrayOf(PropTypes.object),
+    renderItem: PropTypes.func.isRequired,
+    noResultsMessage: PropTypes.string,
+    renderPlaceholderItem: PropTypes.func,
+    placeholderItemsCount: PropTypes.number,
+    loading: PropTypes.bool,
+    menuItems: PropTypes.arrayOf(PropTypes.element)
+}
+
+CollectionGrid.defaultProps = {
+    title: '',
+    noResultsMessage: 'No results found.',
+    renderPlaceholderItem: () => null,
+    placeholderItemsCount: 0,
+    loading: false,
+    menuItems: []
 }
 
 export default CollectionGrid;
