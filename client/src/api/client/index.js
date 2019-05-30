@@ -1,5 +1,5 @@
 import axios from 'axios';
-import qs from 'qs';
+import qs from 'query-string';
 
 const client = axios.create({
     baseURL: '/api',
