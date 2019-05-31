@@ -8,6 +8,7 @@ import '../styles/PersonsPage.css';
 import Pagination from '../components/Pagination';
 import PersonCard from '../components/PersonCard';
 import PersonCardPlaceholder from '../components/PersonCardPlaceholder';
+import { updateQueryString } from '../utils/url';
 
 function PersonsPage({
     persons,
@@ -22,15 +23,12 @@ function PersonsPage({
         loadPopularPersons({ page });
     }, [loadPopularPersons, page]);
 
-    function gotoPage(newPage) {
-        history.push({
-            pathname: location.pathname,
-            search: `?page=${newPage}`
-        });
-    }
-
     function handlePageChange(e, data) {
-        gotoPage(data.activePage);
+        const newQueryString = updateQueryString(
+            location.search,
+            { page: data.activePage }
+        );
+        history.push(`?${newQueryString}`);
     }
 
     function renderItem(item) {
