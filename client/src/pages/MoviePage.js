@@ -14,12 +14,16 @@ import { formatDate } from '../utils/date';
 import extractReleaseDatesForRegion from '../utils/extractReleaseDatesForRegion';
 import PersonCard from '../components/PersonCard';
 
-function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
+function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
     useEffect(() => {
-        loadMovieInfo(movieId, ['imdb_id'], { appendToResponse: ['credits', 'release_dates'] });
+        loadMovieInfo(
+            movieId,
+            { appendToResponse: ['credits', 'release_dates'] },
+            ['imdb_id']
+        );
     }, [loadMovieInfo, movieId]);
 
-    if (loading) {
+    if (isFetching) {
         return <Loader />;
     }
 
@@ -174,21 +178,21 @@ function MoviePage({ movieId, movie, loading, loadMovieInfo }) {
 
 const mapStateToProps = (state, ownProps) => {
     const movieId = parseInt(ownProps.match.params.id);
-    const movies = state.entities.movies;
-    const movie = movies[movieId];
-    const loading = state.ui.isFetchingMovieInfo;
+    const cachedMovies = state.entities.movies;
+    const movie = cachedMovies[movieId];
+    const isFetching = state.ui.isFetchingMovieInfo;
 
     return {
         movieId,
         movie,
-        loading,
+        isFetching,
     }
 }
 
 MoviePage.propTypes = {
     movieId: PropTypes.number.isRequired,
     movie: PropTypes.object,
-    loading: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     loadMovieInfo: PropTypes.func.isRequired
 }
 
