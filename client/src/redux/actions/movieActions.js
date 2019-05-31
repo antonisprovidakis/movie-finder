@@ -7,7 +7,7 @@ const LOAD_MOVIE_INFO_REQUEST = 'LOAD_MOVIE_INFO_REQUEST';
 const LOAD_MOVIE_INFO_SUCCESS = 'LOAD_MOVIE_INFO_SUCCESS';
 const LOAD_MOVIE_INFO_FAILURE = 'LOAD_MOVIE_INFO_FAILURE';
 
-export function loadMovieInfo(movieId, requiredFields = [], options = {}) {
+export function loadMovieInfo(movieId, options = {}, requiredFields = []) {
     return {
         types: [LOAD_MOVIE_INFO_REQUEST, LOAD_MOVIE_INFO_SUCCESS, LOAD_MOVIE_INFO_FAILURE],
         payload: { movieId, options },
