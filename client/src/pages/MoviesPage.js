@@ -5,7 +5,6 @@ import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { setMovieCardViewStyle } from '../redux/actions/uiActions';
 import CollectionGrid from '../components/CollectionGrid';
 import '../styles/MoviesPage.css';
-import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
 import { getPage } from '../utils/queryString';
 import { Dropdown } from 'semantic-ui-react';
@@ -13,6 +12,13 @@ import PosterMovieCard from '../components/PosterMovieCard';
 import BackdropMovieCard from '../components/BackdropMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 import { updateQueryString } from '../utils/queryString';
+
+const routeNames = {
+    'popular': 'Popular',
+    'upcoming': 'Upcoming',
+    'in-theaters': 'In Theaters',
+    'top-rated': 'Top Rated'
+}
 
 const movieCardTypes = {
     poster: PosterMovieCard,
@@ -31,7 +37,6 @@ function MoviesPage({
     setMovieCardViewStyle,
     loadMoviesByCategory
 }) {
-    const title = routeNameToTitle(category);
     const [gridColumns, setGridColumns] = useState(movieCardViewStyle === 'poster' ? 4 : 2);
 
     useEffect(() => {
@@ -89,7 +94,7 @@ function MoviesPage({
         <div className="MoviesPage">
             <div className="MoviesPage__movies-container">
                 <CollectionGrid
-                    title={title}
+                    title={routeNames[category]}
                     collection={movies}
                     renderItem={renderItem}
                     menuItems={moviesGridMenuItems}
