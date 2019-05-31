@@ -9,12 +9,12 @@ import '../styles/PersonPage.css';
 import { getGenderNameFromId } from '../api/config/gender';
 import { createImageSrc } from '../api/config/image';
 
-function PersonPage({ personId, person, loading, loadPersonInfo }) {
+function PersonPage({ personId, person, isFetching, loadPersonInfo }) {
     useEffect(() => {
         loadPersonInfo(personId, ['biography']);
     }, [loadPersonInfo, personId]);
 
-    if (loading) {
+    if (isFetching) {
         return <Loader />;
     }
 
@@ -95,22 +95,24 @@ function PersonPage({ personId, person, loading, loadPersonInfo }) {
 
 const mapStateToProps = (state, ownProps) => {
     const personId = parseInt(ownProps.match.params.id);
-    const persons = state.entities.persons;
-    const person = persons[personId];
-    const loading = state.ui.isFetchingPersonInfo;
+    const cachedPersons = state.entities.persons;
+    const person = cachedPersons[personId];
+    const isFetching = state.ui.isFetchingPersonInfo;
 
     return {
         personId,
         person,
-        loading,
+        isFetching,
     }
 }
 
 PersonPage.propTypes = {
     personId: PropTypes.number.isRequired,
     person: PropTypes.object,
-    loading: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     loadPersonInfo: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, { loadPersonInfo })(PersonPage);
+export default connect(mapStateToProps, {
+    loadPersonInfo
+})(PersonPage);
