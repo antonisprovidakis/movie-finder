@@ -65,6 +65,10 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
         setResults([]);
     }
 
+    function clearInput() {
+        setSearchTerm('');
+    }
+
     function handleResultSelect(e, data) {
         setSearchTerm('');
     }
@@ -80,7 +84,7 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
                 <Input
                     fluid={fullWidth}
                     icon={searchTerm
-                        ? <Icon name='delete' link onClick={resetComponent} title='Clear' />
+                        ? <Icon name='delete' link onClick={clearInput} title='Clear' />
                         : 'search'
                     }
                 />
