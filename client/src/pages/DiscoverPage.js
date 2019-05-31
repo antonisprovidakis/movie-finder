@@ -17,7 +17,7 @@ import {
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
-function createYearOptions({ fromYear = new Date().getFullYear(), toYear = 1900 } = {}) {
+function createYearOptions(fromYear, toYear) {
     if (fromYear === toYear) {
         const option = { value: fromYear, text: fromYear }
         return [option];
@@ -37,10 +37,7 @@ function createYearOptions({ fromYear = new Date().getFullYear(), toYear = 1900 
     return yearOptions;
 }
 
-const yearOptions = createYearOptions({
-    fromYear: new Date().getFullYear(),
-    toYear: 1900
-});
+const yearOptions = createYearOptions(new Date().getFullYear(), 1900);
 
 const sortByFilterOptions = sortingFilters.map(filter =>
     ({ value: filter.id, text: filter.text })
