@@ -206,4 +206,6 @@ DiscoverPage.propTypes = {
     discoverMovies: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, { discoverMovies })(DiscoverPage);
+export default connect(mapStateToProps, {
+    discoverMovies
+})(DiscoverPage);
