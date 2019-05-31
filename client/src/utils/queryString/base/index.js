@@ -1,17 +1,15 @@
 import qs from 'query-string';
+import { decamelizeKeys, camelizeKeys } from 'humps';
 
 export function parseQueryString(queryString = '') {
-    return qs.parse(queryString, { arrayFormat: 'bracket' });
+    return camelizeKeys(qs.parse(queryString, { arrayFormat: 'bracket' }));
 }
 
 export function stringifyParams(params = {}) {
-    return qs.stringify(params, { arrayFormat: 'bracket' });
+    return qs.stringify(decamelizeKeys(params), { arrayFormat: 'bracket' });
 }
 
 export function updateQueryString(oldQueryString = '', override = {}) {
     const oldParams = parseQueryString(oldQueryString);
-    return qs.stringify(
-        { ...oldParams, ...override },
-        { arrayFormat: 'bracket' }
-    );
+    return stringifyParams({ ...oldParams, ...override });
 }

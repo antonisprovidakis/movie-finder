@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadPopularPersons } from '../redux/actions/personActions';
-import { getPageFromQueryString } from '../utils/page';
+import { getPage } from '../utils/queryString';
 import CollectionGrid from '../components/CollectionGrid';
 import '../styles/PersonsPage.css';
 import Pagination from '../components/Pagination';
 import PersonCard from '../components/PersonCard';
 import PersonCardPlaceholder from '../components/PersonCardPlaceholder';
-import { updateQueryString } from '../utils/url';
+import { updateQueryString } from '../utils/queryString';
 
 function PersonsPage({
     persons,
@@ -81,7 +81,7 @@ const mapStateToProps = (state, ownProps) => {
         totalPages = undefined,
         pages = {}
     } = state.pagination.personsByPage;
-    const page = getPageFromQueryString(ownProps.location.search);
+    const page = getPage(ownProps.location.search);
     const personIds = pages[page] || [];
     const persons = personIds.map(id => cachedPersons[id]);
 

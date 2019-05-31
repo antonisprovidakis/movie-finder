@@ -8,9 +8,12 @@ import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import { genres } from '../api/config/genres';
 import { sortingFilters } from '../api/config/sortingFilters';
-import { getPageFromQueryString } from '../utils/page';
-import { updateQueryString } from '../utils/url';
-import { createQuery, getDiscoverMoviesOptions } from '../utils/discoverMovies';
+import {
+    updateQueryString,
+    getPage,
+    getFilters,
+    stringifyFilters
+} from '../utils/queryString';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
@@ -50,7 +53,7 @@ const genreOptions = genres.map(genre =>
 
 function DiscoverPage({
     page,
-    options,
+    filters,
     totalPages,
     movies,
     isFetching,
@@ -58,7 +61,7 @@ function DiscoverPage({
     location,
     discoverMovies
 }) {
-    const { primaryReleaseYear, sortBy, withGenres } = options;
+    const { primaryReleaseYear, sortBy, withGenres } = filters;
 
     useEffect(() => {
         discoverMovies({
@@ -164,13 +167,8 @@ const mapStateToProps = (state, ownProps) => {
     const cachedMovies = state.entities.movies;
     const { byQuery = {} } = state.pagination.moviesByDiscoverOptions;
 
-    const options = getDiscoverMoviesOptions(ownProps.location.search);
-
-    const query = createQuery(
-        options.primaryReleaseYear,
-        options.sortBy,
-        options.withGenres
-    );
+    const filters = getFilters(ownProps.location.search);
+    const query = stringifyFilters(filters);
 
     const {
         isFetching = false,
@@ -178,7 +176,7 @@ const mapStateToProps = (state, ownProps) => {
         pages = {}
     } = byQuery[query] || {};
 
-    const page = getPageFromQueryString(ownProps.location.search);
+    const page = getPage(ownProps.location.search);
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
 
@@ -187,13 +185,13 @@ const mapStateToProps = (state, ownProps) => {
         page,
         totalPages,
         isFetching,
-        options
+        filters
     }
 }
 
 DiscoverPage.propTypes = {
     movies: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-    options: PropTypes.shape({
+    filters: PropTypes.shape({
         primaryReleaseYear: PropTypes.number.isRequired,
         sortBy: PropTypes.string.isRequired,
         withGenres: PropTypes.arrayOf(PropTypes.string).isRequired,

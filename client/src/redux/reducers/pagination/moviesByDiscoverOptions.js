@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import paginate from './paginate';
 import { MovieActionTypes } from '../../actions/movieActions';
-import { createQuery } from '../../../utils/discoverMovies';
+import { stringifyFilters } from '../../../utils/queryString';
 
 const byQuery = paginate({
     mapActionToKey: action => {
-        const { primaryReleaseYear, sortBy, withGenres } = action.options;
-        return createQuery(primaryReleaseYear, sortBy, withGenres);
+        const { page, ...filters } = action.options;
+        return stringifyFilters(filters);
     },
     types: [
         MovieActionTypes.DISCOVER_MOVIES_REQUEST,

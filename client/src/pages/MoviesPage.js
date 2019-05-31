@@ -7,12 +7,12 @@ import CollectionGrid from '../components/CollectionGrid';
 import '../styles/MoviesPage.css';
 import { routeNameToTitle } from '../utils/routing';
 import Pagination from '../components/Pagination';
-import { getPageFromQueryString } from '../utils/page';
+import { getPage } from '../utils/queryString';
 import { Dropdown } from 'semantic-ui-react';
 import PosterMovieCard from '../components/PosterMovieCard';
 import BackdropMovieCard from '../components/BackdropMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
-import { updateQueryString } from '../utils/url';
+import { updateQueryString } from '../utils/queryString';
 
 const movieCardTypes = {
     poster: PosterMovieCard,
@@ -121,7 +121,7 @@ const mapStateToProps = (state, ownProps) => {
         totalPages = undefined,
         pages = {}
     } = state.pagination.moviesByCategory[category] || {};
-    const page = getPageFromQueryString(ownProps.location.search);
+    const page = getPage(ownProps.location.search);
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
     const movieCardViewStyle = state.ui.movieCardViewStyle;

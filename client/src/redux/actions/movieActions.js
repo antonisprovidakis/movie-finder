@@ -1,6 +1,6 @@
 import Schemas from '../schemas';
 import { movieAPI } from '../../api';
-import { createQuery } from '../../utils/discoverMovies';
+import { stringifyFilters } from '../../utils/queryString';
 import { decamelizeKeys } from 'humps';
 
 const LOAD_MOVIE_INFO_REQUEST = 'LOAD_MOVIE_INFO_REQUEST';
@@ -50,14 +50,14 @@ const DISCOVER_MOVIES_SUCCESS = 'DISCOVER_MOVIES_SUCCESS';
 const DISCOVER_MOVIES_FAILURE = 'DISCOVER_MOVIES_FAILURE';
 
 export function discoverMovies(options = {}) {
-    const { primaryReleaseYear, sortBy, withGenres } = options;
-    const query = createQuery(primaryReleaseYear, sortBy, withGenres);
     return {
         types: [DISCOVER_MOVIES_REQUEST, DISCOVER_MOVIES_SUCCESS, DISCOVER_MOVIES_FAILURE],
         payload: { options },
         schema: Schemas.MOVIE_ARRAY,
         callAPI: () => movieAPI.discoverMovies(decamelizeKeys(options)),
         shouldCallAPI: state => {
+            const { page, ...filters } = options;
+            const query = stringifyFilters(filters);
             const {
                 pages = {}
             } = state.pagination.moviesByDiscoverOptions.byQuery[query] || {};
