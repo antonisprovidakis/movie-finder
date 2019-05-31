@@ -29,13 +29,44 @@ function App(props) {
 
           <Suspense fallback={<Loader />}>
             <Switch>
-              <Route exact path='/' component={Homepage} />
-              <Route exact sensitive path='/discover' component={DiscoverPage} />
-              <Route exact sensitive path='/movie/:category(popular|upcoming|in-theaters|top-rated)' component={MoviesPage} />
-              <Route exact sensitive path='/movie/:id([1-9]\d{0,})' component={MoviePage} />
-              <Route exact sensitive path='/person' component={PersonsPage} />
-              <Route exact sensitive path='/person/:id([1-9]\d{0,})' component={PersonPage} />
-              <Route component={NotFoundPage} />
+              <Route
+                exact
+                path='/'
+                component={Homepage}
+              />
+              <Route
+                exact
+                sensitive
+                path='/discover'
+                component={DiscoverPage}
+              />
+              <Route
+                exact
+                sensitive
+                path='/movie/:category(popular|upcoming|in-theaters|top-rated)'
+                component={MoviesPage}
+              />
+              <Route
+                exact
+                sensitive
+                path='/movie/:id([1-9]\d{0,})'
+                component={MoviePage}
+              />
+              <Route
+                exact
+                sensitive
+                path='/person'
+                component={PersonsPage}
+              />
+              <Route
+                exact
+                sensitive
+                path='/person/:id([1-9]\d{0,})'
+                component={PersonPage}
+              />
+              <Route
+                component={NotFoundPage}
+              />
             </Switch>
           </Suspense>
         </MainContent>
