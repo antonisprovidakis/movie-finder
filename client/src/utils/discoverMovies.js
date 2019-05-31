@@ -1,11 +1,28 @@
 import _memoize from 'lodash/memoize';
-import { parseQueryString } from './url';
+import { decamelizeKeys } from 'humps';
+import { parseQueryString, stringifyParams } from './url';
 import { sortingFilters } from '../api/config/sortingFilters';
 
-export function createQuery(primaryReleaseYear, sortBy, withGenres = []) {
+export const createQuery = _memoize((primaryReleaseYear, sortBy, withGenres) => {
+    const data = {
+        primaryReleaseYear,
+        sortBy,
+        withGenres
+    };
+    const query = stringifyParams(decamelizeKeys(data));
+    return query;
+}, (...args) => {
+    const [primaryReleaseYear, sortBy, withGenres] = args;
     const sortedGenres = [...withGenres].sort((a, b) => a - b);
-    return `primaryReleaseYear:${primaryReleaseYear}~sortBy:${sortBy}~withGenres:[${sortedGenres.join()}]`;
-};
+
+    const data = {
+        primaryReleaseYear,
+        sortBy,
+        withGenres: sortedGenres
+    };
+
+    return JSON.stringify(data);
+});
 
 const DEFAULT_YEAR = new Date().getFullYear() - 1;
 const OLDEST_YEAR = 1900;
