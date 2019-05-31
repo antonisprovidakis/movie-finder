@@ -12,6 +12,7 @@ import { Dropdown } from 'semantic-ui-react';
 import PosterMovieCard from '../components/PosterMovieCard';
 import BackdropMovieCard from '../components/BackdropMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
+import { updateQueryString } from '../utils/url';
 
 const movieCardTypes = {
     poster: PosterMovieCard,
@@ -42,15 +43,12 @@ function MoviesPage({
         setGridColumns(cols);
     }, [movieCardViewStyle]);
 
-    function gotoPage(newPage) {
-        history.push({
-            pathname: location.pathname,
-            search: `?page=${newPage}`
-        });
-    }
-
     function handlePageChange(e, data) {
-        gotoPage(data.activePage);
+        const newQueryString = updateQueryString(
+            location.search,
+            { page: data.activePage }
+        );
+        history.push(`?${newQueryString}`);
     }
 
     function handleCardViewStyleOptionClick(e, item) {
