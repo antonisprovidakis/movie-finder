@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-    discoverMovies,
-    changeDiscoverOptions,
-    resetDiscoverOptions
-} from '../redux/actions/movieActions';
+import { discoverMovies } from '../redux/actions/movieActions';
 import { Form } from 'semantic-ui-react';
 import '../styles/DiscoverPage.css';
 import CollectionGrid from '../components/CollectionGrid';
@@ -13,7 +9,8 @@ import Pagination from '../components/Pagination';
 import { genres } from '../api/config/genres';
 import { sortingFilters } from '../api/config/sortingFilters';
 import { getPageFromQueryString } from '../utils/page';
-import { createQuery } from '../utils/discoverMovies';
+import { updateQueryString } from '../utils/url';
+import { createQuery, getDiscoverMoviesOptions } from '../utils/discoverMovies';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 
@@ -48,7 +45,7 @@ const sortByFilterOptions = sortingFilters.map(filter =>
 
 // check if they can be fetched from server dynamically
 const genreOptions = genres.map(genre =>
-    ({ value: genre.id, text: genre.name })
+    ({ value: String(genre.id), text: genre.name })
 );
 
 function DiscoverPage({
@@ -59,17 +56,9 @@ function DiscoverPage({
     isFetching,
     history,
     location,
-    discoverMovies,
-    changeDiscoverOptions,
-    resetDiscoverOptions
+    discoverMovies
 }) {
     const { primaryReleaseYear, sortBy, withGenres } = options;
-
-    useEffect(() => {
-        return function () {
-            resetDiscoverOptions();
-        }
-    }, [resetDiscoverOptions]);
 
     useEffect(() => {
         discoverMovies({
@@ -81,18 +70,19 @@ function DiscoverPage({
     }, [discoverMovies, primaryReleaseYear, sortBy, withGenres, page]);
 
     function handleChange(e, { name, value }) {
-        changeDiscoverOptions({ [name]: value });
-    }
-
-    function gotoPage(newPage) {
-        history.push({
-            pathname: location.pathname,
-            search: `?page=${newPage}`
-        });
+        const newQueryString = updateQueryString(
+            location.search,
+            { [name]: value, page: 1 }
+        );
+        history.push(`?${newQueryString}`);
     }
 
     function handlePageChange(e, data) {
-        gotoPage(data.activePage);
+        const newQueryString = updateQueryString(
+            location.search,
+            { page: data.activePage }
+        );
+        history.push(`?${newQueryString}`);
     }
 
     function renderItem(item) {
@@ -112,7 +102,7 @@ function DiscoverPage({
                 <Form>
                     <Form.Group widths='equal'>
                         <Form.Dropdown
-                            name='primaryReleaseYear'
+                            name='primary_release_year'
                             label='Year'
                             fluid
                             selection
@@ -121,7 +111,7 @@ function DiscoverPage({
                             value={primaryReleaseYear}
                         />
                         <Form.Dropdown
-                            name='sortBy'
+                            name='sort_by'
                             label='Sort By'
                             fluid
                             selection
@@ -130,7 +120,7 @@ function DiscoverPage({
                             value={sortBy}
                         />
                         <Form.Dropdown
-                            name='withGenres'
+                            name='with_genres'
                             label='Genres'
                             placeholder='Filter by genres...'
                             fluid
@@ -172,17 +162,22 @@ function DiscoverPage({
 
 const mapStateToProps = (state, ownProps) => {
     const cachedMovies = state.entities.movies;
-    const { options, byQuery = {} } = state.pagination.moviesByDiscoverOptions;
+    const { byQuery = {} } = state.pagination.moviesByDiscoverOptions;
+
+    const options = getDiscoverMoviesOptions(ownProps.location.search);
+
     const query = createQuery(
         options.primaryReleaseYear,
         options.sortBy,
         options.withGenres
     );
+
     const {
         isFetching = false,
         totalPages = undefined,
         pages = {}
     } = byQuery[query] || {};
+
     const page = getPageFromQueryString(ownProps.location.search);
     const movieIds = pages[page] || [];
     const movies = movieIds.map(id => cachedMovies[id]);
@@ -201,7 +196,7 @@ DiscoverPage.propTypes = {
     options: PropTypes.shape({
         primaryReleaseYear: PropTypes.number.isRequired,
         sortBy: PropTypes.string.isRequired,
-        withGenres: PropTypes.arrayOf(PropTypes.number).isRequired,
+        withGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     page: PropTypes.number,
     totalPages: PropTypes.number,
@@ -213,13 +208,7 @@ DiscoverPage.propTypes = {
         pathname: PropTypes.string.isRequired,
         search: PropTypes.string.isRequired,
     }).isRequired,
-    discoverMovies: PropTypes.func.isRequired,
-    changeDiscoverOptions: PropTypes.func.isRequired,
-    resetDiscoverOptions: PropTypes.func.isRequired
+    discoverMovies: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, {
-    discoverMovies,
-    changeDiscoverOptions,
-    resetDiscoverOptions
-})(DiscoverPage);
+export default connect(mapStateToProps, { discoverMovies })(DiscoverPage);
