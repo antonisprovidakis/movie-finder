@@ -37,7 +37,8 @@ function MoviesPage({
     setMovieCardViewStyle,
     loadMoviesByCategory
 }) {
-    const [gridColumns, setGridColumns] = useState(movieCardViewStyle === 'poster' ? 4 : 2);
+    const [gridColumns, setGridColumns] =
+        useState(movieCardViewStyle === 'poster' ? 4 : 2);
 
     useEffect(() => {
         loadMoviesByCategory(category, { page, region: 'US' });
