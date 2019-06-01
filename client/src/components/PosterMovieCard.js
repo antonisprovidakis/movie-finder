@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/PosterMovieCard.css';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
-import '../styles/PosterMovieCard.css';
 import { createImageSrc } from '../api/config/image';
 import { formatDate } from '../utils/date';
 

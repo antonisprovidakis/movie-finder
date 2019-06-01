@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import NotFound from '../components/NotFound';
-import Loader from '../components/Loader';
-import { loadPersonInfo } from '../redux/actions/personActions';
-import { Image, Grid, Header, List } from 'semantic-ui-react';
 import '../styles/PersonPage.css';
+import { connect } from 'react-redux';
+import { Image, Grid, Header, List } from 'semantic-ui-react';
+import Loader from '../components/Loader';
+import NotFound from '../components/NotFound';
 import { getGenderNameFromId } from '../api/config/gender';
 import { createImageSrc } from '../api/config/image';
+import { loadPersonInfo } from '../redux/actions/personActions';
 
 function PersonPage({ personId, person, isFetching, loadPersonInfo }) {
     useEffect(() => {

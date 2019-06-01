@@ -1,5 +1,5 @@
-import qs from 'query-string';
 import { decamelizeKeys, camelizeKeys } from 'humps';
+import qs from 'query-string';
 
 export function parseQueryString(queryString = '') {
     return camelizeKeys(qs.parse(queryString, { arrayFormat: 'bracket' }));

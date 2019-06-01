@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loadPopularPersons } from '../redux/actions/personActions';
-import { getPage } from '../utils/queryString';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import PersonCard from '../components/PersonCard';
 import PersonCardPlaceholder from '../components/PersonCardPlaceholder';
-import { updateQueryString } from '../utils/queryString';
+import { getPage, updateQueryString } from '../utils/queryString';
+import { loadPopularPersons } from '../redux/actions/personActions';
 
 function PersonsPage({
     persons,

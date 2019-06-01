@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { loadMovieInfo } from '../redux/actions/movieActions';
 import '../styles/MoviePage.css';
-import { Grid, Image, Header, List, Label, Flag } from 'semantic-ui-react';
-import Rating from '../components/Rating';
-import NotFound from '../components/NotFound';
-import Loader from '../components/Loader';
+import { connect } from 'react-redux';
+import { Flag, Grid, Header, Image, Label, List } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';
-import { findLanguageNameInEnglishFromISO } from '../api/config/language';
+import Loader from '../components/Loader';
+import NotFound from '../components/NotFound';
+import PersonCard from '../components/PersonCard';
+import Rating from '../components/Rating';
 import { createImageSrc } from '../api/config/image';
+import { findLanguageNameInEnglishFromISO } from '../api/config/language';
 import { formatDate } from '../utils/date';
 import extractReleaseDatesForRegion from '../utils/extractReleaseDatesForRegion';
-import PersonCard from '../components/PersonCard';
+import { loadMovieInfo } from '../redux/actions/movieActions';
 
 function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
     useEffect(() => {

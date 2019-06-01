@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loadMoviesByCategory } from '../redux/actions/movieActions';
-import { setMovieCardViewStyle } from '../redux/actions/uiActions';
+import { Dropdown } from 'semantic-ui-react';
+import BackdropMovieCard from '../components/BackdropMovieCard';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
-import { getPage } from '../utils/queryString';
-import { Dropdown } from 'semantic-ui-react';
 import PosterMovieCard from '../components/PosterMovieCard';
-import BackdropMovieCard from '../components/BackdropMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
-import { updateQueryString } from '../utils/queryString';
+import { getPage, updateQueryString } from '../utils/queryString';
+import { loadMoviesByCategory } from '../redux/actions/movieActions';
+import { setMovieCardViewStyle } from '../redux/actions/uiActions';
 
 const routeNames = {
     'popular': 'Popular',

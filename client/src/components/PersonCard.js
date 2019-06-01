@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/PersonCard.css';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
-import '../styles/PersonCard.css';
 import { createImageSrc } from '../api/config/image';
 
 function PersonCard({ id, name, image, sub, className }) {

@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { discoverMovies } from '../redux/actions/movieActions';
 import { Form } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
+import PosterMovieCard from '../components/PosterMovieCard';
+import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 import { genres } from '../api/config/genres';
 import { sortingFilters } from '../api/config/sortingFilters';
 import {
-    updateQueryString,
-    getPage,
     getFilters,
-    stringifyFilters
+    getPage,
+    stringifyFilters,
+    updateQueryString
 } from '../utils/queryString';
-import PosterMovieCard from '../components/PosterMovieCard';
-import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
+import { discoverMovies } from '../redux/actions/movieActions';
 
 function createYearOptions(fromYear, toYear) {
     if (fromYear === toYear) {

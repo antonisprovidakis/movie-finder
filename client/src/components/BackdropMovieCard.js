@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/BackdropMovieCard.css';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
-import '../styles/BackdropMovieCard.css';
-import { truncateOverview } from '../utils/movieCard';
-import { formatDate } from '../utils/date';
 import { createImageSrc } from '../api/config/image';
+import { formatDate } from '../utils/date';
+import { truncateOverview } from '../utils/movieCard';
 
 function BackdropMovieCard({ movie, showOverview, className }) {
     const {

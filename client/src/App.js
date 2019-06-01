@@ -1,11 +1,11 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
 import './App.css';
-import Nav from './components/Nav';
-import MainContent from './components/MainContent';
-import QuickSearch from './components/QuickSearch';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
+import MainContent from './components/MainContent';
+import Nav from './components/Nav';
+import QuickSearch from './components/QuickSearch';
 import useMedia, { mobileMediaQuery } from './utils/hooks/useMedia';
 
 const Homepage = lazy(() => import('./pages/HomePage'));

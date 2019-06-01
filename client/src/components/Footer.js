@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container } from 'semantic-ui-react';
 import '../styles/Footer.css';
+import { Container } from 'semantic-ui-react';
 import tmdbLogoPowered from '../assets/images/tmdb-logo-powered.png';
 
 function Footer(props) {

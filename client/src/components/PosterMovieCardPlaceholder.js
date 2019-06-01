@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Placeholder } from 'semantic-ui-react';
 import '../styles/PosterMovieCard.css';
+import { Card, Placeholder } from 'semantic-ui-react';
 
 function PosterMovieCardPlaceholder({ className }) {
     return (

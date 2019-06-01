@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
-import { loadMoviesByCategory } from '../redux/actions/movieActions';
-import _get from 'lodash/get';
-import { Header, Button } from 'semantic-ui-react';
-import CollectionGrid from '../components/CollectionGrid';
 import '../styles/HomePage.css';
+import _get from 'lodash/get';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { Button, Header } from 'semantic-ui-react';
+import CollectionGrid from '../components/CollectionGrid';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
+import { loadMoviesByCategory } from '../redux/actions/movieActions';
 
 function HomePage({
     popularMovies,

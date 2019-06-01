@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
-import useDebounce from '../utils/hooks/useDebounce';
 import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
 import { createImageSrc } from '../api/config/image';
+import useDebounce from '../utils/hooks/useDebounce';
 
 function QuickSearch({ delay, fullWidth, className, ...rest }) {
     const [results, setResults] = useState([]);

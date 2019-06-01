@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from 'semantic-ui-react';
 import '../styles/CollectionGrid.css';
+import { Grid } from 'semantic-ui-react';
 import concatClasses from '../utils/concatClasses';
 
 function CollectionGridHeader({ title, menuItems }) {

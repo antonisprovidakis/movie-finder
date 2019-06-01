@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pagination as PaginationSUI } from 'semantic-ui-react';
 import '../styles/Pagination.css';
-import useMedia, { mobileMediaQuery } from '../utils/hooks/useMedia';
+import { Pagination as PaginationSUI } from 'semantic-ui-react';
 import concatClasses from '../utils/concatClasses';
+import useMedia, { mobileMediaQuery } from '../utils/hooks/useMedia';
 
 function Pagination({
     activePage,
