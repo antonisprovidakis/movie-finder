@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { setMovieCardViewStyle } from '../redux/actions/uiActions';
 import CollectionGrid from '../components/CollectionGrid';
-import '../styles/MoviesPage.css';
 import Pagination from '../components/Pagination';
 import { getPage } from '../utils/queryString';
 import { Dropdown } from 'semantic-ui-react';
