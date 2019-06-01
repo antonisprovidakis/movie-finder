@@ -1,15 +1,3 @@
-.MoviePage {
-}
-
-.MoviePage__info {
-}
-
-.MoviePage__info__picture-container {
-}
-
-.MoviePage__info__picture {
-}
-
 @media only screen and (max-width: 767px) {
     .MoviePage__info__picture {
         margin: 0 auto;
@@ -42,9 +30,6 @@
 
 .MoviePage__actions__rating-container {
     font-size: 3em;
-}
-
-.MoviePage__overview {
 }
 
 .MoviePage__cast__missing-message {

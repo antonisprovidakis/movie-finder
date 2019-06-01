@@ -1,6 +1,3 @@
-.PersonCard {
-}
-
 .PersonCard__name {
     text-overflow: ellipsis;
     overflow: hidden;

@@ -1,6 +1,3 @@
-.PosterMovieCard {
-}
-
 .PosterMovieCard__title {
     text-overflow: ellipsis;
     overflow: hidden;

@@ -1,15 +1,3 @@
-.PersonPage {
-}
-
-.PersonPage__info {
-}
-
-.PersonPage__info__picture-container {
-}
-
-.PersonPage__info__picture {
-}
-
 @media only screen and (max-width: 767px) {
     .PersonPage__info__picture {
         margin: 0 auto;
@@ -24,10 +12,4 @@
     .PersonPage__title {
         text-align: center;
     }
-}
-
-.PersonPage__biography {
-}
-
-.PersonPage__info__personal {
 }
