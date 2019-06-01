@@ -1,13 +1,11 @@
 import client from './client';
 
 async function getPopularPersons(options = {}) {
-    const persons = await client.get('/person/popular', options);
-    return persons;
+    return await client.get('/person/popular', options);
 }
 
 async function getPersonInfo(personId, options = {}) {
-    const person = await client.get(`/person/${personId}`, options);
-    return person;
+    return await client.get(`/person/${personId}`, options);
 }
 
 export default {
