@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Menu, Container, Dropdown } from 'semantic-ui-react';
-import '../styles/Nav.css'
 
 function Nav({ isMobile }) {
     return (
