@@ -30,7 +30,11 @@ function PersonPage({ personId, person, isFetching, loadPersonInfo }) {
                         <div className='PersonPage__info__picture-container'>
                             <Image
                                 className='PersonPage__info__picture'
-                                src={createImageSrc({ path: person.profile_path, type: 'profile', size: 'h632' })}
+                                src={createImageSrc({
+                                    path: person.profile_path,
+                                    type: 'profile',
+                                    size: 'h632'
+                                })}
                             />
                         </div>
                     </Grid.Column>

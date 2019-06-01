@@ -13,15 +13,17 @@ function CollectionGridHeader({ title, menuItems }) {
         return null;
     }
 
-    const classes = concatClasses([
+    const className = concatClasses([
         'CollectionGrid__header',
         shouldRenderTitle ? 'CollectionGrid__header--has-title' : '',
         shouldRenderMenu ? 'CollectionGrid__header--has-menu' : ''
     ]);
 
     return (
-        <div className={classes}>
-            {shouldRenderTitle && <h2 className='CollectionGrid__header__title'>{title}</h2>}
+        <div className={className}>
+            {shouldRenderTitle &&
+                <h2 className='CollectionGrid__header__title'>{title}</h2>
+            }
             {shouldRenderMenu &&
                 <div className='CollectionGrid__header__menu'>
                     {menuItems.map((menuItem, index) => {
@@ -43,9 +45,7 @@ function CollectionGridHeader({ title, menuItems }) {
 
 CollectionGridHeader.propTypes = {
     title: PropTypes.string,
-    menuItems: PropTypes.arrayOf(
-        PropTypes.element
-    )
+    menuItems: PropTypes.arrayOf(PropTypes.element)
 }
 
 CollectionGridHeader.defaultProps = {
@@ -56,26 +56,24 @@ CollectionGridHeader.defaultProps = {
 function BaseGrid({ collection, renderItem, ...rest }) {
     return (
         <Grid className='CollectionGrid__items' {...rest}>
-            {
-                collection.map((item, index) => {
-                    const renderedItem = renderItem(item, index);
+            {collection.map((item, index) => {
+                const renderedItem = renderItem(item, index);
 
-                    if (!React.isValidElement(renderedItem)) {
-                        return null;
-                    }
+                if (!React.isValidElement(renderedItem)) {
+                    return null;
+                }
 
-                    const className = concatClasses([
-                        renderedItem.className,
-                        'CollectionGrid__column_content'
-                    ]);
+                const className = concatClasses([
+                    renderedItem.className,
+                    'CollectionGrid__column_content'
+                ]);
 
-                    return (
-                        <Grid.Column key={index} className='CollectionGrid__column'>
-                            {React.cloneElement(renderedItem, { className })}
-                        </Grid.Column>
-                    )
-                })
-            }
+                return (
+                    <Grid.Column key={index} className='CollectionGrid__column'>
+                        {React.cloneElement(renderedItem, { className })}
+                    </Grid.Column>
+                )
+            })}
         </Grid>
     );
 }
@@ -87,7 +85,11 @@ BaseGrid.propTypes = {
     renderItem: PropTypes.func.isRequired
 }
 
-function GridPlaceholder({ placeholderItemsCount, renderPlaceholderItem, ...rest }) {
+function GridPlaceholder({
+    placeholderItemsCount,
+    renderPlaceholderItem,
+    ...rest
+}) {
     const collection = Array(placeholderItemsCount).fill({});
     return (
         <BaseGrid
@@ -117,30 +119,29 @@ function CollectionGrid({
     return (
         <div className='CollectionGrid'>
             <CollectionGridHeader title={title} menuItems={loading ? [] : menuItems} />
-            {
-                loading
-                    ? (
-                        <GridPlaceholder
-                            renderPlaceholderItem={renderPlaceholderItem}
-                            placeholderItemsCount={placeholderItemsCount}
-                            {...rest}
-                        />
-                    )
-                    : (
-                        collection.length > 0
-                            ? (
-                                <BaseGrid
-                                    collection={collection}
-                                    renderItem={renderItem}
-                                    {...rest}
-                                />
-                            )
-                            : (
-                                <p className='CollectionGrid__no-results-message'>
-                                    {noResultsMessage}
-                                </p>
-                            )
-                    )
+            {loading
+                ? (
+                    <GridPlaceholder
+                        renderPlaceholderItem={renderPlaceholderItem}
+                        placeholderItemsCount={placeholderItemsCount}
+                        {...rest}
+                    />
+                )
+                : (
+                    collection.length > 0
+                        ? (
+                            <BaseGrid
+                                collection={collection}
+                                renderItem={renderItem}
+                                {...rest}
+                            />
+                        )
+                        : (
+                            <p className='CollectionGrid__no-results-message'>
+                                {noResultsMessage}
+                            </p>
+                        )
+                )
             }
         </div>
     );

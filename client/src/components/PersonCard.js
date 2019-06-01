@@ -15,7 +15,11 @@ function PersonCard({ id, name, image, sub, className }) {
         >
             <Image
                 className='PersonCard__image'
-                src={createImageSrc({ path: image, type: 'profile', size: 'h632' })}
+                src={createImageSrc({
+                    path: image,
+                    type: 'profile',
+                    size: 'h632'
+                })}
             />
             <Card.Content>
                 <Card.Header>

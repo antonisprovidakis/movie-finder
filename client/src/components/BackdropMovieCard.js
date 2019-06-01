@@ -19,8 +19,6 @@ function BackdropMovieCard({ movie, showOverview, className }) {
         overview
     } = movie;
 
-    const rating = voteCount > 0 ? voteAverage : undefined;
-
     return (
         <Card
             as={Link}
@@ -30,7 +28,11 @@ function BackdropMovieCard({ movie, showOverview, className }) {
         >
             <Image
                 className='BackdropMovieCard__image'
-                src={createImageSrc({ path: image, type: 'backdrop', size: 'w780' })}
+                src={createImageSrc({
+                    path: image,
+                    type: 'backdrop',
+                    size: 'w780'
+                })}
             />
             <Card.Content>
                 <Card.Header>
@@ -39,7 +41,7 @@ function BackdropMovieCard({ movie, showOverview, className }) {
                 <Card.Meta>
                     <div className='BackdropMovieCard__date'>{formatDate(date)}</div>
                     <div className='BackdropMovieCard__rating'>
-                        <Rating value={rating} />
+                        <Rating value={voteCount > 0 ? voteAverage : undefined} />
                     </div>
                 </Card.Meta>
                 {showOverview && <Card.Description>

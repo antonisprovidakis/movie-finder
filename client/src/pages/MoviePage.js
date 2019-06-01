@@ -70,7 +70,11 @@ function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
                         <div className='MoviePage__info__picture-container'>
                             <Image
                                 className='MoviePage__info__picture'
-                                src={createImageSrc({ path: imagePath, type: 'poster', size: 'w500' })}
+                                src={createImageSrc({
+                                    path: imagePath,
+                                    type: 'poster',
+                                    size: 'w500'
+                                })}
                             />
                         </div>
                     </Grid.Column>

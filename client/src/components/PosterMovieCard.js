@@ -17,8 +17,6 @@ function PosterMovieCard({ movie, className }) {
         vote_count: voteCount
     } = movie;
 
-    const rating = voteCount > 0 ? voteAverage : undefined;
-
     return (
         <Card
             as={Link}
@@ -28,7 +26,11 @@ function PosterMovieCard({ movie, className }) {
         >
             <Image
                 className='PosterMovieCard__image'
-                src={createImageSrc({ path: image, type: 'poster', size: 'w500' })}
+                src={createImageSrc({
+                    path: image,
+                    type: 'poster',
+                    size: 'w500'
+                })}
             />
             <Card.Content>
                 <Card.Header>
@@ -37,7 +39,7 @@ function PosterMovieCard({ movie, className }) {
                 <Card.Meta>
                     <div className='PosterMovieCard__date'>{formatDate(date)}</div>
                     <div className='PosterMovieCard__rating'>
-                        <Rating value={rating} />
+                        <Rating value={voteCount > 0 ? voteAverage : undefined} />
                     </div>
                 </Card.Meta>
             </Card.Content>

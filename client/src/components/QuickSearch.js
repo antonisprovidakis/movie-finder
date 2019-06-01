@@ -28,9 +28,14 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
     async function fetchResults(searchTerm) {
         setLoading(true);
 
-        const res = await searchAPI.searchMulti(searchTerm, { language: 'en-US', region: 'US', page: 1 });
+        const res = await searchAPI.searchMulti(
+            searchTerm,
+            { language: 'en-US', region: 'US', page: 1 }
+        );
         const results = res.results;
-        const resultsMoviesAndPersons = results.filter(result => result.media_type !== 'tv');
+        const resultsMoviesAndPersons = results.filter(
+            result => result.media_type !== 'tv'
+        );
         const first5Results = resultsMoviesAndPersons.slice(0, 5);
 
         const first5ResultsWithAs = first5Results.map(
@@ -43,12 +48,20 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
                 if (result.media_type === 'movie') {
                     data.title = result.title;
                     data.description = result.release_date.split('-')[0];
-                    data.image = createImageSrc({ path: result.poster_path, type: 'poster', size: 'w92' });
+                    data.image = createImageSrc({
+                        path: result.poster_path,
+                        type: 'poster',
+                        size: 'w92'
+                    });
                     data.to = `/movie/${result.id}`
                 }
                 else {
                     data.title = result.name;
-                    data.image = createImageSrc({ path: result.profile_path, type: 'profile', size: 'w45' });
+                    data.image = createImageSrc({
+                        path: result.profile_path,
+                        type: 'profile',
+                        size: 'w45'
+                    });
                     data.to = `/person/${result.id}`
                 }
 
