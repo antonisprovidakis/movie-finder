@@ -1,6 +1,6 @@
+import { decamelizeKeys } from 'humps';
 import Schemas from '../schemas';
 import { personAPI } from '../../api';
-import { decamelizeKeys } from 'humps';
 
 const LOAD_PERSON_INFO_REQUEST = 'LOAD_PERSON_INFO_REQUEST';
 const LOAD_PERSON_INFO_SUCCESS = 'LOAD_PERSON_INFO_SUCCESS';

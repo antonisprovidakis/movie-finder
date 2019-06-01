@@ -7,15 +7,13 @@ export default function processTMDBResponse(response, schema) {
         };
     }
     if (!response.results) {
-        const data = normalize(response, schema);
         return {
-            data
+            data: normalize(response, schema)
         };
     }
     const { results, ...pagination } = response;
-    const data = normalize(results, schema);
     return {
-        data,
+        data: normalize(results, schema),
         pagination
     };
 }

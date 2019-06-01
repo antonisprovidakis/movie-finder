@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import pagination from './pagination';
 import entities from './entities';
+import pagination from './pagination';
 import ui from './ui';
 
 const rootReducer = combineReducers({

@@ -1,7 +1,7 @@
+import { decamelizeKeys } from 'humps';
 import Schemas from '../schemas';
 import { movieAPI } from '../../api';
 import { stringifyFilters } from '../../utils/queryString';
-import { decamelizeKeys } from 'humps';
 
 const LOAD_MOVIE_INFO_REQUEST = 'LOAD_MOVIE_INFO_REQUEST';
 const LOAD_MOVIE_INFO_SUCCESS = 'LOAD_MOVIE_INFO_SUCCESS';

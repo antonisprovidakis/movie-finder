@@ -29,7 +29,10 @@ const paginate = ({ types, mapActionToKey = () => '' }) => {
           ...state,
           isFetching: false,
           totalPages: action.response.pagination.total_pages,
-          pages: { ...state.pages, [action.response.pagination.page]: action.response.data.result }
+          pages: {
+            ...state.pages,
+            [action.response.pagination.page]: action.response.data.result
+          }
         };
       case failureType:
         return {
