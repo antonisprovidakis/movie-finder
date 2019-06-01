@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { discoverMovies } from '../redux/actions/movieActions';
 import { Form } from 'semantic-ui-react';
-import '../styles/DiscoverPage.css';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import { genres } from '../api/config/genres';
