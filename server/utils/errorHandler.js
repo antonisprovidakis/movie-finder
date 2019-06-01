@@ -19,6 +19,7 @@ module.exports = function (error, req, res, next) {
     const message = typeof tmdbAPIStatusCode !== 'undefined'
         ? tmdbAPIStatusMessage
         : errors[0];
+
     return res.status(response.status).json({
         error: {
             code: tmdbAPIStatusCode,

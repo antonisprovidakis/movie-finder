@@ -1,15 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const app = express();
 const {
     movieRoutes,
     personRoutes,
     searchRoutes,
     configurationRoutes,
 } = require("./routes");
-
 const errorHandler = require("./utils/errorHandler");
+
+const app = express();
 
 app.use("/", [
     movieRoutes,
