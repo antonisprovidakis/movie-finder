@@ -12,7 +12,7 @@ import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import {
     MovieCategory,
     movieCategoriesRoutingMap
-} from '../api/config/movieCategories';
+} from '../api/config';
 
 const categories = [
     MovieCategory.POPULAR,

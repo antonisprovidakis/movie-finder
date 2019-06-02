@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { Image, Grid, Header, List } from 'semantic-ui-react';
 import Loader from '../components/Loader';
 import NotFound from '../components/NotFound';
-import { getGenderNameFromId } from '../api/config/gender';
-import { createImageSrc } from '../api/config/image';
+import { createImageSrc, getGenderNameFromId } from '../api/config';
 import { loadPersonInfo } from '../redux/actions/personActions';
 
 function PersonPage({ personId, person, isFetching, loadPersonInfo }) {

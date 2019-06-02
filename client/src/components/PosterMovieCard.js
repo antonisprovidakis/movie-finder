@@ -4,7 +4,7 @@ import '../styles/PosterMovieCard.css';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
-import { createImageSrc } from '../api/config/image';
+import { createImageSrc } from '../api/config';
 import { formatDate } from '../utils/date';
 
 function PosterMovieCard({ movie, className }) {

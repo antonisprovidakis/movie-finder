@@ -11,7 +11,7 @@ import { getPage, updateQueryString } from '../utils/queryString';
 import {
     camelizeCategory,
     movieCategoriesRoutingMap
-} from '../api/config/movieCategories';
+} from '../api/config';
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { setMovieCardViewStyle } from '../redux/actions/uiActions';
 

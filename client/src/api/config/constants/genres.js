@@ -1,9 +1,4 @@
-export function findGenreNameFromId(id) {
-    const genre = genres.find(genre => genre.id === id);
-    return genre ? genre.name : undefined;
-}
-
-export const genres = Object.freeze([
+const genres = Object.freeze([
     {
         id: 28,
         name: 'Action'
@@ -81,3 +76,5 @@ export const genres = Object.freeze([
         name: 'Western'
     }
 ]);
+
+export default genres;

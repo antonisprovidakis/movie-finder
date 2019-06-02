@@ -6,8 +6,7 @@ import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
-import { genres } from '../api/config/genres';
-import { sortingFilters } from '../api/config/sortingFilters';
+import { genres, sortingFilters } from '../api/config';
 import {
     getFilters,
     getPage,

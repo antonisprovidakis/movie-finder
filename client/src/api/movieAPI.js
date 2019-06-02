@@ -1,5 +1,5 @@
 import client from './client';
-import { MovieCategory } from './config/movieCategories';
+import { MovieCategory } from './config';
 
 async function getPopularMovies(options = {}) {
     return await client.get('/movie/popular', options);

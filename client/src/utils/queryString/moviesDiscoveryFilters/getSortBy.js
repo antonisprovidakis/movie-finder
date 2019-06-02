@@ -1,5 +1,5 @@
 import { parseQueryString } from '../base';
-import { sortingFilters } from '../../../api/config/sortingFilters';
+import { sortingFilters } from '../../../api/config';
 
 const filters = sortingFilters.map(filter => filter.id);
 const DEFAULT_SORTING_FILTER = filters[0];

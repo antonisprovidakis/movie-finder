@@ -1,5 +1,3 @@
-import { camelize } from 'humps';
-
 export const MovieCategory = Object.freeze({
     POPULAR: 'popular',
     IN_THEATERS: 'inTheaters',
@@ -26,7 +24,3 @@ export const movieCategoriesRoutingMap = Object.freeze({
         text: 'Top Rated'
     }
 });
-
-export function camelizeCategory(categorySlug) {
-    return camelize(categorySlug);
-}

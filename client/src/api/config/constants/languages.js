@@ -1,8 +1,3 @@
-export function findLanguageNameInEnglishFromISO(iso) {
-    const language = languages.find(lang => lang.iso_639_1 === iso);
-    return language ? language.english_name : undefined;
-}
-
 const languages = Object.freeze([
     {
         "iso_639_1": "xx",
@@ -940,3 +935,5 @@ const languages = Object.freeze([
         "name": "Èdè Yorùbá"
     }
 ]);
+
+export default languages;

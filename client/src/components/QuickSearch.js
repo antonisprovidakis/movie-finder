@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
-import { createImageSrc } from '../api/config/image';
+import { createImageSrc } from '../api/config';
 import useDebounce from '../utils/hooks/useDebounce';
 
 function QuickSearch({ delay, fullWidth, className, ...rest }) {

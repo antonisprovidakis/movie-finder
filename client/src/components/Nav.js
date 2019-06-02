@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Container, Dropdown, Menu, } from 'semantic-ui-react';
-import { movieCategoriesRoutingMap } from '../api/config/movieCategories';
+import { movieCategoriesRoutingMap } from '../api/config';
 
 const dropdownItemsData = [
     movieCategoriesRoutingMap.popular,

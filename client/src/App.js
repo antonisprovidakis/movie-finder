@@ -6,7 +6,7 @@ import Loader from './components/Loader';
 import MainContent from './components/MainContent';
 import Nav from './components/Nav';
 import QuickSearch from './components/QuickSearch';
-import { movieCategoriesRoutingMap } from './api/config/movieCategories';
+import { movieCategoriesRoutingMap } from './api/config';
 import useMedia, { mobileMediaQuery } from './utils/hooks/useMedia';
 
 const Homepage = lazy(() => import('./pages/HomePage'));

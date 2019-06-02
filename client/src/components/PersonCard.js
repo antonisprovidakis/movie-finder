@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import '../styles/PersonCard.css';
 import { Link } from 'react-router-dom'
 import { Card, Image } from 'semantic-ui-react';
-import { createImageSrc } from '../api/config/image';
+import { createImageSrc } from '../api/config';
 
 function PersonCard({ id, name, image, sub, className }) {
     return (

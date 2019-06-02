@@ -1,60 +1,4 @@
-export function createImageSrc({ path, type, size = 'original' }) {
-    let imageSrc;
-
-    try {
-        imageSrc = buildImageUrl({ path, type, size });
-    } catch (error) {
-        console.error('An error occured while creating image src. Fallback to default base64 image.', error);
-        
-        switch (type) {
-            case 'backdrop':
-                imageSrc = defaultBackdropImageBase64Data;
-                break;
-            case 'poster':
-            default:
-                imageSrc = defaultPosterImageBase64Data;
-                break;
-        }
-    }
-
-    return imageSrc;
-}
-
-function buildImageUrl({ path, type, size }) {
-    if (path === null || path === undefined) {
-        throw new Error('"path" cannot be null or undefined');
-    }
-
-    if (typeof path !== 'string') {
-        throw new Error('"path" must be a string.');
-    }
-
-    if (path.length === 0 || !path.startsWith('/')) {
-        throw new Error(`"${path}": Check the path`);
-    }
-
-    const imageTypes = parseImageTypesFromConfig(imageConfig);
-
-    if (!imageTypes.includes(type)) {
-        throw new Error(`"${type}" image type is not supported. Use one of ${imageTypes}`);
-    }
-
-    const supportedSizes = imageConfig[`${type}_sizes`];
-
-    if (!supportedSizes.includes(size)) {
-        throw new Error(`"${size}" image size is not supported. Use one of ${supportedSizes}`);
-    }
-
-    return `${imageConfig.secure_base_url}${size}${path}`;
-}
-
-function parseImageTypesFromConfig(imageConfig) {
-    return Object.keys(imageConfig)
-        .filter(key => key.endsWith('_sizes'))
-        .map(typeKey => typeKey.split('_')[0]);
-}
-
-const imageConfig = Object.freeze({
+export const imageConfig = Object.freeze({
     base_url: "http://image.tmdb.org/t/p/",
     secure_base_url: "https://image.tmdb.org/t/p/",
     backdrop_sizes: [
@@ -95,9 +39,14 @@ const imageConfig = Object.freeze({
     ]
 });
 
+export const imageTypes =
+    Object.keys(imageConfig)
+        .filter(key => key.endsWith('_sizes'))
+        .map(typeKey => typeKey.split('_')[0]);
+
 // this image is used if image path is not found for a resource
 // poster dimensions
-const defaultPosterImageBase64Data =
+export const defaultPosterImageBase64Data =
     `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAA
     LuCAQAAADyeixhAAAGSElEQVR42u3TAQ0AAAjDMO5fImKOD9JKWLJ
     sB3guRgejA0YHjA4YHTA6YHTA6IDRweiA0QGjA0YHjA4YHTA6YHQw
@@ -142,7 +91,7 @@ const defaultPosterImageBase64Data =
     wOGB0wOmB0wOiA0QGjg9EBowNGB4wOGB0wOmB0wOjAAeZ/b+ZQlT5
     wAAAAAElFTkSuQmCC`;
 
-const defaultBackdropImageBase64Data =
+export const defaultBackdropImageBase64Data =
     `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwwAAA
     G3CAQAAACz5BpvAAAE30lEQVR42u3VMQEAAAjDMOZfImLg48FCIqF
     P01MAcGIMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAM
