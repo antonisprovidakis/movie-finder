@@ -1,4 +1,5 @@
 import client from './client';
+import { MovieCategory } from './config/movieCategories';
 
 async function getPopularMovies(options = {}) {
     return await client.get('/movie/popular', options);
@@ -20,13 +21,13 @@ async function getInTheatersMovies(options = {}) {
 // getTopRatedMovies, getInTheatersMovies functions
 async function getMoviesByCategory(category, options = {}) {
     switch (category) {
-        case 'popular':
+        case MovieCategory.POPULAR:
             return await getPopularMovies(options);
-        case 'upcoming':
+        case MovieCategory.UPCOMING:
             return await getUpcomingMovies(options);
-        case 'top-rated':
+        case MovieCategory.TOP_RATED:
             return await getTopRatedMovies(options);
-        case 'in-theaters':
+        case MovieCategory.IN_THEATERS:
             return await getInTheatersMovies(options);
         default:
             throw new Error(`${category} category does not exist. Use one of popular, upcoming, top-rated, in-theaters`);

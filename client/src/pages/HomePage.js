@@ -9,6 +9,16 @@ import CollectionGrid from '../components/CollectionGrid';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
+import {
+    MovieCategory,
+    movieCategoriesRoutingMap
+} from '../api/config/movieCategories';
+
+const categories = [
+    MovieCategory.POPULAR,
+    MovieCategory.IN_THEATERS,
+    MovieCategory.UPCOMING
+];
 
 function HomePage({
     popularMovies,
@@ -17,29 +27,62 @@ function HomePage({
     loadMoviesByCategory
 }) {
     useEffect(() => {
-        const categories = ['popular', 'in-theaters', 'upcoming'];
         categories.forEach(category =>
             loadMoviesByCategory(category, { page: 1, region: 'US' })
         );
     }, [loadMoviesByCategory]);
 
-    const sectionsData = [
-        {
-            title: 'Popular Movies',
-            movies: popularMovies,
-            linkTo: '/movie/popular'
-        },
-        {
-            title: 'Movies In Theaters',
-            movies: inTheatersMovies,
-            linkTo: '/movie/in-theaters'
-        },
-        {
-            title: 'Upcoming Movies',
-            movies: upcomingMovies,
-            linkTo: '/movie/upcoming'
-        }
-    ];
+    function renderMovieSections() {
+        const sectionsData = [
+            {
+                title: `${movieCategoriesRoutingMap.popular.text} Movies`,
+                movies: popularMovies,
+                linkTo: `/movie/${movieCategoriesRoutingMap.popular.slug}`
+            },
+            {
+                title: `${movieCategoriesRoutingMap.inTheaters.text} Movies`,
+                movies: inTheatersMovies,
+                linkTo: `/movie/${movieCategoriesRoutingMap.inTheaters.slug}`
+            },
+            {
+                title: `${movieCategoriesRoutingMap.upcoming.text} Movies`,
+                movies: upcomingMovies,
+                linkTo: `/movie/${movieCategoriesRoutingMap.upcoming.slug}`
+            }
+        ];
+
+        return sectionsData.map(({ title, movies, linkTo }) => {
+            return (
+                <div key={title} className='HomePage__movies-container__section'>
+                    <div className='HomePage__movies-container__section__main'>
+                        <CollectionGrid
+                            title={title}
+                            collection={movies}
+                            renderItem={renderItem}
+                            placeholderItemsCount={4}
+                            renderPlaceholderItem={renderPlaceholderItem}
+                            loading={movies.length === 0}
+                            columns={4}
+                            doubling
+                        />
+                    </div>
+                    {
+                        movies.length !== 0 &&
+                        <div className='HomePage__movies-container__section__bottom'>
+                            <Button
+                                as={Link}
+                                to={linkTo}
+                                color='orange'
+                                floated='right'
+                            >
+                                See More
+                                </Button>
+                        </div>
+                    }
+                </div>
+            );
+        });
+    }
 
     function renderItem(item) {
         return <PosterMovieCard movie={item} />
@@ -47,38 +90,6 @@ function HomePage({
 
     function renderPlaceholderItem() {
         return <PosterMovieCardPlaceholder />;
-    }
-
-    function renderSection({ title, movies, linkTo }) {
-        return (
-            <div key={title} className='HomePage__movies-container__section'>
-                <div className='HomePage__movies-container__section__main'>
-                    <CollectionGrid
-                        title={title}
-                        collection={movies}
-                        renderItem={renderItem}
-                        placeholderItemsCount={4}
-                        renderPlaceholderItem={renderPlaceholderItem}
-                        loading={movies.length === 0}
-                        columns={4}
-                        doubling
-                    />
-                </div>
-                {
-                    movies.length !== 0 &&
-                    <div className='HomePage__movies-container__section__bottom'>
-                        <Button
-                            as={Link}
-                            to={linkTo}
-                            color='orange'
-                            floated='right'
-                        >
-                            See More
-                            </Button>
-                    </div>
-                }
-            </div>
-        );
     }
 
     return (
@@ -96,7 +107,8 @@ function HomePage({
             </Header>
 
             <div className='HomePage__movies-container'>
-                {sectionsData.map(sectionData => renderSection(sectionData))}
+                {/* {sectionsData.map(sectionData => renderSection(sectionData))} */}
+                {renderMovieSections()}
             </div>
         </div>
     );
@@ -106,15 +118,15 @@ const mapStateToProps = (state) => {
     const cachedMovies = state.entities.movies;
 
     const {
-        'in-theaters': inTheatersMoviesSubTree = {},
-        upcoming: upcomingMoviesSubTree = {},
         popular: popularMoviesSubTree = {},
+        inTheaters: inTheatersMoviesSubTree = {},
+        upcoming: upcomingMoviesSubTree = {}
     } = state.pagination.moviesByCategory;
 
     const path = 'pages[1]';
+    const popularMovieIds = _get(popularMoviesSubTree, path, []).slice(0, 4);
     const inTheatersMovieIds = _get(inTheatersMoviesSubTree, path, []).slice(0, 4);
     const upcomingMovieIds = _get(upcomingMoviesSubTree, path, []).slice(0, 4);
-    const popularMovieIds = _get(popularMoviesSubTree, path, []).slice(0, 4);
 
     const popularMovies = popularMovieIds.map(id => cachedMovies[id]);
     const inTheatersMovies = inTheatersMovieIds.map(id => cachedMovies[id]);

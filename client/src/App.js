@@ -6,6 +6,7 @@ import Loader from './components/Loader';
 import MainContent from './components/MainContent';
 import Nav from './components/Nav';
 import QuickSearch from './components/QuickSearch';
+import { movieCategoriesRoutingMap } from './api/config/movieCategories';
 import useMedia, { mobileMediaQuery } from './utils/hooks/useMedia';
 
 const Homepage = lazy(() => import('./pages/HomePage'));
@@ -15,6 +16,13 @@ const MoviePage = lazy(() => import('./pages/MoviePage'));
 const PersonsPage = lazy(() => import('./pages/PersonsPage'));
 const PersonPage = lazy(() => import('./pages/PersonPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+
+const moviesPageValidPaths = [
+  movieCategoriesRoutingMap.popular.slug,
+  movieCategoriesRoutingMap.upcoming.slug,
+  movieCategoriesRoutingMap.inTheaters.slug,
+  movieCategoriesRoutingMap.topRated.slug
+].join('|');
 
 function App(props) {
   const isMobile = useMedia(mobileMediaQuery);
@@ -43,7 +51,7 @@ function App(props) {
               <Route
                 exact
                 sensitive
-                path='/movie/:category(popular|upcoming|in-theaters|top-rated)'
+                path={`/movie/:category(${moviesPageValidPaths})`}
                 component={MoviesPage}
               />
               <Route

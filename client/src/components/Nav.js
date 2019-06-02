@@ -2,6 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Container, Dropdown, Menu, } from 'semantic-ui-react';
+import { movieCategoriesRoutingMap } from '../api/config/movieCategories';
+
+const dropdownItemsData = [
+    movieCategoriesRoutingMap.popular,
+    movieCategoriesRoutingMap.inTheaters,
+    movieCategoriesRoutingMap.upcoming,
+    movieCategoriesRoutingMap.topRated,
+];
 
 function Nav({ isMobile }) {
     return (
@@ -22,10 +30,15 @@ function Nav({ isMobile }) {
                         text='Movies'
                     >
                         <Dropdown.Menu>
-                            <Dropdown.Item as={Link} to='/movie/popular'>Popular</Dropdown.Item>
-                            <Dropdown.Item as={Link} to='/movie/in-theaters'>In Theaters</Dropdown.Item>
-                            <Dropdown.Item as={Link} to='/movie/upcoming'>Upcoming</Dropdown.Item>
-                            <Dropdown.Item as={Link} to='/movie/top-rated'>Top Rated</Dropdown.Item>
+                            {dropdownItemsData.map(({ slug, text }) =>
+                                <Dropdown.Item
+                                    as={Link}
+                                    to={`/movie/${slug}`}
+                                    key={slug}
+                                >
+                                    {text}
+                                </Dropdown.Item>
+                            )}
                         </Dropdown.Menu>
                     </Dropdown>
                     <Menu.Item fitted='vertically' as={Link} to='/person'>People</Menu.Item>

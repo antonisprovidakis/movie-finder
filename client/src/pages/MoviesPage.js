@@ -8,15 +8,12 @@ import Pagination from '../components/Pagination';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
 import { getPage, updateQueryString } from '../utils/queryString';
+import {
+    camelizeCategory,
+    movieCategoriesRoutingMap
+} from '../api/config/movieCategories';
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { setMovieCardViewStyle } from '../redux/actions/uiActions';
-
-const routeNames = {
-    'popular': 'Popular',
-    'upcoming': 'Upcoming',
-    'in-theaters': 'In Theaters',
-    'top-rated': 'Top Rated'
-}
 
 const movieCardTypes = {
     poster: PosterMovieCard,
@@ -93,7 +90,7 @@ function MoviesPage({
         <div className="MoviesPage">
             <div className="MoviesPage__movies-container">
                 <CollectionGrid
-                    title={routeNames[category]}
+                    title={`${movieCategoriesRoutingMap[category].text} Movies`}
                     collection={movies}
                     renderItem={renderItem}
                     menuItems={moviesGridMenuItems}
@@ -118,7 +115,7 @@ function MoviesPage({
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const category = ownProps.match.params.category;
+    const category = camelizeCategory(ownProps.match.params.category);
     const cachedMovies = state.entities.movies;
     const {
         isFetching = false,
