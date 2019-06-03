@@ -4,9 +4,9 @@ import moviesByDiscoverOptions from './moviesByDiscoverOptions';
 import personsByPage from './personsByPage';
 
 const pagination = combineReducers({
-    moviesByCategory,
-    moviesByDiscoverOptions,
-    personsByPage
+  moviesByCategory,
+  moviesByDiscoverOptions,
+  personsByPage
 });
 
 export default pagination;

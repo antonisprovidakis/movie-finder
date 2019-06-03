@@ -1,18 +1,17 @@
 .Footer {
-    background-color: #1b1c1d;
-    padding: 2.5em 0em;
- }
-
- .Footer__content {
-     color: #afb5bd;
-     text-align: center;
- }
-
- .Footer__content__tmdb-logo-container {
-    margin-top: 0.5rem;
+  background-color: #1b1c1d;
+  padding: 2.5em 0em;
 }
 
- .Footer__content__tmdb-logo-container img {
-     width: 10rem;
- }
- 
+.Footer__content {
+  color: #afb5bd;
+  text-align: center;
+}
+
+.Footer__content__tmdb-logo-container {
+  margin-top: 0.5rem;
+}
+
+.Footer__content__tmdb-logo-container img {
+  width: 10rem;
+}

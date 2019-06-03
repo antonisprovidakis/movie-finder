@@ -1,31 +1,31 @@
 @media only screen and (max-width: 767px) {
-    .MoviePage__info__picture {
-        margin: 0 auto;
-    }
+  .MoviePage__info__picture {
+    margin: 0 auto;
+  }
 }
 
 .MoviePage__title {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .MoviePage__title__year {
-    font-size: 0.8em;
-    font-weight: 400;
-    opacity: 0.6;
+  font-size: 0.8em;
+  font-weight: 400;
+  opacity: 0.6;
 }
 
 .MoviePage__actions {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .MoviePage__actions .Rating {
-    font-size: 3em;
+  font-size: 3em;
 }
 
 .MoviePage__actions__rating-container {
-    font-size: 3em;
+  font-size: 3em;
 }
 
 .MoviePage__cast__missing-message {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }

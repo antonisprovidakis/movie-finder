@@ -9,101 +9,99 @@ import { getPage, updateQueryString } from '../utils/queryString';
 import { loadPopularPersons } from '../redux/actions/personActions';
 
 function PersonsPage({
-    persons,
-    isFetching,
-    totalPages,
-    page,
-    history,
-    location,
-    loadPopularPersons
+  persons,
+  isFetching,
+  totalPages,
+  page,
+  history,
+  location,
+  loadPopularPersons
 }) {
-    useEffect(() => {
-        loadPopularPersons({ page });
-    }, [loadPopularPersons, page]);
+  useEffect(() => {
+    loadPopularPersons({ page });
+  }, [loadPopularPersons, page]);
 
-    function handlePageChange(e, data) {
-        const newQueryString = updateQueryString(
-            location.search,
-            { page: data.activePage }
-        );
-        history.push(`?${newQueryString}`);
-    }
+  function handlePageChange(e, data) {
+    const newQueryString = updateQueryString(location.search, {
+      page: data.activePage
+    });
+    history.push(`?${newQueryString}`);
+  }
 
-    function renderItem(item) {
-        const {
-            id,
-            name,
-            profile_path: image
-        } = item;
-        return <PersonCard id={id} name={name} image={image} />
-    }
+  function renderItem(item) {
+    const { id, name, profile_path: image } = item;
+    return <PersonCard id={id} name={name} image={image} />;
+  }
 
-    function renderPlaceholderItem() {
-        return <PersonCardPlaceholder />;
-    }
+  function renderPlaceholderItem() {
+    return <PersonCardPlaceholder />;
+  }
 
-    const shouldRenderPagination = totalPages > 1 && page <= totalPages;
+  const shouldRenderPagination = totalPages > 1 && page <= totalPages;
 
-    return (
-        <div className="PersonsPage">
-            <div className="PersonsPage__persons-container">
-                <CollectionGrid
-                    title='Popular People'
-                    collection={persons}
-                    renderItem={renderItem}
-                    placeholderItemsCount={12}
-                    renderPlaceholderItem={renderPlaceholderItem}
-                    loading={isFetching}
-                    columns={4}
-                    doubling
-                />
-            </div>
+  return (
+    <div className="PersonsPage">
+      <div className="PersonsPage__persons-container">
+        <CollectionGrid
+          title="Popular People"
+          collection={persons}
+          renderItem={renderItem}
+          placeholderItemsCount={12}
+          renderPlaceholderItem={renderPlaceholderItem}
+          loading={isFetching}
+          columns={4}
+          doubling
+        />
+      </div>
 
-            {shouldRenderPagination &&
-                <Pagination
-                    activePage={page}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                    topPadded
-                    disabled={isFetching}
-                />
-            }
-        </div>
-    );
+      {shouldRenderPagination && (
+        <Pagination
+          activePage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          topPadded
+          disabled={isFetching}
+        />
+      )}
+    </div>
+  );
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const cachedPersons = state.entities.persons;
-    const {
-        isFetching = false,
-        totalPages = undefined,
-        pages = {}
-    } = state.pagination.personsByPage;
-    const page = getPage(ownProps.location.search);
-    const personIds = pages[page] || [];
-    const persons = personIds.map(id => cachedPersons[id]);
+  const cachedPersons = state.entities.persons;
+  const {
+    isFetching = false,
+    totalPages = undefined,
+    pages = {}
+  } = state.pagination.personsByPage;
+  const page = getPage(ownProps.location.search);
+  const personIds = pages[page] || [];
+  const persons = personIds.map(id => cachedPersons[id]);
 
-    return {
-        isFetching,
-        totalPages,
-        persons,
-        page
-    }
-}
+  return {
+    isFetching,
+    totalPages,
+    persons,
+    page
+  };
+};
 
 PersonsPage.propTypes = {
-    persons: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-    page: PropTypes.number,
-    totalPages: PropTypes.number,
-    isFetching: PropTypes.bool.isRequired,
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired,
-        search: PropTypes.string.isRequired,
-    }).isRequired,
-    loadPopularPersons: PropTypes.func.isRequired
-}
+  persons: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  page: PropTypes.number,
+  totalPages: PropTypes.number,
+  isFetching: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired
+  }).isRequired,
+  loadPopularPersons: PropTypes.func.isRequired
+};
 
-export default connect(mapStateToProps, { loadPopularPersons })(PersonsPage);
+export default connect(
+  mapStateToProps,
+  { loadPopularPersons }
+)(PersonsPage);

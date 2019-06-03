@@ -1,19 +1,19 @@
 .HomePage__movies-container__section {
-    padding: 1rem 0;
+  padding: 1rem 0;
 }
 
 .HomePage__movies-container__section:first-child {
-    padding: 0 0 1rem 0;
+  padding: 0 0 1rem 0;
 }
 
 .HomePage__movies-container__section:last-child {
-    padding: 1rem 0 0 0;
+  padding: 1rem 0 0 0;
 }
 
 .HomePage__movies-container__section__main {
-    padding: 0 0 1em 0;
+  padding: 0 0 1em 0;
 }
 
 .HomePage__movies-container__section__bottom {
-    overflow: hidden;
+  overflow: hidden;
 }

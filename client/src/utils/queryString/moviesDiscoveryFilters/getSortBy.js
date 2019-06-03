@@ -5,11 +5,11 @@ const filters = sortingFilters.map(filter => filter.id);
 const DEFAULT_SORTING_FILTER = filters[0];
 
 export default function getSortBy(queryString) {
-    const { sortBy } = parseQueryString(queryString);
+  const { sortBy } = parseQueryString(queryString);
 
-    if (!filters.includes(sortBy)) {
-        return DEFAULT_SORTING_FILTER;
-    }
+  if (!filters.includes(sortBy)) {
+    return DEFAULT_SORTING_FILTER;
+  }
 
-    return sortBy;
+  return sortBy;
 }

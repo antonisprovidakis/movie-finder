@@ -1,53 +1,20 @@
 export const imageConfig = Object.freeze({
-    base_url: "http://image.tmdb.org/t/p/",
-    secure_base_url: "https://image.tmdb.org/t/p/",
-    backdrop_sizes: [
-        "w300",
-        "w780",
-        "w1280",
-        "original"
-    ],
-    logo_sizes: [
-        "w45",
-        "w92",
-        "w154",
-        "w185",
-        "w300",
-        "w500",
-        "original"
-    ],
-    poster_sizes: [
-        "w92",
-        "w154",
-        "w185",
-        "w342",
-        "w500",
-        "w780",
-        "original"
-    ],
-    profile_sizes: [
-        "w45",
-        "w185",
-        "h632",
-        "original"
-    ],
-    still_sizes: [
-        "w92",
-        "w185",
-        "w300",
-        "original"
-    ]
+  base_url: 'http://image.tmdb.org/t/p/',
+  secure_base_url: 'https://image.tmdb.org/t/p/',
+  backdrop_sizes: ['w300', 'w780', 'w1280', 'original'],
+  logo_sizes: ['w45', 'w92', 'w154', 'w185', 'w300', 'w500', 'original'],
+  poster_sizes: ['w92', 'w154', 'w185', 'w342', 'w500', 'w780', 'original'],
+  profile_sizes: ['w45', 'w185', 'h632', 'original'],
+  still_sizes: ['w92', 'w185', 'w300', 'original']
 });
 
-export const imageTypes =
-    Object.keys(imageConfig)
-        .filter(key => key.endsWith('_sizes'))
-        .map(typeKey => typeKey.split('_')[0]);
+export const imageTypes = Object.keys(imageConfig)
+  .filter(key => key.endsWith('_sizes'))
+  .map(typeKey => typeKey.split('_')[0]);
 
 // this image is used if image path is not found for a resource
 // poster dimensions
-export const defaultPosterImageBase64Data =
-    `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAA
+export const defaultPosterImageBase64Data = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAA
     LuCAQAAADyeixhAAAGSElEQVR42u3TAQ0AAAjDMO5fImKOD9JKWLJ
     sB3guRgejA0YHjA4YHTA6YHTA6IDRweiA0QGjA0YHjA4YHTA6YHQw
     OmB0wOiA0QGjA0YHjA4YHYxudDA6YHTA6IDRAaMDRgeMDhgdjA4YH
@@ -91,8 +58,7 @@ export const defaultPosterImageBase64Data =
     wOGB0wOmB0wOiA0QGjg9EBowNGB4wOGB0wOmB0wOjAAeZ/b+ZQlT5
     wAAAAAElFTkSuQmCC`;
 
-export const defaultBackdropImageBase64Data =
-    `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwwAAA
+export const defaultBackdropImageBase64Data = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwwAAA
     G3CAQAAACz5BpvAAAE30lEQVR42u3VMQEAAAjDMOZfImLg48FCIqF
     P01MAcGIMABgDAMYAgDEAYAwAGAMAxgCAMQBgDAAYAwDGAIAxAGAM
     ABgDAMYAgDEAYAwAGAMAxgCAMQCAMQBgDAAYAwDGAIAxAGAMABgDA

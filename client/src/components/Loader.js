@@ -1,25 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { Loader as LoaderSUI } from 'semantic-ui-react';
 
 function Loader({ text }) {
-    return (
-        <LoaderSUI
-            className='Loader'
-            active
-            inline='centered'
-        >
-            {text}
-        </LoaderSUI>
-    );
+  return (
+    <LoaderSUI className="Loader" active inline="centered">
+      {text}
+    </LoaderSUI>
+  );
 }
 
 Loader.propTypes = {
-    text: PropTypes.string,
-}
+  text: PropTypes.string
+};
 
 Loader.defaultProps = {
-    text: ''
-}
+  text: ''
+};
 
 export default Loader;

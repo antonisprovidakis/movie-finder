@@ -1,7 +1,3 @@
-const genders = Object.freeze([
-    'Not specified',
-    'Female',
-    'Male'
-]);
+const genders = Object.freeze(['Not specified', 'Female', 'Male']);
 
 export default genders;

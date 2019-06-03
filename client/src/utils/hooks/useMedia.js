@@ -15,23 +15,23 @@ export const largeMonitorMediaQuery = `(min-width: ${largeMonitorMinDeviceWidth}
 // TODO: maybe use some sort of debounce in order to save CPU cycles?
 
 function useMedia(query) {
-    const [matches, setMatches] = useState(window.matchMedia(query).matches);
+  const [matches, setMatches] = useState(window.matchMedia(query).matches);
 
-    useEffect(() => {
-        const media = window.matchMedia(query);
+  useEffect(() => {
+    const media = window.matchMedia(query);
 
-        if (media.matches !== matches) {
-            setMatches(media.matches);
-        }
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
 
-        const listener = () => setMatches(media.matches);
+    const listener = () => setMatches(media.matches);
 
-        media.addListener(listener);
+    media.addListener(listener);
 
-        return () => media.removeListener(listener);
-    }, [matches, query]);
+    return () => media.removeListener(listener);
+  }, [matches, query]);
 
-    return matches;
+  return matches;
 }
 
 export default useMedia;

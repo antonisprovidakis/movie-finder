@@ -13,11 +13,14 @@ const paginate = ({ types, mapActionToKey = () => '' }) => {
 
   const [requestType, successType, failureType] = types;
 
-  const updatePagination = (state = {
-    isFetching: false,
-    totalPages: undefined,
-    pages: {}
-  }, action) => {
+  const updatePagination = (
+    state = {
+      isFetching: false,
+      totalPages: undefined,
+      pages: {}
+    },
+    action
+  ) => {
     switch (action.type) {
       case requestType:
         return {
@@ -42,8 +45,7 @@ const paginate = ({ types, mapActionToKey = () => '' }) => {
       default:
         return state;
     }
-  }
-
+  };
 
   return (state = {}, action) => {
     // Update pagination by key, if it exists
@@ -51,7 +53,7 @@ const paginate = ({ types, mapActionToKey = () => '' }) => {
       case requestType:
       case successType:
       case failureType:
-        const key = mapActionToKey(action)
+        const key = mapActionToKey(action);
         if (typeof key !== 'string') {
           throw new Error('Expected key to be a string.');
         }
@@ -59,16 +61,15 @@ const paginate = ({ types, mapActionToKey = () => '' }) => {
         if (key) {
           return {
             ...state,
-            [key]: updatePagination(state[key], action),
+            [key]: updatePagination(state[key], action)
           };
-        }
-        else {
+        } else {
           return updatePagination(state, action);
         }
       default:
         return state;
     }
-  }
-}
+  };
+};
 
 export default paginate;

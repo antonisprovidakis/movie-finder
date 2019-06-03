@@ -32,20 +32,21 @@ function App(props) {
       <div className="App">
         <Nav isMobile={isMobile} />
 
-        <MainContent className='App__main-content'>
-          <QuickSearch className='App__quicksearch' size={isMobile ? 'small' : 'large'} fullWidth fluid />
+        <MainContent className="App__main-content">
+          <QuickSearch
+            className="App__quicksearch"
+            size={isMobile ? 'small' : 'large'}
+            fullWidth
+            fluid
+          />
 
           <Suspense fallback={<Loader />}>
             <Switch>
-              <Route
-                exact
-                path='/'
-                component={Homepage}
-              />
+              <Route exact path="/" component={Homepage} />
               <Route
                 exact
                 sensitive
-                path='/discover'
+                path="/discover"
                 component={DiscoverPage}
               />
               <Route
@@ -57,30 +58,23 @@ function App(props) {
               <Route
                 exact
                 sensitive
-                path='/movie/:id([1-9]\d{0,})'
+                path="/movie/:id([1-9]\d{0,})"
                 component={MoviePage}
               />
+              <Route exact sensitive path="/person" component={PersonsPage} />
               <Route
                 exact
                 sensitive
-                path='/person'
-                component={PersonsPage}
-              />
-              <Route
-                exact
-                sensitive
-                path='/person/:id([1-9]\d{0,})'
+                path="/person/:id([1-9]\d{0,})"
                 component={PersonPage}
               />
-              <Route
-                component={NotFoundPage}
-              />
+              <Route component={NotFoundPage} />
             </Switch>
           </Suspense>
         </MainContent>
 
         <Footer />
-      </div >
+      </div>
     </Router>
   );
 }

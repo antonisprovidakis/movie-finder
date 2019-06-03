@@ -4,7 +4,7 @@
  * @returns {string} e.g. 'January 31, 2019'
  */
 export function formatDate(dateString, locale = 'en-US') {
-    const date = new Date(dateString);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString(locale, options);
+  const date = new Date(dateString);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString(locale, options);
 }
