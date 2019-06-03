@@ -26,7 +26,7 @@ router.get(
 );
 
 router.get(
-    "/api/movie/in-theaters",
+    "/api/movie/now-playing",
     catchError(async (req, res) => {
         const options = req.query;
         const inTheatersMovies = await client.get('/movie/now_playing', options);
