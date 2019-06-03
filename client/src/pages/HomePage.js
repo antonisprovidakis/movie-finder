@@ -16,13 +16,13 @@ import {
 
 const categories = [
     MovieCategory.POPULAR,
-    MovieCategory.IN_THEATERS,
+    MovieCategory.NOW_PLAYING,
     MovieCategory.UPCOMING
 ];
 
 function HomePage({
     popularMovies,
-    inTheatersMovies,
+    nowPlayingMovies,
     upcomingMovies,
     loadMoviesByCategory
 }) {
@@ -40,9 +40,9 @@ function HomePage({
                 linkTo: `/movie/${movieCategoriesRoutingMap.popular.slug}`
             },
             {
-                title: `${movieCategoriesRoutingMap.inTheaters.text} Movies`,
-                movies: inTheatersMovies,
-                linkTo: `/movie/${movieCategoriesRoutingMap.inTheaters.slug}`
+                title: `${movieCategoriesRoutingMap.nowPlaying.text} Movies`,
+                movies: nowPlayingMovies,
+                linkTo: `/movie/${movieCategoriesRoutingMap.nowPlaying.slug}`
             },
             {
                 title: `${movieCategoriesRoutingMap.upcoming.text} Movies`,
@@ -119,29 +119,29 @@ const mapStateToProps = (state) => {
 
     const {
         popular: popularMoviesSubTree = {},
-        inTheaters: inTheatersMoviesSubTree = {},
+        nowPlaying: nowPlayingMoviesSubTree = {},
         upcoming: upcomingMoviesSubTree = {}
     } = state.pagination.moviesByCategory;
 
     const path = 'pages[1]';
     const popularMovieIds = _get(popularMoviesSubTree, path, []).slice(0, 4);
-    const inTheatersMovieIds = _get(inTheatersMoviesSubTree, path, []).slice(0, 4);
+    const nowPlayingMovieIds = _get(nowPlayingMoviesSubTree, path, []).slice(0, 4);
     const upcomingMovieIds = _get(upcomingMoviesSubTree, path, []).slice(0, 4);
 
     const popularMovies = popularMovieIds.map(id => cachedMovies[id]);
-    const inTheatersMovies = inTheatersMovieIds.map(id => cachedMovies[id]);
+    const nowPlayingMovies = nowPlayingMovieIds.map(id => cachedMovies[id]);
     const upcomingMovies = upcomingMovieIds.map(id => cachedMovies[id]);
 
     return {
         popularMovies,
-        inTheatersMovies,
+        nowPlayingMovies,
         upcomingMovies
     }
 }
 
 HomePage.propTypes = {
     popularMovies: PropTypes.arrayOf(PropTypes.object).isRequired,
-    inTheatersMovies: PropTypes.arrayOf(PropTypes.object).isRequired,
+    nowPlayingMovies: PropTypes.arrayOf(PropTypes.object).isRequired,
     upcomingMovies: PropTypes.arrayOf(PropTypes.object).isRequired,
     loadMoviesByCategory: PropTypes.func.isRequired
 }

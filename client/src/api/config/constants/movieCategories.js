@@ -1,6 +1,6 @@
 export const MovieCategory = Object.freeze({
     POPULAR: 'popular',
-    IN_THEATERS: 'inTheaters',
+    NOW_PLAYING: 'nowPlaying',
     UPCOMING: 'upcoming',
     TOP_RATED: 'topRated'
 });
@@ -11,9 +11,9 @@ export const movieCategoriesRoutingMap = Object.freeze({
         slug: 'popular',
         text: 'Popular'
     },
-    inTheaters: {
-        slug: 'in-theaters',
-        text: 'In Theaters'
+    nowPlaying: {
+        slug: 'now-playing',
+        text: 'Now Playing'
     },
     upcoming: {
         slug: 'upcoming',

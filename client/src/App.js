@@ -20,7 +20,7 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const moviesPageValidPaths = [
   movieCategoriesRoutingMap.popular.slug,
   movieCategoriesRoutingMap.upcoming.slug,
-  movieCategoriesRoutingMap.inTheaters.slug,
+  movieCategoriesRoutingMap.nowPlaying.slug,
   movieCategoriesRoutingMap.topRated.slug
 ].join('|');
 

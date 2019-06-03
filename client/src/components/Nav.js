@@ -6,7 +6,7 @@ import { movieCategoriesRoutingMap } from '../api/config';
 
 const dropdownItemsData = [
     movieCategoriesRoutingMap.popular,
-    movieCategoriesRoutingMap.inTheaters,
+    movieCategoriesRoutingMap.nowPlaying,
     movieCategoriesRoutingMap.upcoming,
     movieCategoriesRoutingMap.topRated,
 ];
