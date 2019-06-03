@@ -8,12 +8,6 @@
     margin-bottom: 2rem;
 }
 
-@media only screen and (max-width: 767px) {
-    .MoviePage__title {
-        /* text-align: center; */
-    }
-}
-
 .MoviePage__title__year {
     font-size: 0.8em;
     font-weight: 400;
