@@ -6,7 +6,7 @@ import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import PosterMovieCard from '../components/PosterMovieCard';
 import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
-import { genres, sortingFilters } from '../api/config';
+import { genres, SortingFilterType } from '../api/config';
 import {
   getFilters,
   getPage,
@@ -37,10 +37,32 @@ function createYearOptions(fromYear, toYear) {
 
 const yearOptions = createYearOptions(new Date().getFullYear(), 1900);
 
-const sortByFilterOptions = sortingFilters.map(filter => ({
-  value: filter.id,
-  text: filter.text
-}));
+const sortByFilterOptions = [
+  {
+    value: SortingFilterType.POPULARITY_DESC,
+    text: 'Popularity Descending'
+  },
+  {
+    value: SortingFilterType.POPULARITY_ASC,
+    text: 'Popularity Ascending'
+  },
+  {
+    value: SortingFilterType.VOTE_AVERAGE_DESC,
+    text: 'Rating Descending'
+  },
+  {
+    value: SortingFilterType.VOTE_AVERAGE_ASC,
+    text: 'Rating Ascending'
+  },
+  {
+    value: SortingFilterType.RELEASE_DATE_DESC,
+    text: 'Release Date Descending'
+  },
+  {
+    value: SortingFilterType.RELEASE_DATE_ASC,
+    text: 'Release Date Ascending'
+  }
+];
 
 // check if they can be fetched from server dynamically
 const genreOptions = genres.map(genre => ({
