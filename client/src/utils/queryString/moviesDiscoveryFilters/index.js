@@ -1,8 +1,8 @@
 import _memoize from 'lodash/memoize';
 import { stringifyParams } from '../base';
 import getPrimaryReleaseYear from './getPrimaryReleaseYear';
-import getSortBy from './getSortBy';
-import getWithGenres from './getWithGenres';
+import getSortingFilter from './getSortingFilter';
+import getGenres from './getGenres';
 
 export const stringifyFilters = _memoize(
   (filters = {}) => {
@@ -36,9 +36,9 @@ export const stringifyFilters = _memoize(
 // and pass a 'validator/transformer' function that validates and
 // transforms into desired type. Also, could receive a default value.
 export const getFilters = _memoize((queryString = '') => {
-  const primaryReleaseYear = getPrimaryReleaseYear(queryString);
-  const sortBy = getSortBy(queryString);
-  const withGenres = getWithGenres(queryString);
+  const primaryReleaseYear = getPrimaryReleaseYear(queryString, 2018);
+  const sortBy = getSortingFilter(queryString);
+  const withGenres = getGenres(queryString);
 
   return {
     primaryReleaseYear,
