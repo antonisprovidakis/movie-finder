@@ -22,5 +22,5 @@ it('should get fallbackGenres if with_genres[] query string fields are missing',
   const genres = getGenres(
     '?page=1&primary_release_year=2017&sort_by=popularity.desc'
   );
-  expect(genres).toEqual([]);
+  expect(genres).toHaveLength(0);
 });
