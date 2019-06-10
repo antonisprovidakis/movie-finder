@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Pagination.css';
 import { Pagination as PaginationSUI } from 'semantic-ui-react';
-import concatClasses from '../utils/concatClasses';
+import classNames from 'classnames';
 import useMedia, { mobileMediaQuery } from '../utils/hooks/useMedia';
 
 function Pagination({
@@ -19,11 +19,10 @@ function Pagination({
     return null;
   }
 
-  const className = concatClasses([
-    'Pagination',
-    topPadded ? 'Pagination--top-padded' : '',
-    bottomPadded ? 'Pagination--bottom-padded' : ''
-  ]);
+  const className = classNames('Pagination', {
+    'Pagination--top-padded': topPadded,
+    'Pagination--bottom-padded': bottomPadded
+  });
 
   return (
     <div className={className}>

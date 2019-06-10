@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/CollectionGrid.css';
 import { Grid } from 'semantic-ui-react';
-import concatClasses from '../utils/concatClasses';
+import classNames from 'classnames';
 
 function CollectionGridHeader({ title, menuItems }) {
   const shouldRenderTitle = title.length > 0;
@@ -13,11 +13,10 @@ function CollectionGridHeader({ title, menuItems }) {
     return null;
   }
 
-  const className = concatClasses([
-    'CollectionGrid__header',
-    shouldRenderTitle ? 'CollectionGrid__header--has-title' : '',
-    shouldRenderMenu ? 'CollectionGrid__header--has-menu' : ''
-  ]);
+  const className = classNames('CollectionGrid__header', {
+    'CollectionGrid__header--has-title': shouldRenderTitle,
+    'CollectionGrid__header--has-menu': shouldRenderMenu
+  });
 
   return (
     <div className={className}>
@@ -27,10 +26,10 @@ function CollectionGridHeader({ title, menuItems }) {
       {shouldRenderMenu && (
         <div className="CollectionGrid__header__menu">
           {menuItems.map((menuItem, index) => {
-            const className = concatClasses([
+            const className = classNames(
               menuItem.props.className,
               'CollectionGrid__header__menu_item'
-            ]);
+            );
 
             return React.cloneElement(menuItem, {
               key: index,
@@ -63,10 +62,10 @@ function BaseGrid({ collection, renderItem, ...rest }) {
           return null;
         }
 
-        const className = concatClasses([
+        const className = classNames(
           renderedItem.className,
           'CollectionGrid__column_content'
-        ]);
+        );
 
         return (
           <Grid.Column key={index} className="CollectionGrid__column">
