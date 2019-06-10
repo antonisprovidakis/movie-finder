@@ -1,16 +1,18 @@
 import { parseQueryString } from '../base';
+import { MIN_PAGE, MAX_PAGE } from '../../../api/config/constants/page';
 
-// FROM TMDB API.
-const MIN_PAGE = 1;
-const MAX_PAGE = 1000;
-const DEFAULT_PAGE = 1;
+export default function getPage(queryString, fallbackPage = MIN_PAGE) {
+  if (fallbackPage < MIN_PAGE || fallbackPage > MAX_PAGE) {
+    throw new Error(
+      `'fallbackPage' must be between MIN_PAGE: ${MIN_PAGE} and MAX_PAGE: ${MAX_PAGE}`
+    );
+  }
 
-export default function getPage(queryString) {
   const { page: pageString } = parseQueryString(queryString);
   const page = parseInt(pageString, 10);
 
   if (isNaN(page) || page < MIN_PAGE || page === 0 || page > MAX_PAGE) {
-    return DEFAULT_PAGE;
+    return fallbackPage;
   }
 
   return page;
