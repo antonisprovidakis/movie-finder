@@ -59,7 +59,7 @@ function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
   const top4Cast = credits ? credits.cast.slice(0, 4) : [];
   const titleDate = releaseDate ? `(${releaseDate.split('-')[0]})` : '';
   const releaseDates = extractReleaseDatesForRegion(movie, 'US');
-  const rating = voteCount > 0 ? voteAverage : undefined;
+  const rating = voteCount > 0 ? voteAverage : -1;
 
   return (
     <div className="MoviePage">

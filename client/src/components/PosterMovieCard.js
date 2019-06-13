@@ -41,7 +41,7 @@ function PosterMovieCard({ movie, className }) {
         <Card.Meta>
           <div className="PosterMovieCard__date">{formatDate(date)}</div>
           <div className="PosterMovieCard__rating">
-            <Rating value={voteCount > 0 ? voteAverage : undefined} />
+            <Rating value={voteCount > 0 ? voteAverage : -1} />
           </div>
         </Card.Meta>
       </Card.Content>

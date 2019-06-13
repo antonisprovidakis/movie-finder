@@ -43,7 +43,7 @@ function BackdropMovieCard({ movie, showOverview, className }) {
         <Card.Meta>
           <div className="BackdropMovieCard__date">{formatDate(date)}</div>
           <div className="BackdropMovieCard__rating">
-            <Rating value={voteCount > 0 ? voteAverage : undefined} />
+            <Rating value={voteCount > 0 ? voteAverage : -1} />
           </div>
         </Card.Meta>
         {showOverview && (
