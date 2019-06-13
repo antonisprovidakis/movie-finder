@@ -1,5 +1,7 @@
 import { parseQueryString } from '../base';
-import { MIN_PAGE, MAX_PAGE } from '../../../api/config/constants/page';
+
+export const MIN_PAGE = 1;
+export const MAX_PAGE = 1000;
 
 export default function getPage(queryString, fallbackPage = MIN_PAGE) {
   if (fallbackPage < MIN_PAGE || fallbackPage > MAX_PAGE) {
