@@ -21,6 +21,7 @@ function Nav({ isMobile }) {
             fitted={isMobile ? null : 'horizontally'}
             as={Link}
             to="/"
+            data-testid="logo"
           >
             <img src="https://react.semantic-ui.com/logo.png" alt="logo" />
           </Menu.Item>
