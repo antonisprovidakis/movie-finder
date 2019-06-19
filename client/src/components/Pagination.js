@@ -15,7 +15,7 @@ function Pagination({
 }) {
   const isMobile = useMedia(mobileMediaQuery);
 
-  if (!totalPages) {
+  if (totalPages <= 1) {
     return null;
   }
 
