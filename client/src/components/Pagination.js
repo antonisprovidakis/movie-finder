@@ -35,6 +35,7 @@ function Pagination({
         firstItem={null}
         lastItem={null}
         disabled={disabled}
+        data-testid="pagination"
       />
     </div>
   );
