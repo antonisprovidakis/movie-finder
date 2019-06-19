@@ -8,7 +8,7 @@ function Rating({ value }) {
   return (
     <div className="Rating">
       <Icon className="Rating__icon" name="star" color="yellow" />
-      <span className="Rating__value">
+      <span className="Rating__value" data-testid="rating-value">
         {value === -1 ? NO_RATING_MESSAGE : value}
       </span>
     </div>
