@@ -19,12 +19,14 @@ function CollectionGridHeader({ title, menuItems }) {
   });
 
   return (
-    <div className={className}>
+    <div className={className} data-testid="header">
       {shouldRenderTitle && (
-        <h2 className="CollectionGrid__header__title">{title}</h2>
+        <h2 className="CollectionGrid__header__title" data-testid="title">
+          {title}
+        </h2>
       )}
       {shouldRenderMenu && (
-        <div className="CollectionGrid__header__menu">
+        <div className="CollectionGrid__header__menu" data-testid="menu">
           {menuItems.map((menuItem, index) => {
             const className = classNames(
               menuItem.props.className,
@@ -78,7 +80,9 @@ function BaseGrid({ collection, renderItem, ...rest }) {
 }
 
 BaseGrid.propTypes = {
-  collection: PropTypes.arrayOf(PropTypes.object),
+  collection: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
+  ).isRequired,
   renderItem: PropTypes.func.isRequired
 };
 
@@ -124,9 +128,15 @@ function CollectionGrid({
           renderPlaceholderItem={renderPlaceholderItem}
           placeholderItemsCount={placeholderItemsCount}
           {...rest}
+          data-testid="grid-placeholder"
         />
       ) : collection.length > 0 ? (
-        <BaseGrid collection={collection} renderItem={renderItem} {...rest} />
+        <BaseGrid
+          collection={collection}
+          renderItem={renderItem}
+          {...rest}
+          data-testid="grid-with-results"
+        />
       ) : (
         <p className="CollectionGrid__no-results-message">{noResultsMessage}</p>
       )}
@@ -135,9 +145,11 @@ function CollectionGrid({
 }
 
 CollectionGrid.propTypes = {
-  title: PropTypes.string,
-  collection: PropTypes.arrayOf(PropTypes.object),
+  collection: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
+  ).isRequired,
   renderItem: PropTypes.func.isRequired,
+  title: PropTypes.string,
   noResultsMessage: PropTypes.string,
   renderPlaceholderItem: PropTypes.func,
   placeholderItemsCount: PropTypes.number,
