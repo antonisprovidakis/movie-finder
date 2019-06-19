@@ -103,7 +103,7 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
           }
         />
       }
-      placeholder={'Quick search'}
+      placeholder={'Search for a movie or person...'}
       onResultSelect={handleResultSelect}
       onSearchChange={handleSearchChange}
       loading={loading}
