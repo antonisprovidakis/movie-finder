@@ -116,7 +116,5 @@ PersonPage.propTypes = {
 
 export default connect(
   mapStateToProps,
-  {
-    loadPersonInfo
-  }
+  { loadPersonInfo }
 )(PersonPage);

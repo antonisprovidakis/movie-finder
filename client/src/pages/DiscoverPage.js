@@ -226,7 +226,5 @@ DiscoverPage.propTypes = {
 
 export default connect(
   mapStateToProps,
-  {
-    discoverMovies
-  }
+  { discoverMovies }
 )(DiscoverPage);

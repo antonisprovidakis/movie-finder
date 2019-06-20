@@ -152,8 +152,5 @@ MoviesPage.propTypes = {
 
 export default connect(
   mapStateToProps,
-  {
-    loadMoviesByCategory,
-    setMovieCardViewStyle
-  }
+  { loadMoviesByCategory, setMovieCardViewStyle }
 )(MoviesPage);

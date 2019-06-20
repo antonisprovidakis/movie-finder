@@ -142,7 +142,5 @@ HomePage.propTypes = {
 
 export default connect(
   mapStateToProps,
-  {
-    loadMoviesByCategory
-  }
+  { loadMoviesByCategory }
 )(HomePage);
