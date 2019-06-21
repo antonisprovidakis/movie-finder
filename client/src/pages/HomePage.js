@@ -11,11 +11,63 @@ import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { MovieCategory, movieCategoriesRoutingMap } from '../api/config';
 
+function MovieSections({ sectionsData }) {
+  return (
+    <div className="HomePage__movies-container">
+      {sectionsData.map((sectionData, index) => (
+        <MovieSection key={index} sectionData={sectionData} />
+      ))}
+    </div>
+  );
+}
+
+function MovieSection({ sectionData }) {
+  const {
+    title,
+    movies,
+    linkTo,
+    renderItem,
+    renderPlaceholderItem
+  } = sectionData;
+
+  return (
+    <div key={title} className="HomePage__movies-container__section">
+      <div className="HomePage__movies-container__section__main">
+        <CollectionGrid
+          title={title}
+          collection={movies}
+          renderItem={renderItem}
+          placeholderItemsCount={4}
+          renderPlaceholderItem={renderPlaceholderItem}
+          loading={movies.length === 0}
+          columns={4}
+          doubling
+        />
+      </div>
+      {movies.length !== 0 && (
+        <div className="HomePage__movies-container__section__bottom">
+          <Button as={Link} to={linkTo} color="orange" floated="right">
+            See More
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 const categories = [
   MovieCategory.POPULAR,
   MovieCategory.NOW_PLAYING,
   MovieCategory.UPCOMING
 ];
+
+function renderItem(item) {
+  return <PosterMovieCard movie={item} />;
+}
+
+function renderPlaceholderItem() {
+  return <PosterMovieCardPlaceholder />;
+}
 
 function HomePage({
   popularMovies,
@@ -29,59 +81,19 @@ function HomePage({
     );
   }, [loadMoviesByCategory]);
 
-  function renderMovieSections() {
-    const sectionsData = [
-      {
-        title: `${movieCategoriesRoutingMap.popular.text} Movies`,
-        movies: popularMovies,
-        linkTo: `/movie/${movieCategoriesRoutingMap.popular.slug}`
-      },
-      {
-        title: `${movieCategoriesRoutingMap.nowPlaying.text} Movies`,
-        movies: nowPlayingMovies,
-        linkTo: `/movie/${movieCategoriesRoutingMap.nowPlaying.slug}`
-      },
-      {
-        title: `${movieCategoriesRoutingMap.upcoming.text} Movies`,
-        movies: upcomingMovies,
-        linkTo: `/movie/${movieCategoriesRoutingMap.upcoming.slug}`
-      }
-    ];
+  const moviesMapping = {
+    [MovieCategory.POPULAR]: popularMovies,
+    [MovieCategory.NOW_PLAYING]: nowPlayingMovies,
+    [MovieCategory.UPCOMING]: upcomingMovies
+  };
 
-    return sectionsData.map(({ title, movies, linkTo }) => {
-      return (
-        <div key={title} className="HomePage__movies-container__section">
-          <div className="HomePage__movies-container__section__main">
-            <CollectionGrid
-              title={title}
-              collection={movies}
-              renderItem={renderItem}
-              placeholderItemsCount={4}
-              renderPlaceholderItem={renderPlaceholderItem}
-              loading={movies.length === 0}
-              columns={4}
-              doubling
-            />
-          </div>
-          {movies.length !== 0 && (
-            <div className="HomePage__movies-container__section__bottom">
-              <Button as={Link} to={linkTo} color="orange" floated="right">
-                See More
-              </Button>
-            </div>
-          )}
-        </div>
-      );
-    });
-  }
-
-  function renderItem(item) {
-    return <PosterMovieCard movie={item} />;
-  }
-
-  function renderPlaceholderItem() {
-    return <PosterMovieCardPlaceholder />;
-  }
+  const sectionsData = categories.map(category => ({
+    title: `${movieCategoriesRoutingMap[category].text} Movies`,
+    movies: moviesMapping[category],
+    linkTo: `/movie/${movieCategoriesRoutingMap[category].slug}`,
+    renderItem,
+    renderPlaceholderItem
+  }));
 
   return (
     <div className="HomePage">
@@ -97,10 +109,7 @@ function HomePage({
         </Header.Subheader>
       </Header>
 
-      <div className="HomePage__movies-container">
-        {/* {sectionsData.map(sectionData => renderSection(sectionData))} */}
-        {renderMovieSections()}
-      </div>
+      <MovieSections sectionsData={sectionsData} />
     </div>
   );
 }
