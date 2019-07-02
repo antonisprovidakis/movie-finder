@@ -2,12 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import configureStore from '../redux/store/configureStore';
 
 export function renderWithRedux(
   ui,
-  { reducer, initialState, store = createStore(reducer, initialState) } = {}
+  { initialState, store = configureStore(initialState) } = {}
 ) {
   return {
     ...render(<Provider store={store}>{ui}</Provider>),
