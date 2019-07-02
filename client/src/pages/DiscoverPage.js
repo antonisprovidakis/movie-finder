@@ -123,6 +123,7 @@ function DiscoverPage({
         <Form>
           <Form.Group widths="equal">
             <Form.Dropdown
+              id="dropdown_primary_release_year"
               name="primary_release_year"
               label="Year"
               fluid
@@ -132,6 +133,7 @@ function DiscoverPage({
               value={primaryReleaseYear}
             />
             <Form.Dropdown
+              id="dropdown_sort_by"
               name="sort_by"
               label="Sort By"
               fluid
@@ -141,6 +143,7 @@ function DiscoverPage({
               value={sortBy}
             />
             <Form.Dropdown
+              id="dropdown_with_genres"
               name="with_genres"
               label="Genres"
               placeholder="Filter by genres..."
