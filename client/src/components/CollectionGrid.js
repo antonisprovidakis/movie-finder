@@ -70,7 +70,11 @@ function BaseGrid({ collection, renderItem, ...rest }) {
         );
 
         return (
-          <Grid.Column key={index} className="CollectionGrid__column">
+          <Grid.Column
+            key={index}
+            className="CollectionGrid__column"
+            data-testid="grid-item"
+          >
             {React.cloneElement(renderedItem, { className })}
           </Grid.Column>
         );
@@ -135,7 +139,7 @@ function CollectionGrid({
           collection={collection}
           renderItem={renderItem}
           {...rest}
-          data-testid="grid-with-results"
+          data-testid="grid"
         />
       ) : (
         <p className="CollectionGrid__no-results-message">{noResultsMessage}</p>
