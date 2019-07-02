@@ -12,20 +12,18 @@ import QuickSearch from '../QuickSearch';
 jest.mock('../../api');
 jest.useFakeTimers();
 
-beforeEach(() => {
-  searchAPI.searchMulti.mockClear();
-});
+beforeEach(() => searchAPI.searchMulti.mockClear());
 
 it('should fetch 5 most relevant movies and persons (combined) based on search query and render them in a list', async () => {
   const first5MoviesAndPersonsTitles = [
     'The Matrix',
-    'The Matrix Reloaded',
     'The Matrix Revolutions',
+    'The Matrix Reloaded',
     'The Matrix Revisited',
-    'The Matrix Revolutions Decoded'
+    'Sexual Matrix'
   ];
 
-  const { getByPlaceholderText, queryByText } = renderWithRouter(
+  const { getByText, getByPlaceholderText } = renderWithRouter(
     <QuickSearch delay={0} />
   );
 
@@ -47,9 +45,9 @@ it('should fetch 5 most relevant movies and persons (combined) based on search q
   await waitForDomChange();
   jest.useFakeTimers();
 
-  first5MoviesAndPersonsTitles.forEach(title => {
-    expect(queryByText(title)).toBeInTheDocument();
-  });
+  first5MoviesAndPersonsTitles.forEach(title =>
+    expect(getByText(title)).toBeInTheDocument()
+  );
 });
 
 it('should debounce searching for specified delay', () => {
