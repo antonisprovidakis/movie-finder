@@ -1,7 +1,24 @@
-import { searchAPIData } from './data';
+import { movieAPIData, searchAPIData, personAPIData } from './data';
 
-const searchAPI = {
-  searchMulti: jest.fn().mockResolvedValue({ results: searchAPIData.matrix })
+const movieAPI = {
+  getMoviesByCategory: jest
+    .fn()
+    .mockResolvedValue(movieAPIData.popularMoviesResponse),
+  discoverMovies: jest
+    .fn()
+    .mockResolvedValue(movieAPIData.discoverMoviesResponse),
+  getMovieInfo: jest.fn().mockResolvedValue(movieAPIData.movieInfo)
 };
 
-export { searchAPI };
+const personAPI = {
+  getPopularPersons: jest
+    .fn()
+    .mockResolvedValue(personAPIData.popularPersonsResponse),
+  getPersonInfo: jest.fn().mockResolvedValue(personAPIData.personInfoResponse)
+};
+
+const searchAPI = {
+  searchMulti: jest.fn().mockResolvedValue(searchAPIData.matrix)
+};
+
+export { movieAPI, personAPI, searchAPI };
