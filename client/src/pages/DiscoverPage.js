@@ -107,8 +107,15 @@ function DiscoverPage({
     history.push(`?${newQueryString}`);
   }
 
-  function renderItem(item) {
-    return <PosterMovieCard movie={item} />;
+  function renderItem(movie) {
+    return (
+      <PosterMovieCard
+        movie={movie}
+        as={Link}
+        to={`/movie/${movie.id}`}
+        data-testid="movie-card"
+      />
+    );
   }
 
   function renderPlaceholderItem() {
