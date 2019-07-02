@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
@@ -120,7 +121,7 @@ function DiscoverPage({
     <div className="DiscoverPage">
       <h2 className="DiscoverPage__title">Discover New Movies</h2>
       <div className="DiscoverPage__menu">
-        <Form>
+        <Form data-testid="discovery-form">
           <Form.Group widths="equal">
             <Form.Dropdown
               id="dropdown_primary_release_year"
