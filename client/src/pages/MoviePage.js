@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/MoviePage.css';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Flag, Grid, Header, Image, Label, List } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';
@@ -35,9 +36,19 @@ function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
     return <NotFound />;
   }
 
-  function renderCastItem(item) {
-    const { id, name, profile_path: image, character: sub } = item;
-    return <PersonCard id={id} name={name} image={image} sub={sub} />;
+  function renderCastItem(person) {
+    const { id, name, profile_path: image, character: sub } = person;
+    return (
+      <PersonCard
+        id={id}
+        name={name}
+        image={image}
+        sub={sub}
+        as={Link}
+        to={`/person/${id}`}
+        data-testid="person-card"
+      />
+    );
   }
 
   const {
