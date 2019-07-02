@@ -1,18 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/PersonCard.css';
-import { Link } from 'react-router-dom';
 import { Card, Image } from 'semantic-ui-react';
 import { createImageSrc } from '../api/config';
 
-function PersonCard({ id, name, image, sub, className }) {
+function PersonCard({ name, image, sub, className, ...rest }) {
   return (
-    <Card
-      as={Link}
-      to={`/person/${id}`}
-      className={`PersonCard ${className}`}
-      fluid
-    >
+    <Card className={`PersonCard ${className}`} fluid {...rest}>
       <Image
         className="PersonCard__image"
         src={createImageSrc({
@@ -38,7 +32,6 @@ function PersonCard({ id, name, image, sub, className }) {
 }
 
 PersonCard.propTypes = {
-  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   image: PropTypes.string,
   sub: PropTypes.string,
@@ -46,6 +39,7 @@ PersonCard.propTypes = {
 };
 
 PersonCard.defaultProps = {
+  image: '',
   sub: '',
   className: ''
 };
