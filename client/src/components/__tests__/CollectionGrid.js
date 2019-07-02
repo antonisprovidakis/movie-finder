@@ -50,7 +50,7 @@ it('should render a menu', () => {
 it('should render a placeholder grid when loading', () => {
   const renderPlaceholderItem = jest.fn(() => null);
 
-  const { queryByTestId } = render(
+  const { getByTestId } = render(
     <CollectionGrid
       loading={true}
       collection={[]}
@@ -60,7 +60,7 @@ it('should render a placeholder grid when loading', () => {
     />
   );
 
-  expect(queryByTestId('grid-placeholder')).toBeInTheDocument();
+  expect(getByTestId('grid-placeholder')).toBeInTheDocument();
   expect(renderPlaceholderItem).toHaveBeenCalledTimes(8);
 });
 
@@ -69,16 +69,17 @@ it('should render a grid when not loading and collection length is greater than 
 
   const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
 
-  const { queryByTestId } = render(
+  const { getByTestId, getByText } = render(
     <CollectionGrid collection={items} renderItem={renderItem} />
   );
 
-  expect(queryByTestId('grid-with-results')).toBeInTheDocument();
+  expect(getByTestId('grid')).toBeInTheDocument();
   expect(renderItem).toHaveBeenCalledTimes(items.length);
+  items.forEach(item => expect(getByText(item)).toBeInTheDocument());
 });
 
 it('should render a "no results" message when not loading and collection length is 0', () => {
-  const { queryByText } = render(
+  const { getByText } = render(
     <CollectionGrid
       collection={[]}
       renderItem={() => null}
@@ -86,5 +87,5 @@ it('should render a "no results" message when not loading and collection length 
     />
   );
 
-  expect(queryByText(/no results found/i)).toBeInTheDocument();
+  expect(getByText(/no results found/i)).toBeInTheDocument();
 });
