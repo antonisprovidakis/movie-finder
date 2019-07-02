@@ -23,6 +23,7 @@ function MovieSections({ sectionsData }) {
 
 function MovieSection({ sectionData }) {
   const {
+    category,
     title,
     movies,
     linkTo,
@@ -31,7 +32,11 @@ function MovieSection({ sectionData }) {
   } = sectionData;
 
   return (
-    <div key={title} className="HomePage__movies-container__section">
+    <div
+      key={title}
+      className="HomePage__movies-container__section"
+      data-testid={`movie-section-${category}`}
+    >
       <div className="HomePage__movies-container__section__main">
         <CollectionGrid
           title={title}
@@ -88,6 +93,7 @@ function HomePage({
   };
 
   const sectionsData = categories.map(category => ({
+    category,
     title: `${movieCategoriesRoutingMap[category].text} Movies`,
     movies: moviesMapping[category],
     linkTo: `/movie/${movieCategoriesRoutingMap[category].slug}`,
