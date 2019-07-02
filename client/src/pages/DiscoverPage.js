@@ -118,7 +118,7 @@ function DiscoverPage({
 
   return (
     <div className="DiscoverPage">
-      <h2 className="DiscoverPage__title">Discover</h2>
+      <h2 className="DiscoverPage__title">Discover New Movies</h2>
       <div className="DiscoverPage__menu">
         <Form>
           <Form.Group widths="equal">
