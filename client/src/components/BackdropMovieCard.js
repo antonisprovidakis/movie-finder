@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/BackdropMovieCard.css';
-import { Link } from 'react-router-dom';
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
 import { createImageSrc } from '../api/config';
 import { formatDate } from '../utils/date';
 import { truncateOverview } from '../utils/movieCard';
 
-function BackdropMovieCard({ movie, showOverview, className }) {
+function BackdropMovieCard({ movie, showOverview, className, ...rest }) {
   const {
-    id,
     title,
     release_date: date,
     backdrop_path: image,
@@ -20,12 +18,7 @@ function BackdropMovieCard({ movie, showOverview, className }) {
   } = movie;
 
   return (
-    <Card
-      as={Link}
-      to={`/movie/${id}`}
-      className={`BackdropMovieCard ${className}`}
-      fluid
-    >
+    <Card className={`BackdropMovieCard ${className}`} fluid {...rest}>
       <Image
         className="BackdropMovieCard__image"
         src={createImageSrc({
@@ -61,12 +54,12 @@ function BackdropMovieCard({ movie, showOverview, className }) {
 BackdropMovieCard.propTypes = {
   movie: PropTypes.object.isRequired,
   showOverview: PropTypes.bool,
-  classname: PropTypes.string
+  className: PropTypes.string
 };
 
 BackdropMovieCard.defaultProps = {
   showOverview: true,
-  classname: ''
+  className: ''
 };
 
 export default BackdropMovieCard;
