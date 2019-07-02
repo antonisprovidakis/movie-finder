@@ -30,3 +30,22 @@ export function renderWithRouter(
     history
   };
 }
+
+export function renderWithReduxAndRouter(
+  ui,
+  { initialState, store = configureStore(initialState) } = {},
+  {
+    route = '/',
+    history = createMemoryHistory({ initialEntries: [route] })
+  } = {}
+) {
+  return {
+    ...render(
+      <Provider store={store}>
+        <Router history={history}>{ui}</Router>
+      </Provider>
+    ),
+    store,
+    history
+  };
+}
