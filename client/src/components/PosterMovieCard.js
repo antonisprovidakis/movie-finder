@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/PosterMovieCard.css';
-import { Link } from 'react-router-dom';
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
 import { createImageSrc } from '../api/config';
 import { formatDate } from '../utils/date';
 
-function PosterMovieCard({ movie, className }) {
+function PosterMovieCard({ movie, className, ...rest }) {
   const {
-    id,
     title,
     release_date: date,
     poster_path: image,
@@ -18,12 +16,7 @@ function PosterMovieCard({ movie, className }) {
   } = movie;
 
   return (
-    <Card
-      as={Link}
-      to={`/movie/${id}`}
-      className={`PosterMovieCard ${className}`}
-      fluid
-    >
+    <Card className={`PosterMovieCard ${className}`} fluid {...rest}>
       <Image
         className="PosterMovieCard__image"
         src={createImageSrc({
@@ -51,11 +44,11 @@ function PosterMovieCard({ movie, className }) {
 
 PosterMovieCard.propTypes = {
   movie: PropTypes.object.isRequired,
-  classname: PropTypes.string
+  className: PropTypes.string
 };
 
 PosterMovieCard.defaultProps = {
-  classname: ''
+  className: ''
 };
 
 export default PosterMovieCard;
