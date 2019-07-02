@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import MainContent from './components/MainContent';
@@ -28,54 +28,47 @@ function App(props) {
   const isMobile = useMedia(mobileMediaQuery);
 
   return (
-    <Router>
-      <div className="App">
-        <Nav isMobile={isMobile} />
+    <div className="App">
+      <Nav isMobile={isMobile} />
 
-        <MainContent className="App__main-content">
-          <QuickSearch
-            className="App__quicksearch"
-            size={isMobile ? 'small' : 'large'}
-            fullWidth
-            fluid
-          />
+      <MainContent className="App__main-content">
+        <QuickSearch
+          className="App__quicksearch"
+          size={isMobile ? 'small' : 'large'}
+          fullWidth
+          fluid
+        />
 
-          <Suspense fallback={<Loader />}>
-            <Switch>
-              <Route exact path="/" component={Homepage} />
-              <Route
-                exact
-                sensitive
-                path="/discover"
-                component={DiscoverPage}
-              />
-              <Route
-                exact
-                sensitive
-                path={`/movie/:category(${moviesPageValidPaths})`}
-                component={MoviesPage}
-              />
-              <Route
-                exact
-                sensitive
-                path="/movie/:id([1-9]\d{0,})"
-                component={MoviePage}
-              />
-              <Route exact sensitive path="/person" component={PersonsPage} />
-              <Route
-                exact
-                sensitive
-                path="/person/:id([1-9]\d{0,})"
-                component={PersonPage}
-              />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </Suspense>
-        </MainContent>
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route exact path="/" component={Homepage} />
+            <Route exact sensitive path="/discover" component={DiscoverPage} />
+            <Route
+              exact
+              sensitive
+              path={`/movie/:category(${moviesPageValidPaths})`}
+              component={MoviesPage}
+            />
+            <Route
+              exact
+              sensitive
+              path="/movie/:id([1-9]\d{0,})"
+              component={MoviePage}
+            />
+            <Route exact sensitive path="/person" component={PersonsPage} />
+            <Route
+              exact
+              sensitive
+              path="/person/:id([1-9]\d{0,})"
+              component={PersonPage}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </Suspense>
+      </MainContent>
 
-        <Footer />
-      </div>
-    </Router>
+      <Footer />
+    </div>
   );
 }
 
