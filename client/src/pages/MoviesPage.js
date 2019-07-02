@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import BackdropMovieCard from '../components/BackdropMovieCard';
 import CollectionGrid from '../components/CollectionGrid';
@@ -71,9 +72,16 @@ function MoviesPage({
     </Dropdown>
   ];
 
-  function renderItem(item) {
+  function renderItem(movie) {
     const MovieCardComponent = movieCardTypes[movieCardViewStyle];
-    return <MovieCardComponent movie={item} />;
+    return (
+      <MovieCardComponent
+        movie={movie}
+        as={Link}
+        to={`/movie/${movie.id}`}
+        data-testid="movie-card"
+      />
+    );
   }
 
   function renderPlaceholderItem() {
