@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
 import PersonCard from '../components/PersonCard';
@@ -28,9 +29,18 @@ function PersonsPage({
     history.push(`?${newQueryString}`);
   }
 
-  function renderItem(item) {
-    const { id, name, profile_path: image } = item;
-    return <PersonCard id={id} name={name} image={image} />;
+  function renderItem(person) {
+    const { id, name, profile_path: image } = person;
+    return (
+      <PersonCard
+        id={id}
+        name={name}
+        image={image}
+        as={Link}
+        to={`/person/${id}`}
+        data-testid="person-card"
+      />
+    );
   }
 
   function renderPlaceholderItem() {
