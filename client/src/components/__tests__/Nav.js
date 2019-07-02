@@ -33,7 +33,7 @@ it('should allow to navigate to persons page', () => {
   expect(history.location.pathname).toBe('/person');
 });
 
-test.each([
+it.each([
   ['popular', 'Popular'],
   ['now-playing', 'Now Playing'],
   ['upcoming', 'Upcoming'],
