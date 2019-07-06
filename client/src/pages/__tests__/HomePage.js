@@ -29,53 +29,36 @@ it('should render app purpose message', () => {
 
 it.each([
   ['popular', 'movie-section-popular', /popular movies/i],
-  ['now-playing', 'movie-section-nowPlaying', /now playing movies/i],
+  ['nowPlaying', 'movie-section-nowPlaying', /now playing movies/i],
   ['upcoming', 'movie-section-upcoming', /upcoming movies/i]
 ])(
   'it should render %s movies section',
   async (category, sectionTestId, sectionTitle) => {
-    const { getByTestId: getByTestIdInHomePage } = renderWithReduxAndRouter(
-      <HomePage />
-    );
+    const { getByTestId } = renderWithReduxAndRouter(<HomePage />);
 
     await waitForDomChange();
 
-    const section = getByTestIdInHomePage(sectionTestId);
+    const section = getByTestId(sectionTestId);
     expect(section).toBeInTheDocument();
     const { getAllByTestId, getByText } = within(section);
     expect(getAllByTestId('grid-item').length).toBe(4);
     expect(section).toContainElement(getByText(sectionTitle));
-    expect(section).toContainElement(getByText(/see more/i));
+    expect(section).toContainElement(getByTestId(`btn-more-${category}`));
   }
 );
 
 it('should allow navigating to specific movies page by clicking respective "see more" button of each section', async () => {
-  const {
-    getByTestId: getByTestIdInHomePage,
-    history
-  } = renderWithReduxAndRouter(<HomePage />);
+  const { getByTestId, history } = renderWithReduxAndRouter(<HomePage />);
 
   await waitForDomChange();
 
-  fireEvent.click(
-    within(getByTestIdInHomePage('movie-section-popular')).getByText(
-      /see more/i
-    )
-  );
+  fireEvent.click(getByTestId('btn-more-popular'));
   expect(history.location.pathname).toBe('/movie/popular');
 
-  fireEvent.click(
-    within(getByTestIdInHomePage('movie-section-nowPlaying')).getByText(
-      /see more/i
-    )
-  );
+  fireEvent.click(getByTestId('btn-more-nowPlaying'));
   expect(history.location.pathname).toBe('/movie/now-playing');
 
-  fireEvent.click(
-    within(getByTestIdInHomePage('movie-section-upcoming')).getByText(
-      /see more/i
-    )
-  );
+  fireEvent.click(getByTestId('btn-more-upcoming'));
   expect(history.location.pathname).toBe('/movie/upcoming');
 });
 

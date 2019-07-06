@@ -51,7 +51,13 @@ function MovieSection({ sectionData }) {
       </div>
       {movies.length !== 0 && (
         <div className="HomePage__movies-container__section__bottom">
-          <Button as={Link} to={linkTo} color="orange" floated="right">
+          <Button
+            as={Link}
+            to={linkTo}
+            color="orange"
+            floated="right"
+            data-testid={`btn-more-${category}`}
+          >
             See More
           </Button>
         </div>
