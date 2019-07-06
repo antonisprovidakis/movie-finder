@@ -39,10 +39,11 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
     );
     const first5Results = resultsMoviesAndPersons.slice(0, 5);
 
-    const first5ResultsWithAs = first5Results.map(result => {
+    const first5ResultsWithAs = first5Results.map((result, index) => {
       const data = {
         key: result.id,
-        as: Link
+        as: Link,
+        'data-testid': `search-result-${index}`
       };
 
       if (result.media_type === 'movie') {
