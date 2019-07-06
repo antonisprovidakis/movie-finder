@@ -98,3 +98,25 @@ it('should allow to clear search input', () => {
   expect(queryByTitle(/clear/i)).not.toBeInTheDocument();
   expect(input.value).toBe('');
 });
+
+it("should navigate to resource's page if card is clicked", async () => {
+  const { getByTestId, getByPlaceholderText, history } = renderWithRouter(
+    <QuickSearch delay={0} />
+  );
+
+  const input = getByPlaceholderText(/Search for a movie or person/i);
+
+  fireEvent.change(input, { target: { value: 'Matrix' } });
+
+  act(() => {
+    jest.runAllTimers();
+  });
+
+  jest.useRealTimers();
+  await waitForDomChange();
+  jest.useFakeTimers();
+
+  const target = getByTestId('search-result-0');
+  fireEvent.click(target);
+  expect(history.location.pathname).toBe('/movie/603');
+});
