@@ -25,7 +25,7 @@ function Pagination({
   });
 
   return (
-    <div className={className}>
+    <div className={className} data-testid="pagination">
       <PaginationSUI
         activePage={activePage}
         totalPages={totalPages}
@@ -35,7 +35,6 @@ function Pagination({
         firstItem={null}
         lastItem={null}
         disabled={disabled}
-        data-testid="pagination"
       />
     </div>
   );
