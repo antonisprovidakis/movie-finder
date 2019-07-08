@@ -73,7 +73,7 @@ function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
   const rating = voteCount > 0 ? voteAverage : -1;
 
   return (
-    <div className="MoviePage">
+    <div className="MoviePage" data-testid="movie-page">
       <Grid stackable>
         <Grid.Row>
           <Grid.Column width={6}>

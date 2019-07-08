@@ -115,7 +115,7 @@ function HomePage({
   }));
 
   return (
-    <div className="HomePage">
+    <div className="HomePage" data-testid="home-page">
       <Header
         className="HomePage__welcome-message"
         size="huge"

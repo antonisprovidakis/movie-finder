@@ -92,7 +92,7 @@ function MoviesPage({
   const shouldRenderPagination = totalPages > 1 && page <= totalPages;
 
   return (
-    <div className="MoviesPage">
+    <div className="MoviesPage" data-testid="movies-page">
       <div className="MoviesPage__movies-container">
         <CollectionGrid
           title={`${movieCategoriesRoutingMap[category].text} Movies`}

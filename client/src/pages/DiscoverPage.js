@@ -125,7 +125,7 @@ function DiscoverPage({
   const shouldRenderPagination = totalPages > 1 && page <= totalPages;
 
   return (
-    <div className="DiscoverPage">
+    <div className="DiscoverPage" data-testid="discover-page">
       <h2 className="DiscoverPage__title">Discover New Movies</h2>
       <div className="DiscoverPage__menu">
         <Form data-testid="discovery-form">

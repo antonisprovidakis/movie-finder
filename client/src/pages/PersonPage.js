@@ -22,7 +22,7 @@ function PersonPage({ personId, person, isFetching, loadPersonInfo }) {
   }
 
   return (
-    <div className="PersonPage">
+    <div className="PersonPage" data-testid="person-page">
       <Grid stackable>
         <Grid.Row>
           <Grid.Column width={6}>

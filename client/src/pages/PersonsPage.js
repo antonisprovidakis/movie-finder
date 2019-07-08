@@ -50,7 +50,7 @@ function PersonsPage({
   const shouldRenderPagination = totalPages > 1 && page <= totalPages;
 
   return (
-    <div className="PersonsPage">
+    <div className="PersonsPage" data-testid="persons-page">
       <div className="PersonsPage__persons-container">
         <CollectionGrid
           title="Popular People"
