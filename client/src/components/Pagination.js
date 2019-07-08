@@ -35,6 +35,12 @@ function Pagination({
         firstItem={null}
         lastItem={null}
         disabled={disabled}
+        pageItem={(Component, props) => (
+          <Component
+            {...props}
+            data-testid={(props.active && 'pagination-active-page') || null}
+          />
+        )}
       />
     </div>
   );
