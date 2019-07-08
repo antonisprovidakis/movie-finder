@@ -79,7 +79,7 @@ function MoviesPage({
         movie={movie}
         as={Link}
         to={`/movie/${movie.id}`}
-        data-testid="movie-card"
+        data-testid={`${movieCardViewStyle}-movie-card`}
       />
     );
   }

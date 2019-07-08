@@ -83,7 +83,7 @@ it("should navigate to movie's page if card is clicked", async () => {
 
   await waitForDomChange();
 
-  const target = getAllByTestId('movie-card')[0];
+  const target = getAllByTestId('movie-card', { exact: false })[0];
   fireEvent.click(target);
   expect(history.location.pathname).toBe('/movie/320288');
 });
