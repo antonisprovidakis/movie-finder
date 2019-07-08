@@ -99,7 +99,7 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
             searchTerm ? (
               <Icon name="delete" link onClick={clearInput} title="Clear" />
             ) : (
-              'search'
+              <Icon name="search" />
             )
           }
         />
