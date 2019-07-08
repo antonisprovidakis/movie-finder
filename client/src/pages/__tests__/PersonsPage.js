@@ -61,6 +61,7 @@ it('should render pagination after data is fetched', async () => {
   expect(queryByTestId('pagination')).not.toBeInTheDocument();
   await waitForDomChange();
   expect(queryByTestId('pagination')).toBeInTheDocument();
+  expect(queryByTestId('pagination-active-page')).toHaveTextContent('1');
 });
 
 it("should navigate to person's page if card is clicked", async () => {
