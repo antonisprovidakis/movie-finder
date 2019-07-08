@@ -14,9 +14,6 @@ const app = express();
 app.use('/', [movieRoutes, personRoutes, searchRoutes, configurationRoutes]);
 
 if (process.env.NODE_ENV === 'production') {
-  console.log('in production mode');
-  console.log(__dirname);
-
   // Serve any static files
   app.use(express.static(path.join(__dirname, '../client/build')));
 
