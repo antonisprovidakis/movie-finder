@@ -69,6 +69,34 @@ it('should render pagination after data is fetched', async () => {
   expect(queryByTestId('pagination-active-page')).toHaveTextContent('1');
 });
 
+it('should be able to change the cards style', async () => {
+  const { getByText, queryAllByTestId } = renderWithReduxAndRouter(
+    <Route
+      exact
+      sensitive
+      path={`/movie/:category(${moviesPageValidPaths})`}
+      component={MoviesPage}
+    />,
+    {},
+    { route: '/movie/popular' }
+  );
+
+  await waitForDomChange();
+  const posterCardViewDropdownItem = getByText(/poster card view/i);
+  const backdropCardViewDropdownItem = getByText(/backdrop card view/i);
+
+  expect(queryAllByTestId('poster-movie-card')).toHaveLength(20);
+  expect(queryAllByTestId('backdrop-movie-card')).toHaveLength(0);
+
+  fireEvent.click(backdropCardViewDropdownItem);
+  expect(queryAllByTestId('poster-movie-card')).toHaveLength(0);
+  expect(queryAllByTestId('backdrop-movie-card')).toHaveLength(20);
+
+  fireEvent.click(posterCardViewDropdownItem);
+  expect(queryAllByTestId('poster-movie-card')).toHaveLength(20);
+  expect(queryAllByTestId('backdrop-movie-card')).toHaveLength(0);
+});
+
 it("should navigate to movie's page if card is clicked", async () => {
   const { getAllByTestId, history } = renderWithReduxAndRouter(
     <Route
