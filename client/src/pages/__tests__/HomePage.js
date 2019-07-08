@@ -41,7 +41,7 @@ it.each([
     const section = getByTestId(sectionTestId);
     expect(section).toBeInTheDocument();
     const { getAllByTestId, getByText } = within(section);
-    expect(getAllByTestId('grid-item').length).toBe(4);
+    expect(getAllByTestId('grid-item')).toHaveLength(4);
     expect(section).toContainElement(getByText(sectionTitle));
     expect(section).toContainElement(getByTestId(`btn-more-${category}`));
   }

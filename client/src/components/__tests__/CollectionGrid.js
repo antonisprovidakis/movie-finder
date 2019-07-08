@@ -44,7 +44,7 @@ it('should render a menu', () => {
   );
 
   expect(queryByTestId('menu')).toBeInTheDocument();
-  expect(queryByTestId('menu').children.length).toBe(1);
+  expect(queryByTestId('menu').children).toHaveLength(1);
 });
 
 it('should render a placeholder grid when loading', () => {

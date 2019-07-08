@@ -48,7 +48,7 @@ it('should render a grid of persons after data is fetched', async () => {
 
   await waitForDomChange();
   expect(getByTestId('grid')).toBeInTheDocument();
-  expect(getAllByTestId('grid-item').length).toBe(20);
+  expect(getAllByTestId('grid-item')).toHaveLength(20);
 });
 
 it('should render pagination after data is fetched', async () => {
