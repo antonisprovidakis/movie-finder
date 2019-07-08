@@ -1,17 +1,30 @@
 {
   "name": "movie-finder",
   "version": "1.0.0",
-  "description": "",
+  "description": "A bare-bones clone of The Movie Database (TMDb) using React/Redux and Node",
+  "engines": {
+    "node": "10.x"
+  },
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
+    "start:client": "cd client && npm start",
     "watch": "npx nodemon --watch server server/index.js",
-    "client": "cd client && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:client": "cd client && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntoniosProvidakis/movie-finder"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Antonios Providakis (ant.providakis@gmail.com)",
+  "license": "MIT",
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "dependencies": {
     "axios": "^0.18.0",
     "dotenv": "^6.2.0",
