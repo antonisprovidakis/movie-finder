@@ -1,5 +1,5 @@
 import '@testing-library/react/cleanup-after-each';
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 // this is just a little hack to silence a warning that we'll get until react
 // fixes this: https://github.com/facebook/react/pull/14853
