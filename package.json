@@ -8,11 +8,11 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "start:client": "cd client && npm start",
+    "start:ui": "cd react-ui && npm start",
     "watch": "npx nodemon --watch server server/index.js",
-    "build": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "build": "cd react-ui && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:client": "cd client && npm test"
+    "test:ui": "cd react-ui && npm test"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "license": "MIT",
   "cacheDirectories": [
     "node_modules",
-    "client/node_modules"
+    "react-ui/node_modules"
   ],
   "dependencies": {
     "axios": "^0.18.0",
