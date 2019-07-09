@@ -10,7 +10,7 @@
     "start": "node server/index.js",
     "start:ui": "cd react-ui && npm start",
     "watch": "npx nodemon --watch server server/index.js",
-    "build": "cd react-ui && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "build": "cd react-ui && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:ui": "cd react-ui && npm test"
   },
