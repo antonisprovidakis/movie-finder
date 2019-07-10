@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const client = require('../client');
+const client = require('../http-client');
 const catchError = require('../utils/catchError');
 
 const router = Router();
