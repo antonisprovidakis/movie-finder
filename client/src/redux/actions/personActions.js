@@ -6,7 +6,7 @@ const LOAD_PERSON_INFO_REQUEST = 'LOAD_PERSON_INFO_REQUEST';
 const LOAD_PERSON_INFO_SUCCESS = 'LOAD_PERSON_INFO_SUCCESS';
 const LOAD_PERSON_INFO_FAILURE = 'LOAD_PERSON_INFO_FAILURE';
 
-export function loadPersonInfo(personId, requiredFields = [], options = {}) {
+export function loadPersonInfo(personId, options = {}, requiredFields = []) {
   return {
     types: [
       LOAD_PERSON_INFO_REQUEST,

@@ -10,7 +10,7 @@ import { loadPersonInfo } from '../redux/actions/personActions';
 
 function PersonPage({ personId, person, isFetching, loadPersonInfo }) {
   useEffect(() => {
-    loadPersonInfo(personId, ['biography']);
+    loadPersonInfo(personId, {}, ['biography']);
   }, [loadPersonInfo, personId]);
 
   if (isFetching) {
