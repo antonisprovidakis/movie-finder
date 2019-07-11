@@ -23,15 +23,19 @@ describe('Movies Page', () => {
         cy.route(`api/movie/${category}*`).as('getData');
         cy.visit(`/movie/${category}`);
 
-        cy.wait('@getData');
+        cy.wait('@getData').then(xhr => {
+          const totalPages = xhr.response.body.total_pages;
 
-        cy.getByTestId('pagination').should('be.visible');
+          if (totalPages > 1) {
+            cy.getByTestId('pagination').should('be.visible');
 
-        cy.getByTestId('pagination').within(pagination => {
-          cy.getByTestId('pagination-active-page').should('have.text', '1');
-          cy.getByText('2').click();
-          cy.getByTestId('pagination-active-page').should('have.text', '2');
-          cy.assertRoute(`/movie/${category}?page=2`);
+            cy.getByTestId('pagination').within(pagination => {
+              cy.getByTestId('pagination-active-page').should('have.text', '1');
+              cy.getByText('2').click();
+              cy.getByTestId('pagination-active-page').should('have.text', '2');
+              cy.assertRoute(`/movie/${category}?page=2`);
+            });
+          }
         });
       });
 
