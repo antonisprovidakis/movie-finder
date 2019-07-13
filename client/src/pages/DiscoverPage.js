@@ -74,9 +74,8 @@ const genreOptions = genres.map(genre => ({
 function DiscoverPage({
   page,
   filters,
-  totalPages,
   movies,
-  isFetching,
+  pagination,
   history,
   location,
   discoverMovies
@@ -121,6 +120,9 @@ function DiscoverPage({
   function renderPlaceholderItem() {
     return <PosterMovieCardPlaceholder />;
   }
+
+  const { totalPages, selectedPageData } = pagination;
+  const { isFetching } = selectedPageData;
 
   const shouldRenderPagination = totalPages > 1 && page <= totalPages;
 
@@ -193,24 +195,23 @@ function DiscoverPage({
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const cachedMovies = state.entities.movies;
-  const { byQuery = {} } = state.pagination.moviesByDiscoverOptions;
-
   const filters = getFilters(ownProps.location.search);
   const query = stringifyFilters(filters);
-
-  const { isFetching = false, totalPages = undefined, pages = {} } =
-    byQuery[query] || {};
-
   const page = getPage(ownProps.location.search);
-  const movieIds = pages[page] || [];
-  const movies = movieIds.map(id => cachedMovies[id]);
+  const cachedMovies = state.entities.movies;
+  const pagination = state.pagination.moviesByDiscoverOptions[query] || {
+    pages: {}
+  };
+  const selectedPageData = pagination.pages[page] || { ids: [] };
+  const movies = selectedPageData.ids.map(id => cachedMovies[id]);
 
   return {
     movies,
     page,
-    totalPages,
-    isFetching,
+    pagination: {
+      totalPages: pagination.totalPages,
+      selectedPageData
+    },
     filters
   };
 };
@@ -223,8 +224,7 @@ DiscoverPage.propTypes = {
     withGenres: PropTypes.arrayOf(PropTypes.string).isRequired
   }).isRequired,
   page: PropTypes.number,
-  totalPages: PropTypes.number,
-  isFetching: PropTypes.bool.isRequired,
+  pagination: PropTypes.object.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,

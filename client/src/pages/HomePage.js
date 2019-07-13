@@ -135,20 +135,12 @@ function HomePage({
 
 const mapStateToProps = state => {
   const cachedMovies = state.entities.movies;
+  const { popular, nowPlaying, upcoming } = state.pagination.moviesByCategory;
 
-  const {
-    popular: popularMoviesSubTree = {},
-    nowPlaying: nowPlayingMoviesSubTree = {},
-    upcoming: upcomingMoviesSubTree = {}
-  } = state.pagination.moviesByCategory;
-
-  const path = 'pages[1]';
-  const popularMovieIds = _get(popularMoviesSubTree, path, []).slice(0, 4);
-  const nowPlayingMovieIds = _get(nowPlayingMoviesSubTree, path, []).slice(
-    0,
-    4
-  );
-  const upcomingMovieIds = _get(upcomingMoviesSubTree, path, []).slice(0, 4);
+  const path = 'pages[1].ids';
+  const popularMovieIds = _get(popular, path, []).slice(0, 4);
+  const nowPlayingMovieIds = _get(nowPlaying, path, []).slice(0, 4);
+  const upcomingMovieIds = _get(upcoming, path, []).slice(0, 4);
 
   const popularMovies = popularMovieIds.map(id => cachedMovies[id]);
   const nowPlayingMovies = nowPlayingMovieIds.map(id => cachedMovies[id]);

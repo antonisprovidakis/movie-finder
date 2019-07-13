@@ -43,9 +43,9 @@ export function loadPopularPersons(options = {}) {
     schema: Schemas.PERSON_ARRAY,
     callAPI: () => personAPI.getPopularPersons(decamelizeKeys(options)),
     shouldCallAPI: state => {
-      const pages = state.pagination.personsByPage.pages || {};
-      const personIdsOfSelectedPage = pages[options.page || 1];
-      return !personIdsOfSelectedPage;
+      const selectedPageData =
+        state.pagination.persons.pages[options.page] || {};
+      return !selectedPageData.ids;
     }
   };
 }

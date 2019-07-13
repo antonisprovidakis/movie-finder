@@ -117,6 +117,7 @@ function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
                 renderItem={renderCastItem}
                 noResultsMessage={"We don't have any cast added to this movie."}
                 columns={4}
+                loading={false}
                 doubling
               />
             </div>

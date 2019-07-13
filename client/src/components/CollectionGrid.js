@@ -166,7 +166,7 @@ CollectionGrid.defaultProps = {
   noResultsMessage: 'No results found.',
   renderPlaceholderItem: () => null,
   placeholderItemsCount: 0,
-  loading: false,
+  loading: true,
   menuItems: []
 };
 

@@ -1,23 +1,42 @@
 // Creates a reducer managing pagination, given the action types to handle,
 // and a function telling how to extract the key from an action.
-const paginate = ({ types, mapActionToKey = () => '' }) => {
+const paginate = ({ types, checkIfNeedsToRun = action => true }) => {
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected types to be an array of three elements.');
   }
   if (!types.every(t => typeof t === 'string')) {
     throw new Error('Expected types to be strings.');
   }
-  if (typeof mapActionToKey !== 'function') {
-    throw new Error('Expected mapActionToKey to be a function.');
+  if (typeof checkIfNeedsToRun !== 'function') {
+    throw new Error('Expected checkIfNeedsToRun to be a function.');
   }
 
   const [requestType, successType, failureType] = types;
 
-  const updatePagination = (
+  const updatePagination = (state, action) => {
+    const newState = {
+      ...state,
+      pages: {
+        ...state.pages,
+        [action.options.page]: updatePage(
+          state.pages[action.options.page],
+          action
+        )
+      }
+    };
+
+    if (action.type === successType) {
+      newState.totalPages = action.response.pagination.total_pages;
+    }
+
+    return newState;
+  };
+
+  const updatePage = (
     state = {
       isFetching: false,
-      totalPages: undefined,
-      pages: {}
+      ids: [],
+      error: null
     },
     action
   ) => {
@@ -31,41 +50,34 @@ const paginate = ({ types, mapActionToKey = () => '' }) => {
         return {
           ...state,
           isFetching: false,
-          totalPages: action.response.pagination.total_pages,
-          pages: {
-            ...state.pages,
-            [action.response.pagination.page]: action.response.data.result
-          }
+          ids: action.response.data.result
         };
       case failureType:
         return {
           ...state,
-          isFetching: false
+          isFetching: false,
+          error: action.error
         };
       default:
         return state;
     }
   };
 
-  return (state = {}, action) => {
-    // Update pagination by key, if it exists
+  return (state = { totalPages: undefined, pages: {} }, action) => {
     switch (action.type) {
       case requestType:
       case successType:
       case failureType:
-        const key = mapActionToKey(action);
-        if (typeof key !== 'string') {
-          throw new Error('Expected key to be a string.');
+        const shouldRun = checkIfNeedsToRun(action);
+        if (typeof shouldRun !== 'boolean') {
+          throw new Error('Expected shouldRun to be a boolean.');
         }
 
-        if (key) {
-          return {
-            ...state,
-            [key]: updatePagination(state[key], action)
-          };
-        } else {
-          return updatePagination(state, action);
+        if (!shouldRun) {
+          return state;
         }
+
+        return updatePagination(state, action);
       default:
         return state;
     }

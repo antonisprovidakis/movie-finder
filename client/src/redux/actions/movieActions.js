@@ -45,9 +45,9 @@ export function loadMoviesByCategory(category, options = {}) {
     callAPI: () =>
       movieAPI.getMoviesByCategory(category, decamelizeKeys(options)),
     shouldCallAPI: state => {
-      const { pages = {} } = state.pagination.moviesByCategory[category] || {};
-      const movieIdsOfSelectedPage = pages[options.page || 1];
-      return !movieIdsOfSelectedPage;
+      const selectedPageData =
+        state.pagination.moviesByCategory[category].pages[options.page] || {};
+      return !selectedPageData.ids;
     }
   };
 }
@@ -70,8 +70,8 @@ export function discoverMovies(options = {}) {
       const { page, ...filters } = options;
       const query = stringifyFilters(filters);
       const { pages = {} } =
-        state.pagination.moviesByDiscoverOptions.byQuery[query] || {};
-      const movieIdsOfSelectedPage = pages[options.page || 1];
+        state.pagination.moviesByDiscoverOptions[query] || {};
+      const movieIdsOfSelectedPage = pages[options.page];
       return !movieIdsOfSelectedPage;
     }
   };

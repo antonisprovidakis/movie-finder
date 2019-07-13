@@ -23,7 +23,7 @@ it('should render a menu', () => {
   const renderItem = () => null;
 
   const { queryByTestId, rerender } = render(
-    <CollectionGrid collection={[]} renderItem={renderItem} />
+    <CollectionGrid collection={[]} renderItem={renderItem} loading={false} />
   );
 
   expect(queryByTestId('menu')).not.toBeInTheDocument();
@@ -40,6 +40,41 @@ it('should render a menu', () => {
       collection={[]}
       renderItem={renderItem}
       menuItems={menuItems}
+      loading={false}
+    />
+  );
+
+  expect(queryByTestId('menu')).toBeInTheDocument();
+  expect(queryByTestId('menu').children).toHaveLength(1);
+});
+
+it('should not render a menu when loading', () => {
+  const renderItem = () => null;
+
+  const menuItems = [
+    <select>
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+    </select>
+  ];
+
+  const { queryByTestId, rerender } = render(
+    <CollectionGrid
+      collection={[]}
+      renderItem={renderItem}
+      menuItems={menuItems}
+      loading={true}
+    />
+  );
+
+  expect(queryByTestId('menu')).not.toBeInTheDocument();
+
+  rerender(
+    <CollectionGrid
+      collection={[]}
+      renderItem={renderItem}
+      menuItems={menuItems}
+      loading={false}
     />
   );
 
@@ -70,7 +105,11 @@ it('should render a grid when not loading and collection length is greater than 
   const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
 
   const { getByTestId, getByText } = render(
-    <CollectionGrid collection={items} renderItem={renderItem} />
+    <CollectionGrid
+      collection={items}
+      renderItem={renderItem}
+      loading={false}
+    />
   );
 
   expect(getByTestId('grid')).toBeInTheDocument();
@@ -84,6 +123,7 @@ it('should render a "no results" message when not loading and collection length 
       collection={[]}
       renderItem={() => null}
       noResultsMessage="No results found."
+      loading={false}
     />
   );
 

@@ -1,7 +1,7 @@
 import paginate from './paginate';
 import { PersonActionTypes } from '../../actions/personActions';
 
-const personsByPage = paginate({
+const persons = paginate({
   types: [
     PersonActionTypes.LOAD_POPULAR_PERSONS_REQUEST,
     PersonActionTypes.LOAD_POPULAR_PERSONS_SUCCESS,
@@ -9,4 +9,4 @@ const personsByPage = paginate({
   ]
 });
 
-export default personsByPage;
+export default persons;

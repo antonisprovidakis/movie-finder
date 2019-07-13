@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import moviesByCategory from './moviesByCategory';
 import moviesByDiscoverOptions from './moviesByDiscoverOptions';
-import personsByPage from './personsByPage';
+import persons from './persons';
 
 const pagination = combineReducers({
   moviesByCategory,
   moviesByDiscoverOptions,
-  personsByPage
+  persons
 });
 
 export default pagination;

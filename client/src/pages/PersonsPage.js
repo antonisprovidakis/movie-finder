@@ -11,8 +11,7 @@ import { loadPopularPersons } from '../redux/actions/personActions';
 
 function PersonsPage({
   persons,
-  isFetching,
-  totalPages,
+  pagination,
   page,
   history,
   location,
@@ -47,6 +46,9 @@ function PersonsPage({
     return <PersonCardPlaceholder />;
   }
 
+  const { totalPages, selectedPageData } = pagination;
+  const { isFetching } = selectedPageData;
+
   const shouldRenderPagination = totalPages > 1 && page <= totalPages;
 
   return (
@@ -78,19 +80,17 @@ function PersonsPage({
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const cachedPersons = state.entities.persons;
-  const {
-    isFetching = false,
-    totalPages = undefined,
-    pages = {}
-  } = state.pagination.personsByPage;
   const page = getPage(ownProps.location.search);
-  const personIds = pages[page] || [];
-  const persons = personIds.map(id => cachedPersons[id]);
+  const cachedPersons = state.entities.persons;
+  const pagination = state.pagination.persons;
+  const selectedPageData = pagination.pages[page] || { ids: [] };
+  const persons = selectedPageData.ids.map(id => cachedPersons[id]);
 
   return {
-    isFetching,
-    totalPages,
+    pagination: {
+      totalPages: pagination.totalPages,
+      selectedPageData
+    },
     persons,
     page
   };
@@ -99,8 +99,7 @@ const mapStateToProps = (state, ownProps) => {
 PersonsPage.propTypes = {
   persons: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   page: PropTypes.number,
-  totalPages: PropTypes.number,
-  isFetching: PropTypes.bool.isRequired,
+  pagination: PropTypes.object.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,

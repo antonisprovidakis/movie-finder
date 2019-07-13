@@ -22,8 +22,7 @@ function MoviesPage({
   category,
   page,
   movies,
-  totalPages,
-  isFetching,
+  pagination,
   history,
   location,
   movieCardViewStyle,
@@ -89,6 +88,9 @@ function MoviesPage({
     return <PosterMovieCardPlaceholder />;
   }
 
+  const { totalPages, selectedPageData } = pagination;
+  const { isFetching } = selectedPageData;
+
   const shouldRenderPagination = totalPages > 1 && page <= totalPages;
 
   return (
@@ -122,20 +124,21 @@ function MoviesPage({
 
 const mapStateToProps = (state, ownProps) => {
   const category = camelizeCategory(ownProps.match.params.category);
-  const cachedMovies = state.entities.movies;
-  const { isFetching = false, totalPages = undefined, pages = {} } =
-    state.pagination.moviesByCategory[category] || {};
   const page = getPage(ownProps.location.search);
-  const movieIds = pages[page] || [];
-  const movies = movieIds.map(id => cachedMovies[id]);
+  const cachedMovies = state.entities.movies;
+  const pagination = state.pagination.moviesByCategory[category];
+  const selectedPageData = pagination.pages[page] || { ids: [] };
+  const movies = selectedPageData.ids.map(id => cachedMovies[id]);
   const movieCardViewStyle = state.ui.movieCardViewStyle;
 
   return {
     category,
     page,
     movies,
-    isFetching,
-    totalPages,
+    pagination: {
+      totalPages: pagination.totalPages,
+      selectedPageData
+    },
     movieCardViewStyle
   };
 };
@@ -144,8 +147,7 @@ MoviesPage.propTypes = {
   movies: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   category: PropTypes.string.isRequired,
   page: PropTypes.number,
-  totalPages: PropTypes.number,
-  isFetching: PropTypes.bool.isRequired,
+  pagination: PropTypes.object.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
