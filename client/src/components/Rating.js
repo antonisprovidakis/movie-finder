@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types'; // ES6
+import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 const NO_RATING_MESSAGE = 'N/R';

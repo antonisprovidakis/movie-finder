@@ -33,7 +33,6 @@ it('should render page title', async () => {
     { route: '/discover' }
   );
 
-  // await waitForDomChange();
   expect(getByText(/discover new movies/i)).toBeInTheDocument();
 });
 
