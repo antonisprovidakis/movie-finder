@@ -1,9 +1,9 @@
-.BackdropMovieCard__title {
+.MovieCard__title {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.BackdropMovieCard__date {
+.MovieCard__date {
   color: #919191;
 }

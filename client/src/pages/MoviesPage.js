@@ -3,20 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
-import BackdropMovieCard from '../components/BackdropMovieCard';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
-import PosterMovieCard from '../components/PosterMovieCard';
-import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
+import MovieCard from '../components/MovieCard';
+import MovieCardPlaceholder from '../components/MovieCardPlaceholder';
 import { getPage, updateQueryString } from '../utils/queryString';
 import { camelizeCategory, movieCategoriesRoutingMap } from '../api/config';
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { setMovieCardViewStyle } from '../redux/actions/uiActions';
-
-const movieCardTypes = {
-  poster: PosterMovieCard,
-  backdrop: BackdropMovieCard
-};
 
 function MoviesPage({
   category,
@@ -72,10 +66,11 @@ function MoviesPage({
   ];
 
   function renderItem(movie) {
-    const MovieCardComponent = movieCardTypes[movieCardViewStyle];
     return (
-      <MovieCardComponent
+      <MovieCard
         movie={movie}
+        type={movieCardViewStyle}
+        showOverview={movieCardViewStyle === 'backdrop'}
         as={Link}
         to={`/movie/${movie.id}`}
         data-testid={`${movieCardViewStyle}-movie-card`}
@@ -85,7 +80,7 @@ function MoviesPage({
 
   function renderPlaceholderItem() {
     // TODO: or BackdropMovieCardPlaceholder (not implemented, yet)
-    return <PosterMovieCardPlaceholder />;
+    return <MovieCardPlaceholder />;
   }
 
   const { totalPages, selectedPageData } = pagination;

@@ -1,47 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../styles/BackdropMovieCard.css';
+import '../styles/MovieCard.css';
 import { Card, Image } from 'semantic-ui-react';
 import Rating from './Rating';
 import { createImageSrc } from '../api/config';
 import { formatDate } from '../utils/date';
 import { truncateOverview } from '../utils/movieCard';
 
-function BackdropMovieCard({ movie, showOverview, className, ...rest }) {
+function MovieCard({ movie, type, showOverview, className, ...rest }) {
   const {
     title,
     release_date: date,
-    backdrop_path: image,
+    poster_path: posterPath,
+    backdrop_path: backdropPath,
     vote_average: voteAverage,
     vote_count: voteCount,
     overview
   } = movie;
 
   return (
-    <Card className={`BackdropMovieCard ${className}`} fluid {...rest}>
+    <Card
+      className={`MovieCard MovieCard--${type} ${className}`}
+      fluid
+      {...rest}
+    >
       <Image
-        className="BackdropMovieCard__image"
+        className="MovieCard__image"
         src={createImageSrc({
-          path: image,
-          type: 'backdrop',
-          size: 'w780'
+          path: type === 'poster' ? posterPath : backdropPath,
+          type,
+          size: type === 'poster' ? 'w500' : 'w780'
         })}
       />
       <Card.Content>
         <Card.Header>
-          <div className="BackdropMovieCard__title" title={title}>
+          <div className="MovieCard__title" title={title}>
             {title}
           </div>
         </Card.Header>
         <Card.Meta>
-          <div className="BackdropMovieCard__date">{formatDate(date)}</div>
-          <div className="BackdropMovieCard__rating">
+          <div className="MovieCard__date">{formatDate(date)}</div>
+          <div className="MovieCard__rating">
             <Rating value={voteCount > 0 ? voteAverage : -1} />
           </div>
         </Card.Meta>
-        {showOverview && (
+        {type === 'backdrop' && showOverview && (
           <Card.Description>
-            <div className="BackdropMovieCard__overview">
+            <div className="MovieCard__overview">
               {truncateOverview(overview)}
             </div>
           </Card.Description>
@@ -51,15 +56,17 @@ function BackdropMovieCard({ movie, showOverview, className, ...rest }) {
   );
 }
 
-BackdropMovieCard.propTypes = {
+MovieCard.propTypes = {
   movie: PropTypes.object.isRequired,
+  type: PropTypes.oneOf(['poster', 'backdrop']),
   showOverview: PropTypes.bool,
   className: PropTypes.string
 };
 
-BackdropMovieCard.defaultProps = {
-  showOverview: true,
+MovieCard.defaultProps = {
+  type: 'poster',
+  showOverview: false,
   className: ''
 };
 
-export default BackdropMovieCard;
+export default MovieCard;

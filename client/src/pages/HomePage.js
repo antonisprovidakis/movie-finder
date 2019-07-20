@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Header } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';
-import PosterMovieCard from '../components/PosterMovieCard';
-import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
+import MovieCard from '../components/MovieCard';
+import MovieCardPlaceholder from '../components/MovieCardPlaceholder';
 import { loadMoviesByCategory } from '../redux/actions/movieActions';
 import { MovieCategory, movieCategoriesRoutingMap } from '../api/config';
 
@@ -74,8 +74,9 @@ const categories = [
 
 function renderItem(movie) {
   return (
-    <PosterMovieCard
+    <MovieCard
       movie={movie}
+      type="poster"
       as={Link}
       to={`/movie/${movie.id}`}
       data-testid="movie-card"
@@ -84,7 +85,7 @@ function renderItem(movie) {
 }
 
 function renderPlaceholderItem() {
-  return <PosterMovieCardPlaceholder />;
+  return <MovieCardPlaceholder />;
 }
 
 function HomePage({

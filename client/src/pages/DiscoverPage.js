@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 import CollectionGrid from '../components/CollectionGrid';
 import Pagination from '../components/Pagination';
-import PosterMovieCard from '../components/PosterMovieCard';
-import PosterMovieCardPlaceholder from '../components/PosterMovieCardPlaceholder';
+import MovieCard from '../components/MovieCard';
+import MovieCardPlaceholder from '../components/MovieCardPlaceholder';
 import { genres, SortingFilterType } from '../api/config';
 import {
   getFilters,
@@ -108,8 +108,9 @@ function DiscoverPage({
 
   function renderItem(movie) {
     return (
-      <PosterMovieCard
+      <MovieCard
         movie={movie}
+        type="poster"
         as={Link}
         to={`/movie/${movie.id}`}
         data-testid="movie-card"
@@ -118,7 +119,7 @@ function DiscoverPage({
   }
 
   function renderPlaceholderItem() {
-    return <PosterMovieCardPlaceholder />;
+    return <MovieCardPlaceholder />;
   }
 
   const { totalPages, selectedPageData } = pagination;

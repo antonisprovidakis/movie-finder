@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../styles/PosterMovieCard.css';
 import { Card, Placeholder } from 'semantic-ui-react';
 
-function PosterMovieCardPlaceholder({ className }) {
+function MovieCardPlaceholder({ className }) {
   return (
-    <Card className={`PosterMovieCardPlaceholder ${className}`} fluid>
+    <Card className={`MovieCardPlaceholder ${className}`} fluid>
       <Placeholder>
         <Placeholder.Image square />
       </Placeholder>
@@ -24,12 +23,12 @@ function PosterMovieCardPlaceholder({ className }) {
   );
 }
 
-PosterMovieCardPlaceholder.propTypes = {
+MovieCardPlaceholder.propTypes = {
   className: PropTypes.string
 };
 
-PosterMovieCardPlaceholder.defaultProps = {
+MovieCardPlaceholder.defaultProps = {
   className: ''
 };
 
-export default PosterMovieCardPlaceholder;
+export default MovieCardPlaceholder;
