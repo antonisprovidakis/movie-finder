@@ -6,7 +6,7 @@
     "axios": "^0.18.1",
     "classnames": "^2.2.6",
     "humps": "^2.0.1",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.15",
     "normalizr": "^3.4.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.1",
@@ -15,7 +15,7 @@
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "redux": "^4.0.3",
+    "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.3"
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@testing-library/cypress": "^4.0.4",
     "@testing-library/jest-dom": "^4.0.0",
-    "@testing-library/react": "^8.0.4",
+    "@testing-library/react": "^8.0.5",
     "@testing-library/react-hooks": "^1.1.0",
     "cypress": "^3.4.0",
     "history": "^4.9.0",
