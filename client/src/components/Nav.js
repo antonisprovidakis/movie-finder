@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Nav.css';
 import { Link } from 'react-router-dom';
 import { Container, Dropdown, Menu } from 'semantic-ui-react';
 import { movieCategoriesRoutingMap } from '../api/config';
