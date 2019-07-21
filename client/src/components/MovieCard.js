@@ -44,7 +44,7 @@ function MovieCard({ movie, type, showOverview, className, ...rest }) {
             <Rating value={voteCount > 0 ? voteAverage : -1} />
           </div>
         </Card.Meta>
-        {type === 'backdrop' && showOverview && (
+        {showOverview && (
           <Card.Description>
             <div className="MovieCard__overview">
               {truncateOverview(overview)}
