@@ -6,7 +6,7 @@ import rootReducer from '../reducers';
 const configureStore = preloadedState => {
   const middleware = [apiMiddleware];
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'development') {
     middleware.push(createLogger());
   }
 
