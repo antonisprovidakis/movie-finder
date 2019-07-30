@@ -5,8 +5,10 @@ import { Search, Input, Icon } from 'semantic-ui-react';
 import { searchAPI } from '../api';
 import { createImageSrc } from '../api/config';
 import useDebounce from '../utils/hooks/useDebounce';
+import useLocation from '../utils/hooks/useLocation';
 
 function QuickSearch({ delay, fullWidth, className, ...rest }) {
+  const { navigate } = useLocation();
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,6 +85,7 @@ function QuickSearch({ delay, fullWidth, className, ...rest }) {
 
   function handleResultSelect(e, data) {
     setSearchTerm('');
+    navigate(data.result.to);
   }
 
   function handleSearchChange(e, { value }) {

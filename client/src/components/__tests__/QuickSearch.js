@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  act,
-  waitForDomChange
-} from '@testing-library/react';
+import { fireEvent, act, waitForDomChange } from '@testing-library/react';
 import { renderWithRouter } from '../../test/render';
 import { searchAPI } from '../../api';
 import QuickSearch from '../QuickSearch';
@@ -79,7 +74,7 @@ it('should debounce searching for specified delay', () => {
 });
 
 it('should allow to clear search input', () => {
-  const { queryByTitle, getByPlaceholderText } = render(
+  const { queryByTitle, getByPlaceholderText } = renderWithRouter(
     <QuickSearch delay={0} />
   );
 
@@ -99,7 +94,7 @@ it('should allow to clear search input', () => {
   expect(input.value).toBe('');
 });
 
-it("should navigate to resource's page if card is clicked", async () => {
+it("should navigate to resource's page if result is clicked", async () => {
   const { getByTestId, getByPlaceholderText, history } = renderWithRouter(
     <QuickSearch delay={0} />
   );
@@ -118,5 +113,28 @@ it("should navigate to resource's page if card is clicked", async () => {
 
   const target = getByTestId('search-result-0');
   fireEvent.click(target);
+  expect(history.location.pathname).toBe('/movie/603');
+});
+
+it("should navigate to resource's page if <enter> is pressed on result", async () => {
+  const { getByTestId, getByPlaceholderText, history } = renderWithRouter(
+    <QuickSearch delay={0} />
+  );
+
+  const input = getByPlaceholderText(/Search for a movie or person/i);
+
+  fireEvent.change(input, { target: { value: 'Matrix' } });
+
+  act(() => {
+    jest.runAllTimers();
+  });
+
+  jest.useRealTimers();
+  await waitForDomChange();
+  jest.useFakeTimers();
+
+  const target = getByTestId('search-result-0');
+  fireEvent.keyDown(target, { key: 'ArrowDown', code: 40, charCode: 40 });
+  fireEvent.keyDown(target, { key: 'Enter', code: 13, charCode: 13 });
   expect(history.location.pathname).toBe('/movie/603');
 });
