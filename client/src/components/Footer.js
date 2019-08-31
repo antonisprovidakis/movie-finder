@@ -8,7 +8,16 @@ function Footer(props) {
     <footer className="Footer">
       <Container>
         <div className="Footer__content">
-          <div>A project by Antonios Providakis.</div>
+          <div>
+            A project by Antonios Providakis |{' '}
+            <a
+              href="https://github.com/AntoniosProvidakis/movie-finder"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+          </div>
           <div>
             Movie Finder uses the
             <a
