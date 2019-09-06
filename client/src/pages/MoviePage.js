@@ -200,8 +200,8 @@ function MoviePage({ movieId, movie, isFetching, loadMovieInfo }) {
 const mapStateToProps = (state, ownProps) => {
   const movieId = parseInt(ownProps.match.params.id);
   const cachedMovies = state.entities.movies;
-  const movie = cachedMovies[movieId];
-  const isFetching = state.ui.isFetchingMovieInfo;
+  const movie = cachedMovies[movieId] || {};
+  const isFetching = typeof movie.imdb_id === 'undefined';
 
   return {
     movieId,

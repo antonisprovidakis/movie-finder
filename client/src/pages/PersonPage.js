@@ -97,8 +97,8 @@ function PersonPage({ personId, person, isFetching, loadPersonInfo }) {
 const mapStateToProps = (state, ownProps) => {
   const personId = parseInt(ownProps.match.params.id);
   const cachedPersons = state.entities.persons;
-  const person = cachedPersons[personId];
-  const isFetching = state.ui.isFetchingPersonInfo;
+  const person = cachedPersons[personId] || {};
+  const isFetching = typeof person.biography === 'undefined';
 
   return {
     personId,
