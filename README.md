@@ -11,11 +11,11 @@ All of the code you'll touch in this codebase will be JavaScript.
 
 ### Stack
 
-- [Node.js](https://github.com/nodejs/node)
-- [Express](https://github.com/expressjs/express)
 - [React](https://github.com/facebook/react)
 - [Redux](https://github.com/reduxjs/redux)
 - [React-Semantic-UI](https://github.com/Semantic-Org/Semantic-UI-React)
+- [Node.js](https://github.com/nodejs/node)
+- [Express](https://github.com/expressjs/express)
 
 ### Backend API
 
