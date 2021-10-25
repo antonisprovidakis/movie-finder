@@ -9,9 +9,9 @@ function Footer(props) {
       <Container>
         <div className="Footer__content">
           <div>
-            A project by Antonios Providakis |{' '}
+            A project by Antonis Providakis&nbsp;|&nbsp;
             <a
-              href="https://github.com/AntoniosProvidakis/movie-finder"
+              href="https://github.com/antonisprovidakis/movie-finder"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -25,8 +25,7 @@ function Footer(props) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {' '}
-              TMDb API{' '}
+              &nbsp;TMDb API&nbsp;
             </a>
             but is not endorsed or certified by TMDb.
           </div>
