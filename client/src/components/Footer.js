@@ -19,15 +19,15 @@ function Footer(props) {
             </a>
           </div>
           <div>
-            Movie Finder uses the
+            Movie Finder uses the&nbsp;
             <a
               href="https://www.themoviedb.org/documentation/api"
               target="_blank"
               rel="noopener noreferrer"
             >
-              &nbsp;TMDb API&nbsp;
+              TMDb API
             </a>
-            but is not endorsed or certified by TMDb.
+            &nbsp;but is not endorsed or certified by TMDb.
           </div>
           <div className="Footer__content__tmdb-logo-container">
             <img src={tmdbLogoPowered} alt="tmdb logo" />
