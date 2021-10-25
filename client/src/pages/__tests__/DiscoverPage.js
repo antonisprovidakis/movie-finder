@@ -8,9 +8,17 @@ import DiscoverPage from '../DiscoverPage';
 
 jest.mock('../../api');
 
-beforeEach(() => movieAPI.discoverMovies.mockClear());
+beforeEach(() => {
+  movieAPI.discoverMovies.mockClear();
+  jest.restoreAllMocks()
+});
 
 it('should make api call for movies discovery', () => {
+  const year = 2021;
+
+  const mockDate = new Date(`${year}-10-25T10:00:00.000Z`);
+  jest.spyOn(global, "Date").mockImplementation(() => mockDate);
+
   renderWithReduxAndRouter(
     <Route exact sensitive path="/discover" component={DiscoverPage} />,
     {},
@@ -19,7 +27,7 @@ it('should make api call for movies discovery', () => {
 
   expect(movieAPI.discoverMovies).toHaveBeenCalledTimes(1);
   expect(movieAPI.discoverMovies).toHaveBeenCalledWith({
-    primary_release_year: 2018,
+    primary_release_year: year,
     sort_by: 'popularity.desc',
     with_genres: [],
     page: 1

@@ -36,7 +36,7 @@ export const stringifyFilters = _memoize(
 // and pass a 'validator/transformer' function that validates and
 // transforms into desired type. Also, could receive a default value.
 export const getFilters = _memoize((queryString = '') => {
-  const primaryReleaseYear = getPrimaryReleaseYear(queryString, 2018);
+  const primaryReleaseYear = getPrimaryReleaseYear(queryString);
   const sortBy = getSortingFilter(queryString);
   const withGenres = getGenres(queryString);
 
